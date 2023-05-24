@@ -2898,14 +2898,14 @@ function Users(_a) {
       (_a2 = ulRef.current) == null ? void 0 : _a2.scrollTo({ top: ulRef.current.scrollHeight });
     }
   }, [ulRef]);
-  const [currentTime, setCurrentTime] = React76.useState(/* @__PURE__ */ new Date());
+  const [currentTime, setCurrentTime] = React76.useState((/* @__PURE__ */ new Date()).valueOf() - 7e3);
   React76.useEffect(() => {
-    setCurrentTime(/* @__PURE__ */ new Date());
+    setCurrentTime((/* @__PURE__ */ new Date()).valueOf() - 7e3);
   }, [""]);
   React76.useEffect(() => {
     setInterval(() => {
-      setCurrentTime(/* @__PURE__ */ new Date());
-    }, 1e3);
+      setCurrentTime((/* @__PURE__ */ new Date()).valueOf() - 7e3);
+    }, 2e3);
   }, [currentTime]);
   function admitUser(username, type) {
     return __async(this, null, function* () {
@@ -2951,7 +2951,7 @@ function Users(_a) {
     }
   ))), waitingRoom.filter(function(item) {
     const lastTime = new Date(item.lastRequestTime);
-    return lastTime.valueOf() > currentTime.valueOf() - 7e3;
+    return lastTime.valueOf() > currentTime;
   }).map((item) => /* @__PURE__ */ React76.createElement("div", { style: { position: "relative" }, key: item.username }, /* @__PURE__ */ React76.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React76.createElement("div", { className: "lk-pa rticipant-metadata-item" }, item.username), /* @__PURE__ */ React76.createElement("div", null, /* @__PURE__ */ React76.createElement(
     "button",
     {
