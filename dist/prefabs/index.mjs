@@ -2841,7 +2841,6 @@ function Users(_a) {
       if (strData.type == "joining") {
         const newUser = strData.data;
         const isExist = waitingRoom.find((item) => item.username == newUser.username);
-        console.log(`Is Exist ${isExist}`);
         if (isExist == void 0) {
           if (waitingRoom.length == 0) {
             setWaitingRoom([newUser]);
@@ -2854,7 +2853,6 @@ function Users(_a) {
             (obj) => obj.username == newUser.username ? newUser : obj
           );
           setWaitingRoom(newState);
-          console.log("Update waiting room user time", waitingRoom);
         }
       }
     });
