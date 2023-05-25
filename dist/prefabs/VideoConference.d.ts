@@ -23,5 +23,5 @@ export interface VideoConferenceProps extends React.HTMLAttributes<HTMLDivElemen
  * ```
  * @public
  */
-export declare function VideoConference({ ...props }: VideoConferenceProps): React.JSX.Element;
+export declare function VideoConference({ showShareButton, showParticipantButton, leaveButton, ...props }: VideoConferenceProps): React.JSX.Element;
 //# sourceMappingURL=VideoConference.d.ts.map

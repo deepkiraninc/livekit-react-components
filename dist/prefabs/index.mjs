@@ -2835,24 +2835,30 @@ function Users(_a) {
       usersList();
     }
   }, [room.name]);
-  room.on(RoomEvent.DataReceived, (payload) => {
-    const strData = JSON.parse(decoder.decode(payload));
-    if (strData.type == "joining") {
-      const newUser = strData.data;
-      let isExist = waitingRoom.find((item) => item.username == newUser.username);
-      if (!isExist) {
-        if (waitingRoom.length == 0) {
-          setWaitingRoom([newUser]);
+  React76.useEffect(() => {
+    room.on(RoomEvent.DataReceived, (payload) => {
+      const strData = JSON.parse(decoder.decode(payload));
+      if (strData.type == "joining") {
+        const newUser = strData.data;
+        const isExist = waitingRoom.find((item) => item.username == newUser.username);
+        console.log(`Is Exist ${isExist}`);
+        if (isExist == void 0) {
+          if (waitingRoom.length == 0) {
+            setWaitingRoom([newUser]);
+          } else {
+            setWaitingRoom([...waitingRoom, newUser]);
+          }
+          setWaiting(`${newUser.username} is in waiting room`);
         } else {
-          setWaitingRoom([...waitingRoom, newUser]);
+          const newState = waitingRoom.map(
+            (obj) => obj.username == newUser.username ? newUser : obj
+          );
+          setWaitingRoom(newState);
+          console.log("Update waiting room user time", waitingRoom);
         }
-        setWaiting(`${newUser.username} is in waiting room`);
-      } else {
-        isExist = newUser;
-        setWaitingRoom(waitingRoom);
       }
-    }
-  });
+    });
+  }, [waitingRoom, setWaiting, room, decoder]);
   React76.useEffect(() => {
     onWaitingRoomChange(waitingRoom.length);
   }, [onWaitingRoomChange, waitingRoom]);
@@ -2862,15 +2868,6 @@ function Users(_a) {
       (_a2 = ulRef.current) == null ? void 0 : _a2.scrollTo({ top: ulRef.current.scrollHeight });
     }
   }, [ulRef]);
-  const [currentTime, setCurrentTime] = React76.useState((/* @__PURE__ */ new Date()).valueOf() - 7e3);
-  React76.useEffect(() => {
-    setCurrentTime((/* @__PURE__ */ new Date()).valueOf() - 7e3);
-  }, [""]);
-  React76.useEffect(() => {
-    setInterval(() => {
-      setCurrentTime((/* @__PURE__ */ new Date()).valueOf() - 7e3);
-    }, 2e3);
-  }, [currentTime]);
   function admitUser(username, type) {
     return __async(this, null, function* () {
       const postData = {
@@ -2913,10 +2910,7 @@ function Users(_a) {
       small: false,
       disabled: false
     }
-  ))), waitingRoom.filter(function(item) {
-    const lastTime = new Date(item.lastRequestTime);
-    return lastTime.valueOf() > currentTime;
-  }).map((item) => /* @__PURE__ */ React76.createElement("div", { style: { position: "relative" }, key: item.username }, /* @__PURE__ */ React76.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React76.createElement("div", { className: "lk-pa rticipant-metadata-item" }, item.username), /* @__PURE__ */ React76.createElement("div", null, /* @__PURE__ */ React76.createElement(
+  ))), waitingRoom.map((item) => /* @__PURE__ */ React76.createElement("div", { style: { position: "relative" }, key: item.username }, /* @__PURE__ */ React76.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React76.createElement("div", { className: "lk-pa rticipant-metadata-item" }, item.username), /* @__PURE__ */ React76.createElement("div", null, /* @__PURE__ */ React76.createElement(
     "button",
     {
       className: "lk-button lk-waiting-room lk-success",
@@ -2936,8 +2930,16 @@ function Users(_a) {
 // src/prefabs/VideoConference.tsx
 import { RoomEvent as RoomEvent2, Track as Track11 } from "livekit-client";
 function VideoConference(_a) {
-  var props = __objRest(_a, []);
-  var _a2, _b;
+  var _b = _a, {
+    showShareButton,
+    showParticipantButton,
+    leaveButton
+  } = _b, props = __objRest(_b, [
+    "showShareButton",
+    "showParticipantButton",
+    "leaveButton"
+  ]);
+  var _a2, _b2;
   const [widgetState, setWidgetState] = React77.useState({
     showChat: null
   });
@@ -2959,7 +2961,7 @@ function VideoConference(_a) {
     setWaitingRoomCount(count);
   };
   const setWaitingMessage = (message) => {
-    if (props.showParticipantButton) {
+    if (showParticipantButton) {
       setWaiting(message);
     }
   };
@@ -2976,16 +2978,16 @@ function VideoConference(_a) {
     }
   }, [waiting]);
   React77.useEffect(() => {
-    var _a3, _b2, _c, _d;
+    var _a3, _b3, _c, _d;
     if (screenShareTracks.length > 0 && focusTrack === void 0) {
-      (_b2 = (_a3 = layoutContext.pin).dispatch) == null ? void 0 : _b2.call(_a3, { msg: "set_pin", trackReference: screenShareTracks[0] });
+      (_b3 = (_a3 = layoutContext.pin).dispatch) == null ? void 0 : _b3.call(_a3, { msg: "set_pin", trackReference: screenShareTracks[0] });
     } else if (screenShareTracks.length === 0 && (focusTrack == null ? void 0 : focusTrack.source) === Track11.Source.ScreenShare || tracks.length <= 1) {
       (_d = (_c = layoutContext.pin).dispatch) == null ? void 0 : _d.call(_c, { msg: "clear_pin" });
     }
   }, [
     JSON.stringify(screenShareTracks.map((ref) => ref.publication.trackSid)),
     tracks.length,
-    (_b = focusTrack == null ? void 0 : focusTrack.publication) == null ? void 0 : _b.trackSid
+    (_b2 = focusTrack == null ? void 0 : focusTrack.publication) == null ? void 0 : _b2.trackSid
   ]);
   return /* @__PURE__ */ React77.createElement("div", __spreadValues({ className: "lk-video-conference" }, props), /* @__PURE__ */ React77.createElement(
     LayoutContextProvider,
@@ -2998,9 +3000,9 @@ function VideoConference(_a) {
       {
         controls: {
           chat: false,
-          sharelink: props.showShareButton,
-          users: props.showParticipantButton,
-          leaveButton: props.leaveButton
+          sharelink: showShareButton,
+          users: showParticipantButton,
+          leaveButton
         },
         waitingRoomCount
       }
