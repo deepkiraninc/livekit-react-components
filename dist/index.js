@@ -3193,9 +3193,6 @@ var ParticipantList = (_a) => {
   return /* @__PURE__ */ React83.createElement("div", __spreadValues({ style: { position: "relative" } }, elementProps), /* @__PURE__ */ React83.createElement(ParticipantContextIfNeeded, { participant: p }, children != null ? children : /* @__PURE__ */ React83.createElement(React83.Fragment, null, /* @__PURE__ */ React83.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React83.createElement("div", { className: "lk-participant-metadata-item" }, /* @__PURE__ */ React83.createElement(ParticipantName, null)), /* @__PURE__ */ React83.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" })))));
 };
 
-// src/prefabs/Users.tsx
-var import_livekit_client16 = require("livekit-client");
-
 // src/components/ToggleSwitch.tsx
 var import_react = __toESM(require("react"));
 var ToggleSwitch = ({
@@ -3253,13 +3250,12 @@ var ToggleSwitch = ({
 
 // src/prefabs/Users.tsx
 function Users(_a) {
-  var _b = _a, { onWaitingRoomChange, setWaiting } = _b, props = __objRest(_b, ["onWaitingRoomChange", "setWaiting"]);
+  var _b = _a, { onWaitingRoomChange } = _b, props = __objRest(_b, ["onWaitingRoomChange"]);
   const ulRef = React85.useRef(null);
   const participants = useParticipants();
   const [waitingRoom, setWaitingRoom] = React85.useState([]);
   const [toggleWaiting, setToggleWaiting] = React85.useState(true);
   const room = useRoomContext();
-  const decoder = new TextDecoder();
   function usersList() {
     return __async(this, null, function* () {
       const postData = {
@@ -3284,27 +3280,11 @@ function Users(_a) {
     }
   }, [room.name]);
   React85.useEffect(() => {
-    room.on(import_livekit_client16.RoomEvent.DataReceived, (payload) => {
-      const strData = JSON.parse(decoder.decode(payload));
-      if (strData.type == "joining") {
-        const newUser = strData.data;
-        const isExist = waitingRoom.find((item) => item.username == newUser.username);
-        if (isExist == void 0) {
-          if (waitingRoom.length == 0) {
-            setWaitingRoom([newUser]);
-          } else {
-            setWaitingRoom([...waitingRoom, newUser]);
-          }
-          setWaiting(`${newUser.username} is in waiting room`);
-        } else {
-          const newState = waitingRoom.map(
-            (obj) => obj.username == newUser.username ? newUser : obj
-          );
-          setWaitingRoom(newState);
-        }
-      }
-    });
-  }, [waitingRoom, setWaiting, room, decoder]);
+    const interval = setInterval(() => {
+      usersList();
+    }, 2e3);
+    return () => clearInterval(interval);
+  }, []);
   React85.useEffect(() => {
     onWaitingRoomChange(waitingRoom.length);
   }, [onWaitingRoomChange, waitingRoom]);
@@ -3374,7 +3354,7 @@ function Users(_a) {
 }
 
 // src/prefabs/VideoConference.tsx
-var import_livekit_client17 = require("livekit-client");
+var import_livekit_client16 = require("livekit-client");
 function VideoConference(_a) {
   var _b = _a, {
     showShareButton,
@@ -3393,10 +3373,10 @@ function VideoConference(_a) {
   const [waitingRoomCount, setWaitingRoomCount] = React86.useState(0);
   const tracks = useTracks(
     [
-      { source: import_livekit_client17.Track.Source.Camera, withPlaceholder: true },
-      { source: import_livekit_client17.Track.Source.ScreenShare, withPlaceholder: false }
+      { source: import_livekit_client16.Track.Source.Camera, withPlaceholder: true },
+      { source: import_livekit_client16.Track.Source.ScreenShare, withPlaceholder: false }
     ],
-    { updateOnlyOn: [import_livekit_client17.RoomEvent.ActiveSpeakersChanged] }
+    { updateOnlyOn: [import_livekit_client16.RoomEvent.ActiveSpeakersChanged] }
   );
   const widgetUpdate = (state) => {
     import_components_core46.log.debug("updating widget state", state);
@@ -3412,7 +3392,7 @@ function VideoConference(_a) {
     }
   };
   const layoutContext = useCreateLayoutContext();
-  const screenShareTracks = tracks.filter(import_components_core46.isTrackReference).filter((track) => track.publication.source === import_livekit_client17.Track.Source.ScreenShare);
+  const screenShareTracks = tracks.filter(import_components_core46.isTrackReference).filter((track) => track.publication.source === import_livekit_client16.Track.Source.ScreenShare);
   const focusTrack = (_a2 = usePinnedTracks(layoutContext)) == null ? void 0 : _a2[0];
   const carouselTracks = tracks.filter((track) => !(0, import_components_core46.isEqualTrackRef)(track, focusTrack));
   React86.useEffect(() => {
@@ -3427,7 +3407,7 @@ function VideoConference(_a) {
     var _a3, _b3, _c, _d;
     if (screenShareTracks.length > 0 && focusTrack === void 0) {
       (_b3 = (_a3 = layoutContext.pin).dispatch) == null ? void 0 : _b3.call(_a3, { msg: "set_pin", trackReference: screenShareTracks[0] });
-    } else if (screenShareTracks.length === 0 && (focusTrack == null ? void 0 : focusTrack.source) === import_livekit_client17.Track.Source.ScreenShare || tracks.length <= 1) {
+    } else if (screenShareTracks.length === 0 && (focusTrack == null ? void 0 : focusTrack.source) === import_livekit_client16.Track.Source.ScreenShare || tracks.length <= 1) {
       (_d = (_c = layoutContext.pin).dispatch) == null ? void 0 : _d.call(_c, { msg: "clear_pin" });
     }
   }, [

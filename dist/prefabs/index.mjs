@@ -2745,9 +2745,6 @@ var ParticipantList = (_a) => {
   return /* @__PURE__ */ React74.createElement("div", __spreadValues({ style: { position: "relative" } }, elementProps), /* @__PURE__ */ React74.createElement(ParticipantContextIfNeeded, { participant: p }, children != null ? children : /* @__PURE__ */ React74.createElement(React74.Fragment, null, /* @__PURE__ */ React74.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React74.createElement("div", { className: "lk-participant-metadata-item" }, /* @__PURE__ */ React74.createElement(ParticipantName, null)), /* @__PURE__ */ React74.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" })))));
 };
 
-// src/prefabs/Users.tsx
-import { RoomEvent } from "livekit-client";
-
 // src/components/ToggleSwitch.tsx
 import React75 from "react";
 var ToggleSwitch = ({
@@ -2805,13 +2802,12 @@ var ToggleSwitch = ({
 
 // src/prefabs/Users.tsx
 function Users(_a) {
-  var _b = _a, { onWaitingRoomChange, setWaiting } = _b, props = __objRest(_b, ["onWaitingRoomChange", "setWaiting"]);
+  var _b = _a, { onWaitingRoomChange } = _b, props = __objRest(_b, ["onWaitingRoomChange"]);
   const ulRef = React76.useRef(null);
   const participants = useParticipants();
   const [waitingRoom, setWaitingRoom] = React76.useState([]);
   const [toggleWaiting, setToggleWaiting] = React76.useState(true);
   const room = useRoomContext();
-  const decoder = new TextDecoder();
   function usersList() {
     return __async(this, null, function* () {
       const postData = {
@@ -2836,27 +2832,11 @@ function Users(_a) {
     }
   }, [room.name]);
   React76.useEffect(() => {
-    room.on(RoomEvent.DataReceived, (payload) => {
-      const strData = JSON.parse(decoder.decode(payload));
-      if (strData.type == "joining") {
-        const newUser = strData.data;
-        const isExist = waitingRoom.find((item) => item.username == newUser.username);
-        if (isExist == void 0) {
-          if (waitingRoom.length == 0) {
-            setWaitingRoom([newUser]);
-          } else {
-            setWaitingRoom([...waitingRoom, newUser]);
-          }
-          setWaiting(`${newUser.username} is in waiting room`);
-        } else {
-          const newState = waitingRoom.map(
-            (obj) => obj.username == newUser.username ? newUser : obj
-          );
-          setWaitingRoom(newState);
-        }
-      }
-    });
-  }, [waitingRoom, setWaiting, room, decoder]);
+    const interval = setInterval(() => {
+      usersList();
+    }, 2e3);
+    return () => clearInterval(interval);
+  }, []);
   React76.useEffect(() => {
     onWaitingRoomChange(waitingRoom.length);
   }, [onWaitingRoomChange, waitingRoom]);
@@ -2926,7 +2906,7 @@ function Users(_a) {
 }
 
 // src/prefabs/VideoConference.tsx
-import { RoomEvent as RoomEvent2, Track as Track11 } from "livekit-client";
+import { RoomEvent, Track as Track11 } from "livekit-client";
 function VideoConference(_a) {
   var _b = _a, {
     showShareButton,
@@ -2948,7 +2928,7 @@ function VideoConference(_a) {
       { source: Track11.Source.Camera, withPlaceholder: true },
       { source: Track11.Source.ScreenShare, withPlaceholder: false }
     ],
-    { updateOnlyOn: [RoomEvent2.ActiveSpeakersChanged] }
+    { updateOnlyOn: [RoomEvent.ActiveSpeakersChanged] }
   );
   const widgetUpdate = (state) => {
     log9.debug("updating widget state", state);

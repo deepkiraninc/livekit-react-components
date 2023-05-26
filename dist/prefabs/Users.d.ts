@@ -11,5 +11,5 @@ export type UserDataProps = {
      **/
     participants: LocalUserChoices[];
 };
-export declare function Users({ onWaitingRoomChange, setWaiting, ...props }: UserProps): React.JSX.Element;
+export declare function Users({ onWaitingRoomChange, ...props }: UserProps): React.JSX.Element;
 //# sourceMappingURL=Users.d.ts.map
