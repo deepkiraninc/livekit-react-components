@@ -75,6 +75,7 @@ export function VideoConference({
     log.debug('count ', count);
     setWaitingRoomCount(count);
   };
+  
   const setWaitingMessage = (message: string) => {
     if (showParticipantButton) {
       setWaiting(message);
@@ -82,7 +83,6 @@ export function VideoConference({
   };
 
   const layoutContext = useCreateLayoutContext();
-
   const screenShareTracks = tracks
     .filter(isTrackReference)
     .filter((track) => track.publication.source === Track.Source.ScreenShare);
