@@ -994,7 +994,7 @@ function useTrackToggle(_a) {
       "aria-pressed": enabled,
       "data-lk-source": source,
       "data-lk-enabled": enabled,
-      disabled: pending,
+      disabled: pending || rest.disabled,
       onClick: clickHandler
     })
   };
@@ -2951,7 +2951,17 @@ var UsersIcon_default = SvgUserIcon;
 
 // src/prefabs/ControlBar.tsx
 function ControlBar(_a) {
-  var _b = _a, { variation, controls, waitingRoomCount } = _b, props = __objRest(_b, ["variation", "controls", "waitingRoomCount"]);
+  var _b = _a, {
+    variation,
+    controls,
+    waitingRoomCount,
+    screenShareTracks
+  } = _b, props = __objRest(_b, [
+    "variation",
+    "controls",
+    "waitingRoomCount",
+    "screenShareTracks"
+  ]);
   var _a2, _b2, _c, _d, _e, _f, _g;
   const layoutContext = useMaybeLayoutContext();
   const [isChatOpen, setIsChatOpen] = React81.useState(false);
@@ -3008,7 +3018,9 @@ function ControlBar(_a) {
       source: import_livekit_client14.Track.Source.ScreenShare,
       captureOptions: { audio: true, selfBrowserSurface: "include" },
       showIcon,
-      onChange: onScreenShareChange
+      onChange: onScreenShareChange,
+      disabled: !isScreenShareEnabled && screenShareTracks !== 0,
+      title: !isScreenShareEnabled && screenShareTracks !== 0 ? "Someone has shared screen" : isScreenShareEnabled ? "You're sharing your scrren" : "You can share your screen"
     },
     showText && (isScreenShareEnabled ? "Stop screen share" : "Share screen")
   ), visibleControls.chat && /* @__PURE__ */ React81.createElement(ChatToggle, null, showIcon && /* @__PURE__ */ React81.createElement(ChatIcon_default, null), showText && "Chat"), visibleControls.sharelink && /* @__PURE__ */ React81.createElement(ShareLinkToggle, null, showIcon && /* @__PURE__ */ React81.createElement(InviteIcon_default, null), showText && "Invite"), visibleControls.users && /* @__PURE__ */ React81.createElement(UserToggle, null, showIcon && /* @__PURE__ */ React81.createElement(UsersIcon_default, null), showText && "Participants", waitingRoomCount !== 0 && /* @__PURE__ */ React81.createElement("span", { className: "waiting-count" }, waitingRoomCount)), visibleControls.leave && /* @__PURE__ */ React81.createElement(DisconnectButton, null, showIcon && /* @__PURE__ */ React81.createElement(LeaveIcon_default, null), showText && visibleControls.leaveButton), /* @__PURE__ */ React81.createElement(StartAudio, { label: "Start Audio" }));
@@ -3398,7 +3410,6 @@ function VideoConference(_a) {
   React86.useEffect(() => {
     if (waiting) {
       setTimeout(() => {
-        console.log("Waiting room interval stop");
         setWaiting(null);
       }, 3e3);
     }
@@ -3430,7 +3441,8 @@ function VideoConference(_a) {
           users: showParticipantButton,
           leaveButton
         },
-        waitingRoomCount
+        waitingRoomCount,
+        screenShareTracks: screenShareTracks.length
       }
     )),
     /* @__PURE__ */ React86.createElement(ShareLink, { style: { display: widgetState.showChat == "show_invite" ? "flex" : "none" } }),

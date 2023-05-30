@@ -15,6 +15,7 @@ export type ControlBarProps = React.HTMLAttributes<HTMLDivElement> & {
     variation?: 'minimal' | 'verbose' | 'textOnly';
     controls?: ControlBarControls;
     waitingRoomCount: number;
+    screenShareTracks?: number;
 };
 /**
  * The ControlBar prefab component gives the user the basic user interface
@@ -32,5 +33,5 @@ export type ControlBarProps = React.HTMLAttributes<HTMLDivElement> & {
  * ```
  * @public
  */
-export declare function ControlBar({ variation, controls, waitingRoomCount, ...props }: ControlBarProps): React.JSX.Element;
+export declare function ControlBar({ variation, controls, waitingRoomCount, screenShareTracks, ...props }: ControlBarProps): React.JSX.Element;
 //# sourceMappingURL=ControlBar.d.ts.map
