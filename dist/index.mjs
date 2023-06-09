@@ -3190,16 +3190,16 @@ function Users(_a) {
       (_a2 = ulRef.current) == null ? void 0 : _a2.scrollTo({ top: ulRef.current.scrollHeight });
     }
   }, [ulRef]);
-  function admitUser(username, type) {
+  function admitUser(identity, type) {
     return __async(this, null, function* () {
       const postData = {
         method: "POST",
-        body: JSON.stringify({ room: room.name, username, type })
+        body: JSON.stringify({ room: room.name, identity, type })
       };
       fetch(`/api/accept-request`, postData).then((res) => __async(this, null, function* () {
         if (res.status) {
           const remaining = waitingRoom.filter(
-            (item) => item.username !== username
+            (item) => item.identity !== identity
           );
           setWaitingRoom(remaining);
         } else {
@@ -3236,14 +3236,14 @@ function Users(_a) {
     "button",
     {
       className: "lk-button lk-waiting-room lk-success",
-      onClick: () => admitUser(item.username, "accepted")
+      onClick: () => admitUser(item.identity, "accepted")
     },
     "Approve"
   ), /* @__PURE__ */ React85.createElement(
     "button",
     {
       className: "lk-button lk-waiting-room lk-danger",
-      onClick: () => admitUser(item.username, "rejected")
+      onClick: () => admitUser(item.identity, "rejected")
     },
     "Reject"
   )))))));
