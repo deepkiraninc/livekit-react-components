@@ -143,6 +143,7 @@ export function Users({ onWaitingRoomChange, ...props }: UserProps) {
       <div className="lk-waitinroom">
         <div>
           <h3>Waiting Room</h3>
+          
           <div>
             <ToggleSwitch
               id="toggleSwitch"
@@ -155,10 +156,6 @@ export function Users({ onWaitingRoomChange, ...props }: UserProps) {
             />
           </div>
         </div>
-
-        {/* {waitingRoom.filter((item) => {
-          const lastTime = new Date(item.lastRequestTime)
-          return lastTime.valueOf() > currentTime;  */}
 
         {waitingRoom.map((item: any) => (
           <div style={{ position: 'relative' }} key={item.username}>
