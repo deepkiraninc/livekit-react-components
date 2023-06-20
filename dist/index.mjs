@@ -3539,7 +3539,7 @@ function Users(_a) {
       small: false,
       disabled: false
     }
-  )), toggleWaiting ? /* @__PURE__ */ React88.createElement(
+  )), toggleWaiting && waitingRoom.length ? /* @__PURE__ */ React88.createElement(
     "button",
     {
       className: "lk-button tl-info tl-approve",
