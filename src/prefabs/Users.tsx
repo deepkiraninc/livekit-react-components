@@ -7,6 +7,8 @@ import { useRoomContext } from '../context';
 // import { RoomEvent } from 'livekit-client';
 import type { LocalUserChoices } from './PreJoin';
 import { ToggleSwitch } from '../components/ToggleSwitch';
+import SvgApproveIcon from '../assets/icons/ApproveIcon';
+import SvgRejectIcon from '../assets/icons/RejectIcon';
 /** @public */
 export interface UserProps extends React.HTMLAttributes<HTMLDivElement> {
   onWaitingRoomChange: (state: number) => void;
@@ -61,34 +63,7 @@ export function Users({ onWaitingRoomChange, ...props }: UserProps) {
       usersList();
     }
   }, [room.name]);
-
-  // React.useEffect(() => {
-  //   room.on(RoomEvent.DataReceived, (payload: Uint8Array) => {
-  //     const strData = JSON.parse(decoder.decode(payload));
-      
-  //     if (strData.type == 'joining') {
-  //       const newUser = strData.data;
-  //       const isExist = waitingRoom.find((item: any) => item.username == newUser.username);
-        
-  //       if (isExist == undefined) { // When not exist
-  //         if (waitingRoom.length == 0) {
-  //           setWaitingRoom([newUser]);
-  //         } else {
-  //           setWaitingRoom([...waitingRoom, newUser]);
-  //         }
-  //         // Set toast message
-  //         setWaiting(`${newUser.username} is in waiting room`);
-  //       } else {
-  //         const newState = waitingRoom.map(obj =>
-  //           obj.username == newUser.username ? newUser : obj
-  //         );
-  //         setWaitingRoom(newState);         
-  //       }
-  //     }
-  //   });    
-  // }, [waitingRoom, setWaiting, room, decoder]);
-
-  // const [currentTime, setcurrentTime] = React.useState<number>(new Date().valueOf() - 10000);
+  
   React.useEffect(() => {
     const interval = setInterval(() => {
       usersList();
@@ -96,20 +71,6 @@ export function Users({ onWaitingRoomChange, ...props }: UserProps) {
     }, 2000)
     return () => clearInterval(interval);
   }, []);
-
-  // React.useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const waitingRoomFilter = waitingRoom.filter(function (item)  {
-  //       const currentTime = new Date().valueOf() - 7000;
-  //       const lastTime = new Date(item.lastRequestTime)
-  //       console.log(`Waiting room ${currentTime}`, `Last time ${lastTime.valueOf()}`);
-  //       return lastTime.valueOf() > currentTime;
-  //     });
-  //     console.log('Filtered data', waitingRoomFilter);
-  //     setWaitingRoom(waitingRoomFilter)     
-  //   }, 2000);
-  //   clearInterval(interval)
-  // }, [waitingRoom]);
   
   React.useEffect(() => {
     // Updating list user count in waiting room to parent component
@@ -128,17 +89,37 @@ export function Users({ onWaitingRoomChange, ...props }: UserProps) {
    * @param username Username
    * @param type Accept or Reject
    */
-  async function admitUser(username: string, type: string) {
+  async function admitUser(identity: string, type: string) {
     const postData = {
       method: 'POST',
-      body: JSON.stringify({ room: room.name, username: username, type: type }),
+      body: JSON.stringify({ room: room.name, identity: identity, type: type }),
     };
+    
     fetch(`/api/accept-request`, postData).then(async (res) => {
       if (res.status) {
         const remaining = waitingRoom.filter(
-          (item: LocalUserChoices) => item.username !== username,
+          (item: any) => item.identity !== identity,
         );
         setWaitingRoom(remaining);
+      } else {
+        throw Error('Error fetching server url, check server logs');
+      }
+    });
+  }
+
+  /**
+   * Approve all participant from waiting room
+   *
+   */
+  async function approveAll() {
+    const postData = {
+      method: 'POST',
+      body: JSON.stringify({ meeting_id: room.name }),
+    };
+    
+    fetch(`/api/approve-all-participant`, postData).then(async (res) => {
+      if (res.status) {
+        setWaitingRoom([]);
       } else {
         throw Error('Error fetching server url, check server logs');
       }
@@ -167,24 +148,11 @@ export function Users({ onWaitingRoomChange, ...props }: UserProps) {
 
   return (
     <div {...props} className="lk-chat lk-users">
-      <div className="lk-participants">
-        <h3>Participants</h3>
-        {/* <button onClick={muteAllMircophone}>Mute All</button> */}
-        {participants?.length ? (
-          <ParticipantLoop participants={participants}>
-            <ParticipantList />
-          </ParticipantLoop>
-        ) : (
-          <div>
-            <h5>No Participants</h5>
-          </div>
-        )}
-      </div>
-
       <div className="lk-waitinroom">
-        <div>
+        <div className="tl-waitingroom-heading">
           <h3>Waiting Room</h3>
-          <div>
+
+          <div className="tl-toggle-switch">
             <ToggleSwitch
               id="toggleSwitch"
               checked={toggleWaiting}
@@ -195,34 +163,57 @@ export function Users({ onWaitingRoomChange, ...props }: UserProps) {
               disabled={false}
             />
           </div>
+
+          {toggleWaiting 
+            ? 
+              <button
+                className="lk-button tl-info tl-approve"
+                onClick={() => approveAll()}
+              >
+                Approve All
+              </button> 
+            :
+            ""
+          }
         </div>
 
-        {/* {waitingRoom.filter((item) => {
-          const lastTime = new Date(item.lastRequestTime)
-          return lastTime.valueOf() > currentTime;  */}
-
-        {waitingRoom.map((item: LocalUserChoices) => (
-          <div style={{ position: 'relative' }} key={item.username}>
+        {waitingRoom.map((item: any) => (
+          <div className="tl-participant-li" key={item.username}>
             <div className="lk-participant-metadata">
-              <div className="lk-pa rticipant-metadata-item">{item.username}</div>
-              <div>
-                <button
+              <div className="lk-participant-metadata-item">{item.username}</div>
+              <div className="display-flex">
+                <button 
                   className="lk-button lk-waiting-room lk-success"
-                  onClick={() => admitUser(item.username, 'accepted')}
+                  onClick={() => admitUser(item.identity, 'accepted')}
                 >
-                  Approve
+                  <SvgApproveIcon />
                 </button>
                 <button
                   className="lk-button lk-waiting-room lk-danger"
-                  onClick={() => admitUser(item.username, 'rejected')}
+                  onClick={() => admitUser(item.identity, 'rejected')}
                 >
-                  Reject
+                  <SvgRejectIcon />
                 </button>
               </div>
             </div>
           </div>
         ))}
       </div>
+
+      <div className="lk-participants">
+        <div className="tl-participants-heading">
+          <h3>Participants  <span>({participants.length})</span></h3>
+        </div>
+        {participants?.length ? (
+          <ParticipantLoop participants={participants}>
+            <ParticipantList />
+          </ParticipantLoop>
+        ) : (
+          <div>
+            <h5>No Participants</h5>
+          </div>
+        )}
+      </div>      
     </div>
   );
 }

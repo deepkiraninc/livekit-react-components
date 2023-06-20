@@ -75,6 +75,7 @@ export function VideoConference({
     log.debug('count ', count);
     setWaitingRoomCount(count);
   };
+
   const setWaitingMessage = (message: string) => {
     if (showParticipantButton) {
       setWaiting(message);
@@ -82,7 +83,6 @@ export function VideoConference({
   };
 
   const layoutContext = useCreateLayoutContext();
-
   const screenShareTracks = tracks
     .filter(isTrackReference)
     .filter((track) => track.publication.source === Track.Source.ScreenShare);
@@ -94,7 +94,6 @@ export function VideoConference({
     if (waiting) {
       // Remove toast message after 2 second
       setTimeout(() => {
-        console.log('Waiting room interval stop');
         setWaiting(null);
       }, 3000);
     }
@@ -148,6 +147,7 @@ export function VideoConference({
               leaveButton: leaveButton,
             }}
             waitingRoomCount={waitingRoomCount}
+            screenShareTracks={screenShareTracks.length}
           />
         </div>
         <ShareLink style={{ display: widgetState.showChat == 'show_invite' ? 'flex' : 'none' }} />
