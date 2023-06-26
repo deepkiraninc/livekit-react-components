@@ -2894,6 +2894,8 @@ function ShareLink(_a) {
       event.preventDefault();
       if (inputRef.current && inputRef.current.value.trim() !== "") {
         searchUsers(inputRef.current.value);
+      } else {
+        setSearched(users);
       }
     });
   }
@@ -2963,7 +2965,7 @@ function ShareLink(_a) {
       ref: inputRef,
       type: "text",
       placeholder: "Search User...",
-      onKeyUp: handleSubmit
+      onChange: handleSubmit
     }
   )), searched.length > 0 ? /* @__PURE__ */ React74.createElement("ul", { className: "lk-list lk-chat-messages", ref: ulRef }, searched.map((user, index) => {
     return /* @__PURE__ */ React74.createElement("li", { key: index, className: "lk-chat-entry" }, /* @__PURE__ */ React74.createElement("div", null, /* @__PURE__ */ React74.createElement("span", { className: "lk-message-body" }, user.full_name, " ", user.ext_no ? ` - ${user.ext_no}` : ""), /* @__PURE__ */ React74.createElement("span", { className: "lk-message-body lk-message-text" }, user.designation)), /* @__PURE__ */ React74.createElement("button", { type: "button", onClick: () => handleInvite(user), className: "lk-button lk-chat-form-button" + (user.invited ? " invited" : "") }, user.invited ? "Invited" : "Invite"));
