@@ -14,7 +14,7 @@ export declare function useMediaDeviceSelect({ kind, room }: UseMediaDeviceSelec
     devices: MediaDeviceInfo[];
     className: string;
     activeDeviceId: string;
-    setActiveMediaDevice: (id: string) => Promise<void>;
+    setActiveMediaDevice: (id: string, options?: import("@livekit/components-core").SetMediaDeviceOptions | undefined) => Promise<void>;
 };
 /** @public */
 export interface MediaDeviceSelectProps extends React.HTMLAttributes<HTMLUListElement> {

@@ -1,3 +1,4 @@
+import type { LocalAudioTrack, LocalVideoTrack } from 'livekit-client';
 import * as React from 'react';
 /** @public */
 export type LocalUserChoices = {
@@ -24,6 +25,12 @@ export type PreJoinProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'onSubmit'
     micLabel?: string;
     camLabel?: string;
     userLabel?: string;
+};
+/** @public */
+export declare function usePreviewDevice<T extends LocalVideoTrack | LocalAudioTrack>(enabled: boolean, deviceId: string, kind: 'videoinput' | 'audioinput'): {
+    selectedDevice: MediaDeviceInfo | undefined;
+    localTrack: T | undefined;
+    deviceError: Error | null;
 };
 /**
  * The PreJoin prefab component is normally presented to the user before he enters a room.
