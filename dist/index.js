@@ -3608,6 +3608,10 @@ function Users(_a) {
     return __async(this, null, function* () {
       const postData = {
         method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
           meeting_id: room.name
         })
@@ -3646,6 +3650,10 @@ function Users(_a) {
     return __async(this, null, function* () {
       const postData = {
         method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({ room: room.name, identity, type })
       };
       fetch(`/api/accept-request`, postData).then((res) => __async(this, null, function* () {
@@ -3664,6 +3672,10 @@ function Users(_a) {
     return __async(this, null, function* () {
       const postData = {
         method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({ meeting_id: room.name })
       };
       fetch(`/api/approve-all-participant`, postData).then((res) => __async(this, null, function* () {
@@ -3678,6 +3690,10 @@ function Users(_a) {
   const onToggleWaitingChange = (checked) => {
     const postData = {
       method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({ room: room.name, waiting_room: checked })
     };
     fetch(`/api/set-waitingroom`, postData).then((res) => __async(this, null, function* () {
