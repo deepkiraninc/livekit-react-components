@@ -38,85 +38,16 @@ var __async = (__this, __arguments, generator) => {
   });
 };
 
-// src/hooks/useDataChannel.ts
-import { setupDataMessageHandler } from "@livekit/components-core";
+// src/hooks/useAudioPlayback.ts
 import * as React7 from "react";
 
-// src/context/layout-context.ts
-import { PIN_DEFAULT_STATE, WIDGET_DEFAULT_STATE } from "@livekit/components-core";
-import * as React from "react";
-var LayoutContext = React.createContext(void 0);
-function useEnsureLayoutContext(layoutContext) {
-  const layout = useMaybeLayoutContext();
-  layoutContext != null ? layoutContext : layoutContext = layout;
-  if (!layoutContext) {
-    throw Error("Tried to access LayoutContext context outside a LayoutContextProvider provider.");
-  }
-  return layoutContext;
-}
-function useMaybeLayoutContext() {
-  return React.useContext(LayoutContext);
-}
-
-// src/context/participant-context.ts
-import * as React3 from "react";
-
-// src/context/track-context.ts
-import * as React2 from "react";
-var TrackContext = React2.createContext(void 0);
-function useMaybeTrackContext() {
-  return React2.useContext(TrackContext);
-}
-
-// src/context/participant-context.ts
-var ParticipantContext = React3.createContext(void 0);
-function useMaybeParticipantContext() {
-  return React3.useContext(ParticipantContext);
-}
-function useEnsureParticipant(participant) {
-  var _a;
-  const context = useMaybeParticipantContext();
-  const trackContext = useMaybeTrackContext();
-  const p = (_a = participant != null ? participant : context) != null ? _a : trackContext == null ? void 0 : trackContext.participant;
-  if (!p) {
-    throw new Error(
-      "No participant provided, make sure you are inside a participant context or pass the participant explicitly"
-    );
-  }
-  return p;
-}
-
-// src/context/room-context.ts
-import * as React4 from "react";
-var RoomContext = React4.createContext(void 0);
-function useRoomContext() {
-  const ctx = React4.useContext(RoomContext);
-  if (!ctx) {
-    throw Error("tried to access room context outside of livekit room component");
-  }
-  return ctx;
-}
-function useMaybeRoomContext() {
-  return React4.useContext(RoomContext);
-}
-function useEnsureRoom(room) {
-  const context = useMaybeRoomContext();
-  const r = room != null ? room : context;
-  if (!r) {
-    throw new Error(
-      "No room provided, make sure you are inside a Room context or pass the room explicitly"
-    );
-  }
-  return r;
-}
-
 // src/hooks/internal/useResizeObserver.ts
-import * as React5 from "react";
+import * as React from "react";
 import useLatest from "@react-hook/latest";
 function useResizeObserver(target, callback) {
   const resizeObserver = getResizeObserver();
   const storedCallback = useLatest(callback);
-  React5.useLayoutEffect(() => {
+  React.useLayoutEffect(() => {
     let didUnsubscribe = false;
     const targetEl = target.current;
     if (!targetEl)
@@ -186,14 +117,14 @@ function createResizeObserver() {
 var _resizeObserver;
 var getResizeObserver = () => !_resizeObserver ? _resizeObserver = createResizeObserver() : _resizeObserver;
 var useSize = (target) => {
-  const [size, setSize] = React5.useState({ width: 0, height: 0 });
-  React5.useLayoutEffect(() => {
+  const [size, setSize] = React.useState({ width: 0, height: 0 });
+  React.useLayoutEffect(() => {
     if (target.current) {
       const { width, height } = target.current.getBoundingClientRect();
       setSize({ width, height });
     }
   }, [target.current]);
-  const resizeCallback = React5.useCallback(
+  const resizeCallback = React.useCallback(
     (entry) => setSize(entry.contentRect),
     []
   );
@@ -202,10 +133,10 @@ var useSize = (target) => {
 };
 
 // src/hooks/internal/useObservableState.ts
-import * as React6 from "react";
+import * as React2 from "react";
 function useObservableState(observable, startWith) {
-  const [state, setState] = React6.useState(startWith);
-  React6.useEffect(() => {
+  const [state, setState] = React2.useState(startWith);
+  React2.useEffect(() => {
     if (typeof window === "undefined" || !observable)
       return;
     const subscription = observable.subscribe(setState);
@@ -214,10 +145,99 @@ function useObservableState(observable, startWith) {
   return state;
 }
 
+// src/hooks/useAudioPlayback.ts
+import { roomAudioPlaybackAllowedObservable } from "@livekit/components-core";
+
+// src/context/layout-context.ts
+import { PIN_DEFAULT_STATE, WIDGET_DEFAULT_STATE } from "@livekit/components-core";
+import * as React3 from "react";
+var LayoutContext = React3.createContext(void 0);
+function useEnsureLayoutContext(layoutContext) {
+  const layout = useMaybeLayoutContext();
+  layoutContext != null ? layoutContext : layoutContext = layout;
+  if (!layoutContext) {
+    throw Error("Tried to access LayoutContext context outside a LayoutContextProvider provider.");
+  }
+  return layoutContext;
+}
+function useMaybeLayoutContext() {
+  return React3.useContext(LayoutContext);
+}
+
+// src/context/participant-context.ts
+import * as React5 from "react";
+
+// src/context/track-context.ts
+import * as React4 from "react";
+var TrackContext = React4.createContext(void 0);
+function useMaybeTrackContext() {
+  return React4.useContext(TrackContext);
+}
+
+// src/context/participant-context.ts
+var ParticipantContext = React5.createContext(void 0);
+function useMaybeParticipantContext() {
+  return React5.useContext(ParticipantContext);
+}
+function useEnsureParticipant(participant) {
+  var _a;
+  const context = useMaybeParticipantContext();
+  const trackContext = useMaybeTrackContext();
+  const p = (_a = participant != null ? participant : context) != null ? _a : trackContext == null ? void 0 : trackContext.participant;
+  if (!p) {
+    throw new Error(
+      "No participant provided, make sure you are inside a participant context or pass the participant explicitly"
+    );
+  }
+  return p;
+}
+
+// src/context/room-context.ts
+import * as React6 from "react";
+var RoomContext = React6.createContext(void 0);
+function useRoomContext() {
+  const ctx = React6.useContext(RoomContext);
+  if (!ctx) {
+    throw Error("tried to access room context outside of livekit room component");
+  }
+  return ctx;
+}
+function useMaybeRoomContext() {
+  return React6.useContext(RoomContext);
+}
+function useEnsureRoom(room) {
+  const context = useMaybeRoomContext();
+  const r = room != null ? room : context;
+  if (!r) {
+    throw new Error(
+      "No room provided, make sure you are inside a Room context or pass the room explicitly"
+    );
+  }
+  return r;
+}
+
+// src/hooks/useAudioPlayback.ts
+function useAudioPlayback(room) {
+  const roomEnsured = useEnsureRoom(room);
+  const startAudio = React7.useCallback(() => __async(this, null, function* () {
+    yield roomEnsured.startAudio();
+  }), [roomEnsured]);
+  const observable = React7.useMemo(
+    () => roomAudioPlaybackAllowedObservable(roomEnsured),
+    [roomEnsured]
+  );
+  const { canPlayAudio } = useObservableState(observable, {
+    canPlayAudio: roomEnsured.canPlaybackAudio
+  });
+  return { canPlayAudio, startAudio };
+}
+
 // src/hooks/useDataChannel.ts
+import { setupDataMessageHandler } from "@livekit/components-core";
+import * as React8 from "react";
 function useDataChannel(topic, onMessage) {
   const room = useRoomContext();
-  const { send, messageObservable, isSendingObservable } = React7.useMemo(
+  const { send, messageObservable, isSendingObservable } = React8.useMemo(
     () => setupDataMessageHandler(room, topic, onMessage),
     [room, topic, onMessage]
   );
@@ -232,11 +252,11 @@ function useDataChannel(topic, onMessage) {
 
 // src/hooks/useGridLayout.ts
 import { GRID_LAYOUTS, selectGridLayout } from "@livekit/components-core";
-import * as React8 from "react";
+import * as React9 from "react";
 function useGridLayout(gridElement, trackCount) {
   const { width, height } = useSize(gridElement);
   const layout = width > 0 && height > 0 ? selectGridLayout(GRID_LAYOUTS, trackCount, width, height) : GRID_LAYOUTS[0];
-  React8.useEffect(() => {
+  React9.useEffect(() => {
     if (gridElement.current && layout) {
       gridElement.current.style.setProperty("--lk-col-count", layout == null ? void 0 : layout.columns.toString());
       gridElement.current.style.setProperty("--lk-row-count", layout == null ? void 0 : layout.rows.toString());
@@ -249,12 +269,12 @@ function useGridLayout(gridElement, trackCount) {
 
 // src/hooks/useIsMuted.ts
 import { mutedObserver } from "@livekit/components-core";
-import * as React9 from "react";
+import * as React10 from "react";
 function useIsMuted(source, options = {}) {
   var _a;
   const p = useEnsureParticipant(options.participant);
-  const [isMuted, setIsMuted] = React9.useState(!!((_a = p.getTrack(source)) == null ? void 0 : _a.isMuted));
-  React9.useEffect(() => {
+  const [isMuted, setIsMuted] = React10.useState(!!((_a = p.getTrack(source)) == null ? void 0 : _a.isMuted));
+  React10.useEffect(() => {
     const listener = mutedObserver(p, source).subscribe(setIsMuted);
     return () => listener.unsubscribe();
   }, [p, source]);
@@ -263,33 +283,33 @@ function useIsMuted(source, options = {}) {
 
 // src/hooks/useIsSpeaking.ts
 import { createIsSpeakingObserver } from "@livekit/components-core";
-import * as React10 from "react";
+import * as React11 from "react";
 function useIsSpeaking(participant) {
   const p = useEnsureParticipant(participant);
-  const observable = React10.useMemo(() => createIsSpeakingObserver(p), [p]);
+  const observable = React11.useMemo(() => createIsSpeakingObserver(p), [p]);
   const isSpeaking = useObservableState(observable, p.isSpeaking);
   return isSpeaking;
 }
 
 // src/hooks/useLocalParticipant.ts
 import { observeParticipantMedia } from "@livekit/components-core";
-import * as React11 from "react";
+import * as React12 from "react";
 var useLocalParticipant = (options = {}) => {
   const room = useEnsureRoom(options.room);
-  const [localParticipant, setLocalParticipant] = React11.useState(room.localParticipant);
-  const [isMicrophoneEnabled, setIsMicrophoneEnabled] = React11.useState(
+  const [localParticipant, setLocalParticipant] = React12.useState(room.localParticipant);
+  const [isMicrophoneEnabled, setIsMicrophoneEnabled] = React12.useState(
     localParticipant.isMicrophoneEnabled
   );
-  const [isCameraEnabled, setIsCameraEnabled] = React11.useState(
+  const [isCameraEnabled, setIsCameraEnabled] = React12.useState(
     localParticipant.isMicrophoneEnabled
   );
-  const [isScreenShareEnabled, setIsScreenShareEnabled] = React11.useState(
+  const [isScreenShareEnabled, setIsScreenShareEnabled] = React12.useState(
     localParticipant.isMicrophoneEnabled
   );
-  const [microphoneTrack, setMicrophoneTrack] = React11.useState(
+  const [microphoneTrack, setMicrophoneTrack] = React12.useState(
     void 0
   );
-  const [cameraTrack, setCameraTrack] = React11.useState(void 0);
+  const [cameraTrack, setCameraTrack] = React12.useState(void 0);
   const handleUpdate = (media) => {
     setIsCameraEnabled(media.isCameraEnabled);
     setIsMicrophoneEnabled(media.isMicrophoneEnabled);
@@ -298,7 +318,7 @@ var useLocalParticipant = (options = {}) => {
     setMicrophoneTrack(media.microphoneTrack);
     setLocalParticipant(media.participant);
   };
-  React11.useEffect(() => {
+  React12.useEffect(() => {
     const listener = observeParticipantMedia(localParticipant).subscribe(handleUpdate);
     return () => listener.unsubscribe();
   }, [localParticipant]);
@@ -314,10 +334,10 @@ var useLocalParticipant = (options = {}) => {
 
 // src/hooks/useLocalParticipantPermissions.ts
 import { participantPermissionObserver } from "@livekit/components-core";
-import * as React12 from "react";
+import * as React13 from "react";
 function useLocalParticipantPermissions() {
   const room = useRoomContext();
-  const permissionObserver = React12.useMemo(
+  const permissionObserver = React13.useMemo(
     () => participantPermissionObserver(room.localParticipant),
     [room]
   );
@@ -329,10 +349,10 @@ function useLocalParticipantPermissions() {
 import { isTrackReference } from "@livekit/components-core";
 import { setupMediaTrack, log, isLocal, getTrackByIdentifier } from "@livekit/components-core";
 import { Track } from "livekit-client";
-import * as React14 from "react";
+import * as React15 from "react";
 
 // src/utils.ts
-import * as React13 from "react";
+import * as React14 from "react";
 
 // src/mergeProps.ts
 import clsx from "clsx";
@@ -377,20 +397,20 @@ function mergeProps2(...props) {
 
 // src/hooks/useMediaTrackBySourceOrName.ts
 function useMediaTrackBySourceOrName(observerOptions, options = {}) {
-  const [publication, setPublication] = React14.useState(getTrackByIdentifier(observerOptions));
-  const [isMuted, setMuted] = React14.useState(publication == null ? void 0 : publication.isMuted);
-  const [isSubscribed, setSubscribed] = React14.useState(publication == null ? void 0 : publication.isSubscribed);
-  const [track, setTrack] = React14.useState(publication == null ? void 0 : publication.track);
-  const [orientation, setOrientation] = React14.useState("landscape");
-  const previousElement = React14.useRef();
-  const { className, trackObserver } = React14.useMemo(() => {
+  const [publication, setPublication] = React15.useState(getTrackByIdentifier(observerOptions));
+  const [isMuted, setMuted] = React15.useState(publication == null ? void 0 : publication.isMuted);
+  const [isSubscribed, setSubscribed] = React15.useState(publication == null ? void 0 : publication.isSubscribed);
+  const [track, setTrack] = React15.useState(publication == null ? void 0 : publication.track);
+  const [orientation, setOrientation] = React15.useState("landscape");
+  const previousElement = React15.useRef();
+  const { className, trackObserver } = React15.useMemo(() => {
     return setupMediaTrack(observerOptions);
   }, [
     observerOptions.participant.identity,
     observerOptions.source,
     isTrackReference(observerOptions) && observerOptions.publication.trackSid
   ]);
-  React14.useEffect(() => {
+  React15.useEffect(() => {
     const subscription = trackObserver.subscribe((publication2) => {
       log.debug("update track", publication2);
       setPublication(publication2);
@@ -400,7 +420,7 @@ function useMediaTrackBySourceOrName(observerOptions, options = {}) {
     });
     return () => subscription == null ? void 0 : subscription.unsubscribe();
   }, [trackObserver]);
-  React14.useEffect(() => {
+  React15.useEffect(() => {
     var _a, _b;
     if (track) {
       if (previousElement.current) {
@@ -417,7 +437,7 @@ function useMediaTrackBySourceOrName(observerOptions, options = {}) {
       }
     };
   }, [track, options.element]);
-  React14.useEffect(() => {
+  React15.useEffect(() => {
     var _a, _b;
     if (typeof ((_a = publication == null ? void 0 : publication.dimensions) == null ? void 0 : _a.width) === "number" && typeof ((_b = publication == null ? void 0 : publication.dimensions) == null ? void 0 : _b.height) === "number") {
       const orientation_ = publication.dimensions.width > publication.dimensions.height ? "landscape" : "portrait";
@@ -450,14 +470,14 @@ function useMediaTrackByName(name, participant, options = {}) {
 }
 
 // src/hooks/usePagination.ts
-import * as React16 from "react";
+import * as React17 from "react";
 
 // src/hooks/useVisualStableUpdate.ts
 import { log as log2, sortTrackReferences, updatePages } from "@livekit/components-core";
-import * as React15 from "react";
+import * as React16 from "react";
 function useVisualStableUpdate(trackReferences, maxItemsOnPage, options = {}) {
-  const lastTrackRefs = React15.useRef([]);
-  const lastMaxItemsOnPage = React15.useRef(-1);
+  const lastTrackRefs = React16.useRef([]);
+  const lastMaxItemsOnPage = React16.useRef(-1);
   const layoutChanged = maxItemsOnPage !== lastMaxItemsOnPage.current;
   const sortedTrackRefs = typeof options.customSortFunction === "function" ? options.customSortFunction(trackReferences) : sortTrackReferences(trackReferences);
   let updatedTrackRefs = [...sortedTrackRefs];
@@ -479,7 +499,7 @@ function useVisualStableUpdate(trackReferences, maxItemsOnPage, options = {}) {
 
 // src/hooks/usePagination.ts
 function usePagination(itemPerPage, trackReferences) {
-  const [currentPage, setCurrentPage] = React16.useState(1);
+  const [currentPage, setCurrentPage] = React17.useState(1);
   const totalPageCount = Math.max(Math.ceil(trackReferences.length / itemPerPage), 1);
   if (currentPage > totalPageCount) {
     setCurrentPage(totalPageCount);
@@ -524,22 +544,22 @@ function usePagination(itemPerPage, trackReferences) {
 }
 
 // src/hooks/useParticipantPermissions.ts
-import * as React17 from "react";
+import * as React18 from "react";
 import { participantPermissionObserver as participantPermissionObserver2 } from "@livekit/components-core";
 function useParticipantPermissions(options = {}) {
   const p = useEnsureParticipant(options.participant);
-  const permissionObserver = React17.useMemo(() => participantPermissionObserver2(p), [p]);
+  const permissionObserver = React18.useMemo(() => participantPermissionObserver2(p), [p]);
   const permissions = useObservableState(permissionObserver, p.permissions);
   return permissions;
 }
 
 // src/hooks/useRemoteParticipants.ts
 import { connectedParticipantsObserver } from "@livekit/components-core";
-import * as React18 from "react";
+import * as React19 from "react";
 var useRemoteParticipants = (options = {}) => {
   const room = useEnsureRoom(options.room);
-  const [participants, setParticipants] = React18.useState([]);
-  React18.useEffect(() => {
+  const [participants, setParticipants] = React19.useState([]);
+  React19.useEffect(() => {
     const listener = connectedParticipantsObserver(room, {
       additionalRoomEvents: options.updateOnlyOn
     }).subscribe(setParticipants);
@@ -557,11 +577,11 @@ var useParticipants = (options = {}) => {
 
 // src/hooks/useRemoteParticipant.ts
 import { connectedParticipantObserver } from "@livekit/components-core";
-import * as React19 from "react";
+import * as React20 from "react";
 var useRemoteParticipant = (identity, options = {}) => {
   const room = useRoomContext();
-  const [updateOnlyOn] = React19.useState(options.updateOnlyOn);
-  const observable = React19.useMemo(
+  const [updateOnlyOn] = React20.useState(options.updateOnlyOn);
+  const observable = React20.useMemo(
     () => connectedParticipantObserver(room, identity, { additionalEvents: updateOnlyOn }),
     [room, identity, updateOnlyOn]
   );
@@ -574,25 +594,25 @@ var useRemoteParticipant = (identity, options = {}) => {
 
 // src/hooks/useSortedParticipants.ts
 import { sortParticipants } from "@livekit/components-core";
-import * as React21 from "react";
+import * as React22 from "react";
 
 // src/hooks/useSpeakingParticipants.ts
 import { activeSpeakerObserver } from "@livekit/components-core";
-import * as React20 from "react";
+import * as React21 from "react";
 var useSpeakingParticipants = () => {
   const room = useRoomContext();
-  const speakerObserver = React20.useMemo(() => activeSpeakerObserver(room), [room]);
+  const speakerObserver = React21.useMemo(() => activeSpeakerObserver(room), [room]);
   const activeSpeakers = useObservableState(speakerObserver, room.activeSpeakers);
   return activeSpeakers;
 };
 
 // src/hooks/useSortedParticipants.ts
 function useSortedParticipants(participants) {
-  const [sortedParticipants, setSortedParticipants] = React21.useState(
+  const [sortedParticipants, setSortedParticipants] = React22.useState(
     sortParticipants(participants)
   );
   const activeSpeakers = useSpeakingParticipants();
-  React21.useEffect(() => {
+  React22.useEffect(() => {
     setSortedParticipants(sortParticipants(participants));
   }, [activeSpeakers, participants]);
   return sortedParticipants;
@@ -600,10 +620,10 @@ function useSortedParticipants(participants) {
 
 // src/hooks/useToken.ts
 import { log as log3 } from "@livekit/components-core";
-import * as React22 from "react";
+import * as React23 from "react";
 function useToken(tokenEndpoint, roomName, options = {}) {
-  const [token, setToken] = React22.useState(void 0);
-  React22.useEffect(() => {
+  const [token, setToken] = React23.useState(void 0);
+  React23.useEffect(() => {
     var _a;
     if (tokenEndpoint === void 0) {
       throw Error("token endpoint needs to be defined");
@@ -631,7 +651,7 @@ import {
   trackReferencesObservable
 } from "@livekit/components-core";
 import { Track as Track2 } from "livekit-client";
-import * as React23 from "react";
+import * as React24 from "react";
 function useTracks(sources = [
   Track2.Source.Camera,
   Track2.Source.Microphone,
@@ -640,12 +660,12 @@ function useTracks(sources = [
   Track2.Source.Unknown
 ], options = {}) {
   const room = useEnsureRoom(options.room);
-  const [trackReferences, setTrackReferences] = React23.useState([]);
-  const [participants, setParticipants] = React23.useState([]);
-  const sources_ = React23.useMemo(() => {
+  const [trackReferences, setTrackReferences] = React24.useState([]);
+  const [participants, setParticipants] = React24.useState([]);
+  const sources_ = React24.useMemo(() => {
     return sources.map((s) => isSourceWitOptions(s) ? s.source : s);
   }, [JSON.stringify(sources)]);
-  React23.useEffect(() => {
+  React24.useEffect(() => {
     const subscription = trackReferencesObservable(room, sources_, {
       additionalRoomEvents: options.updateOnlyOn,
       onlySubscribed: options.onlySubscribed
@@ -656,7 +676,7 @@ function useTracks(sources = [
     });
     return () => subscription.unsubscribe();
   }, [room, JSON.stringify(options.updateOnlyOn), JSON.stringify(sources)]);
-  const maybeTrackReferences = React23.useMemo(() => {
+  const maybeTrackReferences = React24.useMemo(() => {
     if (isSourcesWithOptions(sources)) {
       const requirePlaceholder = requiredPlaceholders(sources, participants);
       const trackReferencesWithPlaceholders = Array.from(
@@ -718,23 +738,23 @@ function requiredPlaceholders(sources, participants) {
 }
 
 // src/hooks/usePinnedTracks.ts
-import * as React24 from "react";
+import * as React25 from "react";
 function usePinnedTracks(layoutContext) {
   layoutContext = useEnsureLayoutContext(layoutContext);
-  return React24.useMemo(() => {
+  return React25.useMemo(() => {
     if ((layoutContext == null ? void 0 : layoutContext.pin.state) !== void 0 && layoutContext.pin.state.length >= 1) {
       return layoutContext.pin.state;
     }
     return [];
-  }, [layoutContext]);
+  }, [layoutContext.pin.state]);
 }
 
 // src/hooks/useSwipe.ts
-import * as React25 from "react";
+import * as React26 from "react";
 function useSwipe(element, options = {}) {
   var _a;
-  const touchStart = React25.useRef(null);
-  const touchEnd = React25.useRef(null);
+  const touchStart = React26.useRef(null);
+  const touchEnd = React26.useRef(null);
   const minSwipeDistance = (_a = options.minSwipeDistance) != null ? _a : 50;
   const onTouchStart = (event) => {
     touchEnd.current = null;
@@ -743,7 +763,7 @@ function useSwipe(element, options = {}) {
   const onTouchMove = (event) => {
     touchEnd.current = event.targetTouches[0].clientX;
   };
-  const onTouchEnd = React25.useCallback(() => {
+  const onTouchEnd = React26.useCallback(() => {
     if (!touchStart.current || !touchEnd.current) {
       return;
     }
@@ -755,7 +775,7 @@ function useSwipe(element, options = {}) {
     if (isRightSwipe && options.onRightSwipe)
       options.onRightSwipe();
   }, [minSwipeDistance, options]);
-  React25.useEffect(() => {
+  React26.useEffect(() => {
     const elementCopy = element.current;
     if (elementCopy) {
       elementCopy.addEventListener("touchstart", onTouchStart);
@@ -772,6 +792,7 @@ function useSwipe(element, options = {}) {
   }, [element, onTouchEnd]);
 }
 export {
+  useAudioPlayback,
   useDataChannel,
   useGridLayout,
   useIsMuted,
