@@ -6,6 +6,7 @@ export interface VideoConferenceProps extends React.HTMLAttributes<HTMLDivElemen
     showShareButton: boolean;
     showParticipantButton: boolean;
     leaveButton: string;
+    endForAll: string | false;
 }
 /**
  * This component is the default setup of a classic LiveKit video conferencing app.
@@ -23,5 +24,5 @@ export interface VideoConferenceProps extends React.HTMLAttributes<HTMLDivElemen
  * ```
  * @public
  */
-export declare function VideoConference({ showShareButton, showParticipantButton, leaveButton, ...props }: VideoConferenceProps): React.JSX.Element;
+export declare function VideoConference({ showShareButton, showParticipantButton, leaveButton, endForAll, ...props }: VideoConferenceProps): React.JSX.Element;
 //# sourceMappingURL=VideoConference.d.ts.map

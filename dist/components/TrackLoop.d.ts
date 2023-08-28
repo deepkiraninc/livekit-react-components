@@ -2,7 +2,7 @@ import type { TrackReference, TrackReferenceOrPlaceholder } from '@livekit/compo
 import * as React from 'react';
 /** @public */
 export interface TrackLoopProps {
-    /** Track references to loop over. */
+    /** Track references to loop over. You can the use `useTracks()` hook to get TrackReferences. */
     tracks: TrackReference[] | TrackReferenceOrPlaceholder[];
     /** The template component to be used in the loop. */
     children: React.ReactNode;

@@ -642,6 +642,10 @@ function useLocalParticipant(options = {}) {
   const [isCameraEnabled, setIsCameraEnabled] = React18.useState(
     localParticipant.isMicrophoneEnabled
   );
+  const [lastMicrophoneError, setLastMicrophoneError] = React18.useState(
+    localParticipant.lastMicrophoneError
+  );
+  const [lastCameraError, setLastCameraError] = React18.useState(localParticipant.lastCameraError);
   const [isScreenShareEnabled, setIsScreenShareEnabled] = React18.useState(
     localParticipant.isMicrophoneEnabled
   );
@@ -655,6 +659,8 @@ function useLocalParticipant(options = {}) {
     setIsScreenShareEnabled(media.isScreenShareEnabled);
     setCameraTrack(media.cameraTrack);
     setMicrophoneTrack(media.microphoneTrack);
+    setLastMicrophoneError(media.participant.lastMicrophoneError);
+    setLastCameraError(media.participant.lastCameraError);
     setLocalParticipant(media.participant);
   };
   React18.useEffect(() => {
@@ -667,6 +673,8 @@ function useLocalParticipant(options = {}) {
     isCameraEnabled,
     microphoneTrack,
     cameraTrack,
+    lastMicrophoneError,
+    lastCameraError,
     localParticipant
   };
 }
@@ -876,6 +884,7 @@ function usePagination(itemPerPage, trackReferences) {
     }
   };
   const updatedTrackReferences = useVisualStableUpdate(trackReferences, itemPerPage);
+  const tracksOnPage = updatedTrackReferences.slice(firstItemIndex, lastItemIndex);
   return {
     totalPageCount,
     nextPage: () => changePage("next"),
@@ -883,7 +892,7 @@ function usePagination(itemPerPage, trackReferences) {
     setPage: goToPage,
     firstItemIndex,
     lastItemIndex,
-    tracks: updatedTrackReferences.slice(firstItemIndex, lastItemIndex),
+    tracks: tracksOnPage,
     currentPage
   };
 }

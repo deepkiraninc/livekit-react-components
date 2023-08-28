@@ -751,6 +751,10 @@ function useLocalParticipant(options = {}) {
   const [isCameraEnabled, setIsCameraEnabled] = React19.useState(
     localParticipant.isMicrophoneEnabled
   );
+  const [lastMicrophoneError, setLastMicrophoneError] = React19.useState(
+    localParticipant.lastMicrophoneError
+  );
+  const [lastCameraError, setLastCameraError] = React19.useState(localParticipant.lastCameraError);
   const [isScreenShareEnabled, setIsScreenShareEnabled] = React19.useState(
     localParticipant.isMicrophoneEnabled
   );
@@ -764,6 +768,8 @@ function useLocalParticipant(options = {}) {
     setIsScreenShareEnabled(media.isScreenShareEnabled);
     setCameraTrack(media.cameraTrack);
     setMicrophoneTrack(media.microphoneTrack);
+    setLastMicrophoneError(media.participant.lastMicrophoneError);
+    setLastCameraError(media.participant.lastCameraError);
     setLocalParticipant(media.participant);
   };
   React19.useEffect(() => {
@@ -776,6 +782,8 @@ function useLocalParticipant(options = {}) {
     isCameraEnabled,
     microphoneTrack,
     cameraTrack,
+    lastMicrophoneError,
+    lastCameraError,
     localParticipant
   };
 }
@@ -993,6 +1001,7 @@ function usePagination(itemPerPage, trackReferences) {
     }
   };
   const updatedTrackReferences = useVisualStableUpdate(trackReferences, itemPerPage);
+  const tracksOnPage = updatedTrackReferences.slice(firstItemIndex, lastItemIndex);
   return {
     totalPageCount,
     nextPage: () => changePage("next"),
@@ -1000,7 +1009,7 @@ function usePagination(itemPerPage, trackReferences) {
     setPage: goToPage,
     firstItemIndex,
     lastItemIndex,
-    tracks: updatedTrackReferences.slice(firstItemIndex, lastItemIndex),
+    tracks: tracksOnPage,
     currentPage
   };
 }
@@ -2165,7 +2174,11 @@ function TrackMutedIndicator(_a) {
 }
 
 // src/components/participant/VideoTrack.tsx
+import {
+  RemoteTrackPublication
+} from "livekit-client";
 import * as React72 from "react";
+import * as useHooks from "usehooks-ts";
 function VideoTrack(_a) {
   var _b = _a, {
     onTrackClick,
@@ -2174,7 +2187,8 @@ function VideoTrack(_a) {
     name,
     publication,
     source,
-    participant: p
+    participant: p,
+    manageSubscription
   } = _b, props = __objRest(_b, [
     "onTrackClick",
     "onClick",
@@ -2182,9 +2196,22 @@ function VideoTrack(_a) {
     "name",
     "publication",
     "source",
-    "participant"
+    "participant",
+    "manageSubscription"
   ]);
   const mediaEl = React72.useRef(null);
+  const intersectionEntry = useHooks.useIntersectionObserver(mediaEl, {});
+  const debouncedIntersectionEntry = useHooks.useDebounce(intersectionEntry, 3e3);
+  React72.useEffect(() => {
+    if (manageSubscription && publication instanceof RemoteTrackPublication && (debouncedIntersectionEntry == null ? void 0 : debouncedIntersectionEntry.isIntersecting) === false) {
+      publication.setSubscribed(false);
+    }
+  }, [debouncedIntersectionEntry, publication, manageSubscription]);
+  React72.useEffect(() => {
+    if (manageSubscription && publication instanceof RemoteTrackPublication && (intersectionEntry == null ? void 0 : intersectionEntry.isIntersecting) === true) {
+      publication.setSubscribed(true);
+    }
+  }, [intersectionEntry, publication, manageSubscription]);
   const participant = useEnsureParticipant(p);
   const {
     elementProps,
@@ -2318,7 +2345,8 @@ function ParticipantTile(_a) {
       participant: trackRef.participant,
       source: trackRef.source,
       publication: trackRef.publication,
-      onSubscriptionStatusChanged: handleSubscribe
+      onSubscriptionStatusChanged: handleSubscribe,
+      manageSubscription: true
     }
   ) : /* @__PURE__ */ React75.createElement(
     AudioTrack,
@@ -2594,8 +2622,12 @@ import { Track as Track6 } from "livekit-client";
 import * as React86 from "react";
 function RoomAudioRenderer() {
   const tracks = useTracks([Track6.Source.Microphone, Track6.Source.ScreenShareAudio], {
-    updateOnlyOn: []
+    updateOnlyOn: [],
+    onlySubscribed: false
   }).filter((ref) => !isLocal2(ref.participant));
+  React86.useEffect(() => {
+    tracks.forEach((track) => track.publication.setSubscribed(true));
+  }, [tracks]);
   return /* @__PURE__ */ React86.createElement("div", { style: { display: "none" } }, tracks.map((trackRef) => /* @__PURE__ */ React86.createElement(AudioTrack, __spreadValues({ key: trackRef.publication.trackSid }, trackRef))));
 }
 
@@ -2726,23 +2758,26 @@ function formatChatMessageLinks(message) {
 }
 
 // src/prefabs/Chat.tsx
-function useChat() {
+function useChat(options) {
   const room = useRoomContext();
   const [setup, setSetup] = React91.useState();
   const isSending = useObservableState(setup == null ? void 0 : setup.isSendingObservable, false);
   const chatMessages = useObservableState(setup == null ? void 0 : setup.messageObservable, []);
   React91.useEffect(() => {
-    const setupChatReturn = setupChat(room);
+    const setupChatReturn = setupChat(room, options);
     setSetup(setupChatReturn);
     return setupChatReturn.destroy;
-  }, [room]);
+  }, [room, options]);
   return { send: setup == null ? void 0 : setup.send, chatMessages, isSending };
 }
 function Chat(_a) {
-  var _b = _a, { messageFormatter } = _b, props = __objRest(_b, ["messageFormatter"]);
+  var _b = _a, { messageFormatter, messageDecoder, messageEncoder } = _b, props = __objRest(_b, ["messageFormatter", "messageDecoder", "messageEncoder"]);
   const inputRef = React91.useRef(null);
   const ulRef = React91.useRef(null);
-  const { send, chatMessages, isSending } = useChat();
+  const chatOptions = React91.useMemo(() => {
+    return { messageDecoder, messageEncoder };
+  }, [messageDecoder, messageEncoder]);
+  const { send, chatMessages, isSending } = useChat(chatOptions);
   const layoutContext = useMaybeLayoutContext();
   const lastReadMsgAt = React91.useRef(0);
   function handleSubmit(event) {
@@ -3309,6 +3344,7 @@ function ControlBar(_a) {
   ]);
   var _a2, _b2, _c, _d, _e, _f, _g;
   const layoutContext = useMaybeLayoutContext();
+  const room = useRoomContext();
   const [isChatOpen, setIsChatOpen] = React98.useState(false);
   const [isShareLinkOpen, setIsShareLinkOpen] = React98.useState(false);
   const [isUserOpen, setIsUserOpen] = React98.useState(false);
@@ -3357,7 +3393,29 @@ function ControlBar(_a) {
   const onScreenShareChange = (enabled) => {
     setIsScreenShareEnabled(enabled);
   };
-  return /* @__PURE__ */ React98.createElement("div", __spreadValues({ className: "lk-control-bar" }, props), visibleControls.microphone && /* @__PURE__ */ React98.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React98.createElement(TrackToggle, { source: Track9.Source.Microphone, showIcon }, showText && "Microphone"), /* @__PURE__ */ React98.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React98.createElement(MediaDeviceMenu, { kind: "audioinput" }))), visibleControls.camera && /* @__PURE__ */ React98.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React98.createElement(TrackToggle, { source: Track9.Source.Camera, showIcon }, showText && "Camera"), /* @__PURE__ */ React98.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React98.createElement(MediaDeviceMenu, { kind: "videoinput" }))), visibleControls.screenShare && browserSupportsScreenSharing && /* @__PURE__ */ React98.createElement(
+  const htmlProps = mergeProps2({ className: "lk-control-bar" }, props);
+  function endMeeting() {
+    return __async(this, null, function* () {
+      const postData = {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          room: room.name
+        })
+      };
+      fetch(`/api/end-meeting`, postData).then((res) => __async(this, null, function* () {
+        if (res.ok) {
+          console.log("Meeting ended");
+        } else {
+          throw Error("Error fetching server url, check server logs");
+        }
+      }));
+    });
+  }
+  return /* @__PURE__ */ React98.createElement("div", __spreadValues({}, htmlProps), visibleControls.microphone && /* @__PURE__ */ React98.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React98.createElement(TrackToggle, { source: Track9.Source.Microphone, showIcon }, showText && "Microphone"), /* @__PURE__ */ React98.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React98.createElement(MediaDeviceMenu, { kind: "audioinput" }))), visibleControls.camera && /* @__PURE__ */ React98.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React98.createElement(TrackToggle, { source: Track9.Source.Camera, showIcon }, showText && "Camera"), /* @__PURE__ */ React98.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React98.createElement(MediaDeviceMenu, { kind: "videoinput" }))), visibleControls.screenShare && browserSupportsScreenSharing && /* @__PURE__ */ React98.createElement(
     TrackToggle,
     {
       source: Track9.Source.ScreenShare,
@@ -3368,7 +3426,7 @@ function ControlBar(_a) {
       title: !isScreenShareEnabled && screenShareTracks !== 0 ? "Someone has shared screen" : isScreenShareEnabled ? "You're sharing your scrren" : "You can share your screen"
     },
     showText && (isScreenShareEnabled ? "Stop screen share" : "Share screen")
-  ), visibleControls.chat && /* @__PURE__ */ React98.createElement(ChatToggle, null, showIcon && /* @__PURE__ */ React98.createElement(ChatIcon_default, null), showText && "Chat"), visibleControls.sharelink && /* @__PURE__ */ React98.createElement(ShareLinkToggle, null, showIcon && /* @__PURE__ */ React98.createElement(InviteIcon_default, null), showText && "Invite"), visibleControls.users && /* @__PURE__ */ React98.createElement(UserToggle, null, showIcon && /* @__PURE__ */ React98.createElement(UsersIcon_default, null), showText && "Participants", waitingRoomCount !== 0 && /* @__PURE__ */ React98.createElement("span", { className: "waiting-count" }, waitingRoomCount)), visibleControls.leave && /* @__PURE__ */ React98.createElement(DisconnectButton, null, showIcon && /* @__PURE__ */ React98.createElement(LeaveIcon_default, null), showText && visibleControls.leaveButton), /* @__PURE__ */ React98.createElement(StartAudio, { label: "Start Audio" }));
+  ), visibleControls.chat && /* @__PURE__ */ React98.createElement(ChatToggle, null, showIcon && /* @__PURE__ */ React98.createElement(ChatIcon_default, null), showText && "Chat"), visibleControls.sharelink && /* @__PURE__ */ React98.createElement(ShareLinkToggle, null, showIcon && /* @__PURE__ */ React98.createElement(InviteIcon_default, null), showText && "Invite"), visibleControls.users && /* @__PURE__ */ React98.createElement(UserToggle, null, showIcon && /* @__PURE__ */ React98.createElement(UsersIcon_default, null), showText && "Participants", waitingRoomCount !== 0 && /* @__PURE__ */ React98.createElement("span", { className: "waiting-count" }, waitingRoomCount)), visibleControls.leave && /* @__PURE__ */ React98.createElement(DisconnectButton, null, showIcon && /* @__PURE__ */ React98.createElement(LeaveIcon_default, null), showText && visibleControls.leaveButton), visibleControls.endForAll && /* @__PURE__ */ React98.createElement(DisconnectButton, { onClick: endMeeting }, showIcon && /* @__PURE__ */ React98.createElement(LeaveIcon_default, null), showText && visibleControls.endForAll), /* @__PURE__ */ React98.createElement(StartAudio, { label: "Start Audio" }));
 }
 
 // src/prefabs/ShareLink.tsx
@@ -3808,11 +3866,13 @@ function VideoConference(_a) {
   var _b = _a, {
     showShareButton,
     showParticipantButton,
-    leaveButton
+    leaveButton,
+    endForAll
   } = _b, props = __objRest(_b, [
     "showShareButton",
     "showParticipantButton",
-    "leaveButton"
+    "leaveButton",
+    "endForAll"
   ]);
   var _a2, _b2;
   const [widgetState, setWidgetState] = React105.useState({
@@ -3827,7 +3887,7 @@ function VideoConference(_a) {
       { source: Track11.Source.Camera, withPlaceholder: true },
       { source: Track11.Source.ScreenShare, withPlaceholder: false }
     ],
-    { updateOnlyOn: [RoomEvent2.ActiveSpeakersChanged] }
+    { updateOnlyOn: [RoomEvent2.ActiveSpeakersChanged], onlySubscribed: false }
   );
   const widgetUpdate = (state) => {
     log12.debug("updating widget state", state);
@@ -3886,7 +3946,8 @@ function VideoConference(_a) {
           chat: false,
           sharelink: showShareButton,
           users: showParticipantButton,
-          leaveButton
+          leaveButton,
+          endForAll
         },
         waitingRoomCount,
         screenShareTracks: screenShareTracks.length

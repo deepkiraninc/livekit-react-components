@@ -29,6 +29,7 @@ export interface VideoConferenceProps extends React.HTMLAttributes<HTMLDivElemen
   showShareButton: boolean;
   showParticipantButton: boolean;
   leaveButton: string;
+  endForAll: string | false;
 }
 
 /**
@@ -51,6 +52,7 @@ export function VideoConference({
   showShareButton,
   showParticipantButton,
   leaveButton,
+  endForAll,
   ...props
 }: VideoConferenceProps) {
   const [widgetState, setWidgetState] = React.useState<WidgetState>({
@@ -67,7 +69,7 @@ export function VideoConference({
       { source: Track.Source.Camera, withPlaceholder: true },
       { source: Track.Source.ScreenShare, withPlaceholder: false },
     ],
-    { updateOnlyOn: [RoomEvent.ActiveSpeakersChanged] },
+    { updateOnlyOn: [RoomEvent.ActiveSpeakersChanged], onlySubscribed: false },
   );
 
   const widgetUpdate = (state: WidgetState) => {
@@ -157,20 +159,20 @@ export function VideoConference({
                 sharelink: showShareButton,
                 users: showParticipantButton,
                 leaveButton: leaveButton,
+                endForAll: endForAll,
               }}
               waitingRoomCount={waitingRoomCount}
               screenShareTracks={screenShareTracks.length}
             />
           </div >
 
-
-
           {
             showShareButton ?
               (
                 <ShareLink style={{
                   display: widgetState.showChat == 'show_invite' ? 'flex' : 'none'
-                }} />
+                }
+                } />
               ) : (
                 <></>
               )
@@ -199,7 +201,7 @@ export function VideoConference({
           //   style={{ display: widgetState.showChat ? 'flex' : 'none' }}
           //   messageFormatter={chatMessageFormatter}
           // /> */}
-        </LayoutContextProvider>
+        </LayoutContextProvider >
       )
       }
       <RoomAudioRenderer />

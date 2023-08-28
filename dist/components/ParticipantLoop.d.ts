@@ -2,7 +2,7 @@ import type { Participant } from 'livekit-client';
 import * as React from 'react';
 /** @public */
 export interface ParticipantLoopProps {
-    /** The participants to loop over. If not provided, the participants from the current room context are used. */
+    /** The participants to loop over. Use `useParticipants()` hook to get participants. */
     participants: Participant[];
     /** The template component to be used in the loop. */
     children: React.ReactNode;

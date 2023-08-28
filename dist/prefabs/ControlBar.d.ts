@@ -9,6 +9,7 @@ export type ControlBarControls = {
     sharelink?: boolean;
     users?: boolean;
     leaveButton?: string;
+    endForAll?: string | false;
 };
 /** @public */
 export interface ControlBarProps extends React.HTMLAttributes<HTMLDivElement> {
