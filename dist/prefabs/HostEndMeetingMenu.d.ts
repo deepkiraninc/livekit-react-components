@@ -8,8 +8,7 @@ export interface HostEndMeetingMenuProps extends React.ButtonHTMLAttributes<HTML
     showText?: boolean;
 }
 /**
- * The MediaDeviceMenu prefab component is a button that opens a menu that lists
- * all media devices and allows the user to select them.
+ * The HostEndMeetingMenu prefab component is a button that opens a menu lists that use to leave or end meeting for host
  *
  * @example
  * ```tsx

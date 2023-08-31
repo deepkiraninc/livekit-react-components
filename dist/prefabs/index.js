@@ -2938,18 +2938,21 @@ function HostEndMeetingMenu(_a) {
     "showText"
   ]);
   const [isOpen, setIsOpen] = React80.useState(false);
+  const [updateRequired, setUpdateRequired] = React80.useState(true);
   const room = useRoomContext();
   const button = React80.useRef(null);
   const tooltip = React80.useRef(null);
   React80.useLayoutEffect(() => {
-    if (button.current && tooltip.current) {
+    if (button.current && tooltip.current && updateRequired) {
       (0, import_components_core37.computeMenuPosition)(button.current, tooltip.current).then(({ x, y }) => {
+        console.log(x, y);
         if (tooltip.current) {
           Object.assign(tooltip.current.style, { left: `${x}px`, top: `${y}px` });
         }
       });
+      setUpdateRequired(false);
     }
-  }, [button, tooltip]);
+  }, [button, tooltip, updateRequired]);
   const handleClickOutside = React80.useCallback(
     (event) => {
       if (!tooltip.current) {
@@ -2966,8 +2969,10 @@ function HostEndMeetingMenu(_a) {
   );
   React80.useEffect(() => {
     document.addEventListener("click", handleClickOutside);
+    window.addEventListener("resize", () => setUpdateRequired(true));
     return () => {
       document.removeEventListener("click", handleClickOutside);
+      window.removeEventListener("resize", () => setUpdateRequired(true));
     };
   }, [handleClickOutside]);
   function endMeeting() {
@@ -3001,14 +3006,14 @@ function HostEndMeetingMenu(_a) {
       ref: button
     }),
     props.children
-  ), !props.disabled && /* @__PURE__ */ React80.createElement(
+  ), /* @__PURE__ */ React80.createElement(
     "div",
     {
       className: "lk-device-menu",
       ref: tooltip,
       style: { visibility: isOpen ? "visible" : "hidden" }
     },
-    /* @__PURE__ */ React80.createElement("ul", { className: "lk-media-device-select lk-list" }, leave && /* @__PURE__ */ React80.createElement("li", { id: "", "data-lk-active": "true", "aria-selected": "true", role: "option" }, /* @__PURE__ */ React80.createElement(DisconnectButton, null, showIcon && /* @__PURE__ */ React80.createElement(LeaveIcon_default, null), showText && leaveButton)), endForAll && /* @__PURE__ */ React80.createElement("li", { id: "", "data-lk-active": "true", "aria-selected": "true", role: "option" }, /* @__PURE__ */ React80.createElement(DisconnectButton, { onClick: endMeeting }, showIcon && /* @__PURE__ */ React80.createElement(LeaveIcon_default, null), showText && endForAll)))
+    /* @__PURE__ */ React80.createElement("ul", { className: "lk-media-device-select lk-list" }, leave && /* @__PURE__ */ React80.createElement("li", { "data-lk-active": "true", "aria-selected": "true", role: "option" }, /* @__PURE__ */ React80.createElement(DisconnectButton, null, /* @__PURE__ */ React80.createElement(LeaveIcon_default, null), leaveButton)), endForAll && /* @__PURE__ */ React80.createElement("li", { "data-lk-active": "true", "aria-selected": "true", role: "option" }, /* @__PURE__ */ React80.createElement(DisconnectButton, { onClick: endMeeting }, /* @__PURE__ */ React80.createElement(LeaveIcon_default, null), endForAll)))
   ));
 }
 
@@ -3138,7 +3143,7 @@ function ControlBar(_a) {
       title: !isScreenShareEnabled && screenShareTracks !== 0 ? "Someone has shared screen" : isScreenShareEnabled ? "You're sharing your scrren" : "You can share your screen"
     },
     showText && (isScreenShareEnabled ? "Stop screen share" : "Share screen")
-  ), visibleControls.chat && /* @__PURE__ */ React84.createElement(ChatToggle, null, showIcon && /* @__PURE__ */ React84.createElement(ChatIcon_default, null), showText && "Chat"), visibleControls.sharelink && /* @__PURE__ */ React84.createElement(ShareLinkToggle, null, showIcon && /* @__PURE__ */ React84.createElement(InviteIcon_default, null), showText && "Invite"), visibleControls.users && /* @__PURE__ */ React84.createElement(UserToggle, null, showIcon && /* @__PURE__ */ React84.createElement(UsersIcon_default, null), showText && "Participants", waitingRoomCount !== 0 && /* @__PURE__ */ React84.createElement("span", { className: "waiting-count" }, waitingRoomCount)), visibleControls.endForAll ? /* @__PURE__ */ React84.createElement("div", { className: "tl-leave" }, /* @__PURE__ */ React84.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React84.createElement("button", { className: "lk-disconnect-button" }, showIcon && /* @__PURE__ */ React84.createElement(LeaveIcon_default, null), showText && "Leave Meeting"), /* @__PURE__ */ React84.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React84.createElement(
+  ), visibleControls.chat && /* @__PURE__ */ React84.createElement(ChatToggle, null, showIcon && /* @__PURE__ */ React84.createElement(ChatIcon_default, null), showText && "Chat"), visibleControls.sharelink && /* @__PURE__ */ React84.createElement(ShareLinkToggle, null, showIcon && /* @__PURE__ */ React84.createElement(InviteIcon_default, null), showText && "Invite"), visibleControls.users && /* @__PURE__ */ React84.createElement(UserToggle, null, showIcon && /* @__PURE__ */ React84.createElement(UsersIcon_default, null), showText && "Participants", waitingRoomCount !== 0 && /* @__PURE__ */ React84.createElement("span", { className: "waiting-count" }, waitingRoomCount)), visibleControls.endForAll ? /* @__PURE__ */ React84.createElement("div", { className: "tl-leave lk-button-group" }, /* @__PURE__ */ React84.createElement("button", { className: "lk-disconnect-button" }, showIcon && /* @__PURE__ */ React84.createElement(LeaveIcon_default, null), showText && "Leave Meeting"), /* @__PURE__ */ React84.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React84.createElement(
     HostEndMeetingMenu,
     {
       leave: visibleControls.leave,
@@ -3147,7 +3152,7 @@ function ControlBar(_a) {
       showIcon,
       showText
     }
-  )))) : /* @__PURE__ */ React84.createElement(DisconnectButton, null, showIcon && /* @__PURE__ */ React84.createElement(LeaveIcon_default, null), showText && visibleControls.leaveButton), /* @__PURE__ */ React84.createElement(StartAudio, { label: "Start Audio" }));
+  ))) : /* @__PURE__ */ React84.createElement(DisconnectButton, null, showIcon && /* @__PURE__ */ React84.createElement(LeaveIcon_default, null), showText && visibleControls.leaveButton), /* @__PURE__ */ React84.createElement(StartAudio, { label: "Start Audio" }));
 }
 
 // src/prefabs/ShareLink.tsx
