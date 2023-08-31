@@ -3419,7 +3419,7 @@ function HostEndMeetingMenu(_a) {
       (0, import_components_core48.computeMenuPosition)(button.current, tooltip.current).then(({ x, y }) => {
         console.log(x, y);
         if (tooltip.current) {
-          Object.assign(tooltip.current.style, { left: `${x}px`, top: `${y}px` });
+          Object.assign(tooltip.current.style, { left: `${x}px`, top: `${y + 5}px` });
         }
       });
       setUpdateRequired(false);
