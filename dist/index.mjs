@@ -3279,7 +3279,7 @@ import { Track as Track9 } from "livekit-client";
 import * as React99 from "react";
 
 // src/prefabs/HostEndMeetingMenu.tsx
-import { computeMenuPosition as computeMenuPosition2, wasClickOutside as wasClickOutside2 } from "@livekit/components-core";
+import { computeMenuPosition as computeMenuPosition2, setupDisconnectButton as setupDisconnectButton2, wasClickOutside as wasClickOutside2 } from "@livekit/components-core";
 import * as React95 from "react";
 function HostEndMeetingMenu(_a) {
   var _b = _a, {
@@ -3300,6 +3300,9 @@ function HostEndMeetingMenu(_a) {
   const room = useRoomContext();
   const button = React95.useRef(null);
   const tooltip = React95.useRef(null);
+  const { metadata } = useRoomInfo();
+  const [host, setHost] = React95.useState([]);
+  const participants = useParticipants();
   React95.useLayoutEffect(() => {
     if (button.current && tooltip.current && updateRequired) {
       computeMenuPosition2(button.current, tooltip.current).then(({ x, y }) => {
@@ -3354,6 +3357,58 @@ function HostEndMeetingMenu(_a) {
       }));
     });
   }
+  function makeNewHost(identity) {
+    return __async(this, null, function* () {
+      let hostId = host.hostId;
+      console.log(hostId);
+      hostId.push(identity);
+      const postData = {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          hosts: hostId
+        })
+      };
+      fetch(`/api/make-host`, postData).then((res) => __async(this, null, function* () {
+        if (res.ok) {
+          console.log("Meeting ended");
+          disconnect(true);
+        } else {
+          throw Error("Error fetching server url, check server logs");
+        }
+      }));
+    });
+  }
+  const getInitialState = () => {
+    const value2 = host;
+    return value2;
+  };
+  const { disconnect } = setupDisconnectButton2(room);
+  const [showDropdown, setShowDropdown] = React95.useState(false);
+  const [value, setValue] = React95.useState(getInitialState);
+  const handleChange = (e) => {
+    setValue(e.target.value);
+    makeNewHost(e.target.value);
+  };
+  const handleLeave = () => {
+    if (host) {
+      setShowDropdown(true);
+    } else {
+      console.log("Host data");
+      console.log(host);
+    }
+  };
+  const handleCancel = () => {
+    setShowDropdown(false);
+  };
+  React95.useEffect(() => {
+    if (metadata) {
+      setHost(JSON.parse(metadata));
+    }
+  }, [metadata]);
   return /* @__PURE__ */ React95.createElement(React95.Fragment, null, /* @__PURE__ */ React95.createElement(
     "button",
     __spreadProps(__spreadValues({
@@ -3371,7 +3426,8 @@ function HostEndMeetingMenu(_a) {
       ref: tooltip,
       style: { visibility: isOpen ? "visible" : "hidden" }
     },
-    /* @__PURE__ */ React95.createElement("ul", { className: "lk-media-device-select lk-list" }, endForAll && /* @__PURE__ */ React95.createElement("li", { "data-lk-active": "true", "aria-selected": "true", role: "option" }, /* @__PURE__ */ React95.createElement(DisconnectButton, { onClick: endMeeting }, endForAll)), leave && /* @__PURE__ */ React95.createElement("li", { "data-lk-active": "true", "aria-selected": "true", role: "option" }, /* @__PURE__ */ React95.createElement(DisconnectButton, null, leaveButton))),
+    !showDropdown && /* @__PURE__ */ React95.createElement("ul", { className: "lk-media-device-select lk-list" }, endForAll && /* @__PURE__ */ React95.createElement("li", { "data-lk-active": "true", "aria-selected": "true", role: "option" }, /* @__PURE__ */ React95.createElement(DisconnectButton, { onClick: endMeeting }, endForAll)), leave && /* @__PURE__ */ React95.createElement("li", { "data-lk-active": "true", "aria-selected": "true", role: "option" }, /* @__PURE__ */ React95.createElement("button", { className: "lk-disconnect-button", onClick: handleLeave }, "Leave Meeting"))),
+    showDropdown && /* @__PURE__ */ React95.createElement("div", null, /* @__PURE__ */ React95.createElement("select", { value, onChange: handleChange }, participants.map((participant) => /* @__PURE__ */ React95.createElement("option", { value: participant.identity, key: participant.identity }, participant.name))), /* @__PURE__ */ React95.createElement("button", { className: "lk-button", onClick: handleCancel }, "Cancel")),
     /* @__PURE__ */ React95.createElement("div", { className: "arrow" }, /* @__PURE__ */ React95.createElement("div", { className: "arrow-shape" }))
   ));
 }
@@ -3965,6 +4021,7 @@ function VideoConference(_a) {
     unreadMessages: 0
   });
   const lastAutoFocusedScreenShareTrack = React106.useRef(null);
+  const { metadata } = useRoomInfo();
   const [waiting, setWaiting] = React106.useState(null);
   const [waitingRoomCount, setWaitingRoomCount] = React106.useState(0);
   const tracks = useTracks(
@@ -3998,6 +4055,9 @@ function VideoConference(_a) {
       }, 3e3);
     }
   }, [waiting]);
+  React106.useEffect(() => {
+    console.log(metadata);
+  }, [metadata]);
   React106.useEffect(() => {
     var _a3, _b3, _c, _d;
     if (screenShareTracks.length > 0 && lastAutoFocusedScreenShareTrack.current === null) {
