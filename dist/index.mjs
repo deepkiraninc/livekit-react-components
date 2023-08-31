@@ -3371,7 +3371,8 @@ function HostEndMeetingMenu(_a) {
       ref: tooltip,
       style: { visibility: isOpen ? "visible" : "hidden" }
     },
-    /* @__PURE__ */ React95.createElement("ul", { className: "lk-media-device-select lk-list" }, leave && /* @__PURE__ */ React95.createElement("li", { "data-lk-active": "true", "aria-selected": "true", role: "option" }, /* @__PURE__ */ React95.createElement(DisconnectButton, null, /* @__PURE__ */ React95.createElement(LeaveIcon_default, null), leaveButton)), endForAll && /* @__PURE__ */ React95.createElement("li", { "data-lk-active": "true", "aria-selected": "true", role: "option" }, /* @__PURE__ */ React95.createElement(DisconnectButton, { onClick: endMeeting }, /* @__PURE__ */ React95.createElement(LeaveIcon_default, null), endForAll)))
+    /* @__PURE__ */ React95.createElement("ul", { className: "lk-media-device-select lk-list" }, endForAll && /* @__PURE__ */ React95.createElement("li", { "data-lk-active": "true", "aria-selected": "true", role: "option" }, /* @__PURE__ */ React95.createElement(DisconnectButton, { onClick: endMeeting }, endForAll)), leave && /* @__PURE__ */ React95.createElement("li", { "data-lk-active": "true", "aria-selected": "true", role: "option" }, /* @__PURE__ */ React95.createElement(DisconnectButton, null, leaveButton))),
+    /* @__PURE__ */ React95.createElement("div", { className: "arrow" }, /* @__PURE__ */ React95.createElement("div", { className: "arrow-shape" }))
   ));
 }
 
