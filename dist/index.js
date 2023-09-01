@@ -3414,9 +3414,9 @@ function HostEndMeetingMenu(_a) {
   const room = useRoomContext();
   const button = React95.useRef(null);
   const tooltip = React95.useRef(null);
-  const { metadata } = useRoomInfo();
-  const [host, setHost] = React95.useState([]);
   const participants = useParticipants();
+  const { localParticipant } = useLocalParticipant();
+  const meta = localParticipant.metadata ? JSON.parse(localParticipant.metadata) : {};
   React95.useLayoutEffect(() => {
     if (button.current && tooltip.current && updateRequired) {
       (0, import_components_core48.computeMenuPosition)(button.current, tooltip.current).then(({ x, y }) => {
@@ -3437,7 +3437,6 @@ function HostEndMeetingMenu(_a) {
         return;
       }
       if (isOpen && (0, import_components_core48.wasClickOutside)(tooltip.current, event)) {
-        setIsOpen(false);
       }
     },
     [isOpen, tooltip, button]
@@ -3473,9 +3472,6 @@ function HostEndMeetingMenu(_a) {
   }
   function makeNewHost(identity) {
     return __async(this, null, function* () {
-      let hostId = host.hostId;
-      console.log(hostId);
-      hostId.push(identity);
       const postData = {
         method: "POST",
         headers: {
@@ -3483,46 +3479,42 @@ function HostEndMeetingMenu(_a) {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          hosts: hostId
+          room: room.name,
+          identity,
+          token: meta.host
         })
       };
-      fetch(`/api/make-host`, postData).then((res) => __async(this, null, function* () {
+      yield fetch(`/api/make-host`, postData).then((res) => __async(this, null, function* () {
+        console.log(res);
         if (res.ok) {
-          console.log("Meeting ended");
-          disconnect(true);
+          console.log("Host leave and new host assigned");
+          disconnect(false);
+          setIsOpen(false);
+          setShowDropdown(false);
         } else {
           throw Error("Error fetching server url, check server logs");
         }
       }));
     });
   }
-  const getInitialState = () => {
-    const value2 = host;
-    return value2;
-  };
   const { disconnect } = (0, import_components_core48.setupDisconnectButton)(room);
   const [showDropdown, setShowDropdown] = React95.useState(false);
-  const [value, setValue] = React95.useState(getInitialState);
-  const handleChange = (e) => {
-    setValue(e.target.value);
-    makeNewHost(e.target.value);
+  const [value, setValue] = React95.useState("");
+  const handleChange = () => {
+    setValue(value);
+    makeNewHost(value);
   };
   const handleLeave = () => {
-    if (host) {
-      setShowDropdown(true);
-    } else {
-      console.log("Host data");
-      console.log(host);
-    }
+    console.log("Openning dropdown");
+    setShowDropdown(true);
+    setIsOpen(true);
   };
   const handleCancel = () => {
     setShowDropdown(false);
   };
-  React95.useEffect(() => {
-    if (metadata) {
-      setHost(JSON.parse(metadata));
-    }
-  }, [metadata]);
+  const handleChangeValue = (e) => {
+    setValue(e.target.value);
+  };
   return /* @__PURE__ */ React95.createElement(React95.Fragment, null, /* @__PURE__ */ React95.createElement(
     "button",
     __spreadProps(__spreadValues({
@@ -3541,7 +3533,7 @@ function HostEndMeetingMenu(_a) {
       style: { visibility: isOpen ? "visible" : "hidden" }
     },
     !showDropdown && /* @__PURE__ */ React95.createElement("ul", { className: "lk-media-device-select lk-list" }, endForAll && /* @__PURE__ */ React95.createElement("li", { "data-lk-active": "true", "aria-selected": "true", role: "option" }, /* @__PURE__ */ React95.createElement(DisconnectButton, { onClick: endMeeting }, endForAll)), leave && /* @__PURE__ */ React95.createElement("li", { "data-lk-active": "true", "aria-selected": "true", role: "option" }, /* @__PURE__ */ React95.createElement("button", { className: "lk-disconnect-button", onClick: handleLeave }, "Leave Meeting"))),
-    showDropdown && /* @__PURE__ */ React95.createElement("div", null, /* @__PURE__ */ React95.createElement("select", { value, onChange: handleChange }, participants.map((participant) => /* @__PURE__ */ React95.createElement("option", { value: participant.identity, key: participant.identity }, participant.name))), /* @__PURE__ */ React95.createElement("button", { className: "lk-button", onClick: handleCancel }, "Cancel")),
+    showDropdown && /* @__PURE__ */ React95.createElement("div", { className: "assign-menu" }, /* @__PURE__ */ React95.createElement("select", { value, onChange: handleChangeValue }, participants.map((participant) => /* @__PURE__ */ React95.createElement("option", { value: participant.identity, key: participant.identity }, participant.name))), /* @__PURE__ */ React95.createElement("div", { className: "button-container" }, /* @__PURE__ */ React95.createElement("button", { className: "lk-button", onClick: handleCancel }, "Cancel"), /* @__PURE__ */ React95.createElement("button", { className: "lk-button", onClick: handleChange }, "Ok"))),
     /* @__PURE__ */ React95.createElement("div", { className: "arrow" }, /* @__PURE__ */ React95.createElement("div", { className: "arrow-shape" }))
   ));
 }
@@ -4118,24 +4110,28 @@ function Users(_a) {
 var import_components_core51 = require("@livekit/components-core");
 var import_livekit_client18 = require("livekit-client");
 function VideoConference(_a) {
-  var _b = _a, {
-    showShareButton,
-    showParticipantButton,
-    leaveButton,
-    endForAll
-  } = _b, props = __objRest(_b, [
-    "showShareButton",
-    "showParticipantButton",
-    "leaveButton",
-    "endForAll"
-  ]);
-  var _a2, _b2;
+  var props = __objRest(_a, []);
+  var _a2, _b;
   const [widgetState, setWidgetState] = React106.useState({
     showChat: null,
     unreadMessages: 0
   });
   const lastAutoFocusedScreenShareTrack = React106.useRef(null);
-  const { metadata } = useRoomInfo();
+  const { localParticipant } = useLocalParticipant();
+  const p = useEnsureParticipant(localParticipant);
+  const { infoObserver } = React106.useMemo(() => {
+    return (0, import_components_core51.setupParticipantName)(p);
+  }, [p]);
+  const { metadata } = useObservableState(infoObserver, {
+    name: p.name,
+    identity: p.identity,
+    metadata: p.metadata
+  });
+  const [showShareButton, setShowShareButton] = React106.useState(false);
+  const [showParticipantButton, setShowParticipantButton] = React106.useState(false);
+  const [leaveButton, setLeaveButton] = React106.useState("Leave");
+  const [endForAll, setEndForAll] = React106.useState(false);
+  const meta = metadata ? JSON.parse(metadata) : {};
   const [waiting, setWaiting] = React106.useState(null);
   const [waitingRoomCount, setWaitingRoomCount] = React106.useState(0);
   const tracks = useTracks(
@@ -4145,6 +4141,10 @@ function VideoConference(_a) {
     ],
     { updateOnlyOn: [import_livekit_client18.RoomEvent.ActiveSpeakersChanged], onlySubscribed: false }
   );
+  const room = useRoomContext();
+  room.on(import_livekit_client18.ParticipantEvent.ParticipantMetadataChanged, (data) => {
+    console.log("data", data);
+  });
   const widgetUpdate = (state) => {
     import_components_core51.log.debug("updating widget state", state);
     setWidgetState(state);
@@ -4170,18 +4170,35 @@ function VideoConference(_a) {
     }
   }, [waiting]);
   React106.useEffect(() => {
-    console.log(metadata);
-  }, [metadata]);
+    console.log("Initial meta update", /* @__PURE__ */ new Date());
+    console.log(meta);
+    if (meta && meta.host) {
+      setShowShareButton(true);
+      setShowParticipantButton(true);
+      setLeaveButton("Leave Meeting");
+      setEndForAll("End Meeting for All");
+    }
+  }, [meta]);
   React106.useEffect(() => {
-    var _a3, _b3, _c, _d;
+    console.log("P data update", /* @__PURE__ */ new Date());
+    const pmeta = p.metadata ? JSON.parse(p.metadata) : {};
+    if (pmeta && pmeta.host) {
+      setShowShareButton(true);
+      setShowParticipantButton(true);
+      setLeaveButton("Leave Meeting");
+      setEndForAll("End Meeting for All");
+    }
+  }, [p]);
+  React106.useEffect(() => {
+    var _a3, _b2, _c, _d;
     if (screenShareTracks.length > 0 && lastAutoFocusedScreenShareTrack.current === null) {
       import_components_core51.log.debug("Auto set screen share focus:", { newScreenShareTrack: screenShareTracks[0] });
-      (_b3 = (_a3 = layoutContext.pin).dispatch) == null ? void 0 : _b3.call(_a3, { msg: "set_pin", trackReference: screenShareTracks[0] });
+      (_b2 = (_a3 = layoutContext.pin).dispatch) == null ? void 0 : _b2.call(_a3, { msg: "set_pin", trackReference: screenShareTracks[0] });
       lastAutoFocusedScreenShareTrack.current = screenShareTracks[0];
     } else if (lastAutoFocusedScreenShareTrack.current && !screenShareTracks.some(
       (track) => {
-        var _a4, _b4;
-        return track.publication.trackSid === ((_b4 = (_a4 = lastAutoFocusedScreenShareTrack.current) == null ? void 0 : _a4.publication) == null ? void 0 : _b4.trackSid);
+        var _a4, _b3;
+        return track.publication.trackSid === ((_b3 = (_a4 = lastAutoFocusedScreenShareTrack.current) == null ? void 0 : _a4.publication) == null ? void 0 : _b3.trackSid);
       }
     )) {
       import_components_core51.log.debug("Auto clearing screen share focus.");
@@ -4190,7 +4207,7 @@ function VideoConference(_a) {
     }
   }, [
     screenShareTracks.map((ref) => ref.publication.trackSid).join(),
-    (_b2 = focusTrack == null ? void 0 : focusTrack.publication) == null ? void 0 : _b2.trackSid
+    (_b = focusTrack == null ? void 0 : focusTrack.publication) == null ? void 0 : _b.trackSid
   ]);
   return /* @__PURE__ */ React106.createElement("div", __spreadValues({ className: "lk-video-conference" }, props), (0, import_components_core51.isWeb)() && /* @__PURE__ */ React106.createElement(
     LayoutContextProvider,
