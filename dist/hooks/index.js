@@ -1206,7 +1206,7 @@ function useChatToggle({ props }) {
         if (dispatch)
           dispatch({ msg: "toggle_chat" });
       },
-      "aria-pressed": (state == null ? void 0 : state.showChat) ? "true" : "false",
+      "aria-pressed": (state == null ? void 0 : state.showChat) == "show_chat" ? "true" : "false",
       "data-lk-unread-msgs": state ? state.unreadMessages < 10 ? state.unreadMessages.toFixed(0) : "9+" : "0"
     });
   }, [props, className, dispatch, state]);

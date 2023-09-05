@@ -204,6 +204,8 @@ function chatReducer(state, action) {
   if (action.msg && action.msg !== state.showChat) {
     if (action.msg === "show_chat") {
       return __spreadProps(__spreadValues({}, state), { showChat: "show_chat" });
+    } else if (action.msg === "toggle_chat") {
+      return __spreadProps(__spreadValues({}, state), { showChat: state.showChat == "show_invite" ? null : "show_chat" });
     } else if (action.msg === "show_invite") {
       return __spreadProps(__spreadValues({}, state), { showChat: "show_invite" });
     } else if (action.msg === "show_users") {
@@ -1254,7 +1256,7 @@ function useChatToggle({ props }) {
         if (dispatch)
           dispatch({ msg: "toggle_chat" });
       },
-      "aria-pressed": (state == null ? void 0 : state.showChat) ? "true" : "false",
+      "aria-pressed": (state == null ? void 0 : state.showChat) == "show_chat" ? "true" : "false",
       "data-lk-unread-msgs": state ? state.unreadMessages < 10 ? state.unreadMessages.toFixed(0) : "9+" : "0"
     });
   }, [props, className, dispatch, state]);
@@ -3996,8 +3998,12 @@ function Users(_a) {
 import { isEqualTrackRef, isTrackReference as isTrackReference3, log as log12, isWeb, setupParticipantName as setupParticipantName2 } from "@livekit/components-core";
 import { RoomEvent as RoomEvent2, ParticipantEvent, Track as Track11 } from "livekit-client";
 function VideoConference(_a) {
-  var props = __objRest(_a, []);
-  var _a2, _b;
+  var _b = _a, {
+    chatMessageFormatter
+  } = _b, props = __objRest(_b, [
+    "chatMessageFormatter"
+  ]);
+  var _a2, _b2;
   const [widgetState, setWidgetState] = React106.useState({
     showChat: null,
     unreadMessages: 0
@@ -4033,6 +4039,7 @@ function VideoConference(_a) {
   });
   const widgetUpdate = (state) => {
     log12.debug("updating widget state", state);
+    console.log(state);
     setWidgetState(state);
   };
   const updateCount = (count) => {
@@ -4076,15 +4083,15 @@ function VideoConference(_a) {
     }
   }, [p]);
   React106.useEffect(() => {
-    var _a3, _b2, _c, _d;
+    var _a3, _b3, _c, _d;
     if (screenShareTracks.length > 0 && lastAutoFocusedScreenShareTrack.current === null) {
       log12.debug("Auto set screen share focus:", { newScreenShareTrack: screenShareTracks[0] });
-      (_b2 = (_a3 = layoutContext.pin).dispatch) == null ? void 0 : _b2.call(_a3, { msg: "set_pin", trackReference: screenShareTracks[0] });
+      (_b3 = (_a3 = layoutContext.pin).dispatch) == null ? void 0 : _b3.call(_a3, { msg: "set_pin", trackReference: screenShareTracks[0] });
       lastAutoFocusedScreenShareTrack.current = screenShareTracks[0];
     } else if (lastAutoFocusedScreenShareTrack.current && !screenShareTracks.some(
       (track) => {
-        var _a4, _b3;
-        return track.publication.trackSid === ((_b3 = (_a4 = lastAutoFocusedScreenShareTrack.current) == null ? void 0 : _a4.publication) == null ? void 0 : _b3.trackSid);
+        var _a4, _b4;
+        return track.publication.trackSid === ((_b4 = (_a4 = lastAutoFocusedScreenShareTrack.current) == null ? void 0 : _a4.publication) == null ? void 0 : _b4.trackSid);
       }
     )) {
       log12.debug("Auto clearing screen share focus.");
@@ -4093,7 +4100,7 @@ function VideoConference(_a) {
     }
   }, [
     screenShareTracks.map((ref) => ref.publication.trackSid).join(),
-    (_b = focusTrack == null ? void 0 : focusTrack.publication) == null ? void 0 : _b.trackSid
+    (_b2 = focusTrack == null ? void 0 : focusTrack.publication) == null ? void 0 : _b2.trackSid
   ]);
   return /* @__PURE__ */ React106.createElement("div", __spreadValues({ className: "lk-video-conference" }, props), isWeb() && /* @__PURE__ */ React106.createElement(
     LayoutContextProvider,
@@ -4105,7 +4112,7 @@ function VideoConference(_a) {
       ControlBar,
       {
         controls: {
-          chat: false,
+          chat: true,
           sharelink: showShareButton,
           users: showParticipantButton,
           leaveButton,
@@ -4126,7 +4133,14 @@ function VideoConference(_a) {
         setWaiting: setWaitingMessage
       }
     ) : /* @__PURE__ */ React106.createElement(React106.Fragment, null),
-    waiting ? /* @__PURE__ */ React106.createElement(Toast, { className: "lk-toast-connection-state" }, /* @__PURE__ */ React106.createElement(UserToggle, null, waiting)) : /* @__PURE__ */ React106.createElement(React106.Fragment, null)
+    waiting ? /* @__PURE__ */ React106.createElement(Toast, { className: "lk-toast-connection-state" }, /* @__PURE__ */ React106.createElement(UserToggle, null, waiting)) : /* @__PURE__ */ React106.createElement(React106.Fragment, null),
+    /* @__PURE__ */ React106.createElement(
+      Chat,
+      {
+        style: { display: widgetState.showChat == "show_chat" ? "flex" : "none" },
+        messageFormatter: chatMessageFormatter
+      }
+    )
   ), /* @__PURE__ */ React106.createElement(RoomAudioRenderer, null), /* @__PURE__ */ React106.createElement(ConnectionStateToast, null));
 }
 
