@@ -1599,7 +1599,7 @@ function ChatToggle(props) {
 var React46 = __toESM(require("react"));
 var import_components_core34 = require("@livekit/components-core");
 function useToggleShareLink({ props }) {
-  const { dispatch } = useLayoutContext().widget;
+  const { dispatch, state } = useLayoutContext().widget;
   const { className } = React46.useMemo(() => (0, import_components_core34.setupShareLinkToggle)(), []);
   const mergedProps = React46.useMemo(
     () => mergeProps2(props, {
@@ -1607,7 +1607,8 @@ function useToggleShareLink({ props }) {
       onClick: () => {
         if (dispatch)
           dispatch({ msg: "show_invite" });
-      }
+      },
+      "aria-pressed": (state == null ? void 0 : state.showChat) == "show_invite" ? "true" : "false"
     }),
     [props, className, dispatch]
   );
@@ -3560,7 +3561,7 @@ function HostEndMeetingMenu(_a) {
 var React96 = __toESM(require("react"));
 var import_components_core49 = require("@livekit/components-core");
 function useToggleUserLink({ props }) {
-  const { dispatch } = useLayoutContext().widget;
+  const { dispatch, state } = useLayoutContext().widget;
   const { className } = React96.useMemo(() => (0, import_components_core49.setupUserToggle)(), []);
   const mergedProps = React96.useMemo(
     () => mergeProps2(props, {
@@ -3568,7 +3569,8 @@ function useToggleUserLink({ props }) {
       onClick: () => {
         if (dispatch)
           dispatch({ msg: "show_users" });
-      }
+      },
+      "aria-pressed": (state == null ? void 0 : state.showChat) == "show_users" ? "true" : "false"
     }),
     [props, className, dispatch]
   );
