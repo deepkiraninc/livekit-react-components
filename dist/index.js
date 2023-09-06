@@ -333,7 +333,7 @@ function chatReducer(state, action) {
     if (action.msg === "show_chat") {
       return __spreadProps(__spreadValues({}, state), { showChat: "show_chat" });
     } else if (action.msg === "toggle_chat") {
-      return __spreadProps(__spreadValues({}, state), { showChat: state.showChat == "show_invite" ? null : "show_chat" });
+      return __spreadProps(__spreadValues({}, state), { showChat: state.showChat == "show_chat" ? null : "show_chat" });
     } else if (action.msg === "show_invite") {
       return __spreadProps(__spreadValues({}, state), { showChat: "show_invite" });
     } else if (action.msg === "show_users") {
@@ -3415,9 +3415,14 @@ function HostEndMeetingMenu(_a) {
   const [updateRequired, setUpdateRequired] = React95.useState(true);
   const room = useRoomContext();
   const button = React95.useRef(null);
+  const leaveButtonRef = React95.useRef(null);
   const tooltip = React95.useRef(null);
+  const { disconnect } = (0, import_components_core48.setupDisconnectButton)(room);
+  const [showDropdown, setShowDropdown] = React95.useState(false);
+  const [value, setValue] = React95.useState("");
   const participants = useParticipants();
   const { localParticipant } = useLocalParticipant();
+  const remoteParticipants = participants.filter((participant) => participant.identity !== localParticipant.identity);
   const meta = localParticipant.metadata ? JSON.parse(localParticipant.metadata) : {};
   React95.useLayoutEffect(() => {
     if (button.current && tooltip.current && updateRequired) {
@@ -3435,10 +3440,16 @@ function HostEndMeetingMenu(_a) {
       if (!tooltip.current) {
         return;
       }
+      console.log(event.target, button.current, leaveButtonRef.current);
+      if (event.target === leaveButtonRef.current) {
+        return;
+      }
       if (event.target === button.current) {
         return;
       }
       if (isOpen && (0, import_components_core48.wasClickOutside)(tooltip.current, event)) {
+        setIsOpen(false);
+        setShowDropdown(false);
       }
     },
     [isOpen, tooltip, button]
@@ -3487,10 +3498,9 @@ function HostEndMeetingMenu(_a) {
         })
       };
       yield fetch(`/api/make-host`, postData).then((res) => __async(this, null, function* () {
-        console.log(res);
         if (res.ok) {
           console.log("Host leave and new host assigned");
-          disconnect(false);
+          disconnect(true);
           setIsOpen(false);
           setShowDropdown(false);
         } else {
@@ -3499,17 +3509,20 @@ function HostEndMeetingMenu(_a) {
       }));
     });
   }
-  const { disconnect } = (0, import_components_core48.setupDisconnectButton)(room);
-  const [showDropdown, setShowDropdown] = React95.useState(false);
-  const [value, setValue] = React95.useState("");
   const handleChange = () => {
+    setIsOpen(false);
     setValue(value);
     makeNewHost(value);
   };
   const handleLeave = () => {
-    console.log("Openning dropdown");
-    setShowDropdown(true);
-    setIsOpen(true);
+    if (remoteParticipants.length) {
+      console.log("Openning dropdown");
+      setShowDropdown(true);
+      setIsOpen(true);
+    } else {
+      console.log("No Participant present to leaving meeting");
+      disconnect(true);
+    }
   };
   const handleCancel = () => {
     setShowDropdown(false);
@@ -3534,8 +3547,11 @@ function HostEndMeetingMenu(_a) {
       ref: tooltip,
       style: { visibility: isOpen ? "visible" : "hidden" }
     },
-    !showDropdown && /* @__PURE__ */ React95.createElement("ul", { className: "lk-media-device-select lk-list" }, endForAll && /* @__PURE__ */ React95.createElement("li", { "data-lk-active": "true", "aria-selected": "true", role: "option" }, /* @__PURE__ */ React95.createElement(DisconnectButton, { onClick: endMeeting }, endForAll)), leave && /* @__PURE__ */ React95.createElement("li", { "data-lk-active": "true", "aria-selected": "true", role: "option" }, /* @__PURE__ */ React95.createElement("button", { className: "lk-disconnect-button", onClick: handleLeave }, "Leave Meeting"))),
-    showDropdown && /* @__PURE__ */ React95.createElement("div", { className: "assign-menu" }, /* @__PURE__ */ React95.createElement("select", { value, onChange: handleChangeValue }, participants.map((participant) => /* @__PURE__ */ React95.createElement("option", { value: participant.identity, key: participant.identity }, participant.name))), /* @__PURE__ */ React95.createElement("div", { className: "button-container" }, /* @__PURE__ */ React95.createElement("button", { className: "lk-button", onClick: handleCancel }, "Cancel"), /* @__PURE__ */ React95.createElement("button", { className: "lk-button", onClick: handleChange }, "Ok"))),
+    /* @__PURE__ */ React95.createElement("ul", { className: "lk-media-device-select lk-list", style: { display: !showDropdown ? "unset" : "none" } }, endForAll && /* @__PURE__ */ React95.createElement("li", null, /* @__PURE__ */ React95.createElement(DisconnectButton, { onClick: endMeeting }, endForAll)), leave && /* @__PURE__ */ React95.createElement("li", null, /* @__PURE__ */ React95.createElement("button", { ref: leaveButtonRef, className: "lk-disconnect-button", onClick: handleLeave }, "Leave Meeting"))),
+    showDropdown && /* @__PURE__ */ React95.createElement("div", { className: "assign-menu" }, /* @__PURE__ */ React95.createElement("select", { value, onChange: handleChangeValue }, remoteParticipants.map((participant) => {
+      var _a2;
+      return /* @__PURE__ */ React95.createElement("option", { value: participant.identity, key: participant.identity }, (_a2 = participant == null ? void 0 : participant.name) == null ? void 0 : _a2.substring(0, 10));
+    })), /* @__PURE__ */ React95.createElement("div", { className: "button-container" }, /* @__PURE__ */ React95.createElement("button", { className: "lk-button", onClick: handleCancel }, "Cancel"), /* @__PURE__ */ React95.createElement("button", { className: "lk-button", onClick: handleChange }, "Ok"))),
     /* @__PURE__ */ React95.createElement("div", { className: "arrow" }, /* @__PURE__ */ React95.createElement("div", { className: "arrow-shape" }))
   ));
 }
