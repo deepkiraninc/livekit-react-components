@@ -2940,7 +2940,6 @@ function HostEndMeetingMenu(_a) {
       if (!tooltip.current) {
         return;
       }
-      console.log(event.target, button.current, leaveButtonRef.current);
       if (event.target === leaveButtonRef.current) {
         return;
       }
