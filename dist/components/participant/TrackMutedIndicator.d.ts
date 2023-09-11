@@ -1,9 +1,13 @@
 import * as React from 'react';
 import type { Participant, Track } from 'livekit-client';
+import type { TrackReferenceOrPlaceholder } from '@livekit/components-core';
 /** @public */
 export interface TrackMutedIndicatorProps extends React.HTMLAttributes<HTMLDivElement> {
-    source: Track.Source;
+    /** @deprecated This parameter will be removed in a future version use `trackRef` instead. */
+    source?: Track.Source;
+    /** @deprecated This parameter will be removed in a future version use `trackRef` instead. */
     participant?: Participant;
+    trackRef?: TrackReferenceOrPlaceholder;
     show?: 'always' | 'muted' | 'unmuted';
 }
 /**
@@ -16,5 +20,5 @@ export interface TrackMutedIndicatorProps extends React.HTMLAttributes<HTMLDivEl
  * ```
  * @public
  */
-export declare function TrackMutedIndicator({ source, participant, show, ...props }: TrackMutedIndicatorProps): React.JSX.Element | null;
+export declare function TrackMutedIndicator({ source, participant, trackRef, show, ...props }: TrackMutedIndicatorProps): React.JSX.Element | null;
 //# sourceMappingURL=TrackMutedIndicator.d.ts.map
