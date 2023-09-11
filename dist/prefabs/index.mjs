@@ -3331,6 +3331,7 @@ function ControlBar(_a) {
   const [isChatOpen, setIsChatOpen] = React86.useState(false);
   const [isShareLinkOpen, setIsShareLinkOpen] = React86.useState(false);
   const [isUserOpen, setIsUserOpen] = React86.useState(false);
+  const { state } = useLayoutContext().widget;
   React86.useEffect(() => {
     var _a3, _b3, _c2, _d2, _e2, _f2;
     if (((_a3 = layoutContext == null ? void 0 : layoutContext.widget.state) == null ? void 0 : _a3.showChat) == "show_chat") {
@@ -3388,7 +3389,7 @@ function ControlBar(_a) {
       title: !isScreenShareEnabled && screenShareTracks !== 0 ? "Someone has shared screen" : isScreenShareEnabled ? "You're sharing your scrren" : "You can share your screen"
     },
     showText && (isScreenShareEnabled ? "Stop screen share" : "Share screen")
-  ), visibleControls.chat && /* @__PURE__ */ React86.createElement(ChatToggle, null, showIcon && /* @__PURE__ */ React86.createElement(ChatIcon_default, null), showText && "Chat"), visibleControls.sharelink && /* @__PURE__ */ React86.createElement(ShareLinkToggle, null, showIcon && /* @__PURE__ */ React86.createElement(InviteIcon_default, null), showText && "Invite"), visibleControls.users && /* @__PURE__ */ React86.createElement(UserToggle, null, showIcon && /* @__PURE__ */ React86.createElement(UsersIcon_default, null), showText && "Participants", waitingRoomCount !== 0 && /* @__PURE__ */ React86.createElement("span", { className: "waiting-count" }, waitingRoomCount)), visibleControls.endForAll ? /* @__PURE__ */ React86.createElement("div", { className: "tl-leave lk-button-group" }, /* @__PURE__ */ React86.createElement("button", { className: "lk-disconnect-button" }, showIcon && /* @__PURE__ */ React86.createElement(LeaveIcon_default, null), showText && "Leave Meeting"), /* @__PURE__ */ React86.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React86.createElement(
+  ), visibleControls.chat && /* @__PURE__ */ React86.createElement(ChatToggle, null, showIcon && /* @__PURE__ */ React86.createElement(ChatIcon_default, null), showText && "Chat", state && state.unreadMessages !== 0 && /* @__PURE__ */ React86.createElement("span", { className: "waiting-count" }, state.unreadMessages < 10 ? state.unreadMessages.toFixed(0) : "9+")), visibleControls.sharelink && /* @__PURE__ */ React86.createElement(ShareLinkToggle, null, showIcon && /* @__PURE__ */ React86.createElement(InviteIcon_default, null), showText && "Invite"), visibleControls.users && /* @__PURE__ */ React86.createElement(UserToggle, null, showIcon && /* @__PURE__ */ React86.createElement(UsersIcon_default, null), showText && "Participants", waitingRoomCount !== 0 && /* @__PURE__ */ React86.createElement("span", { className: "waiting-count" }, waitingRoomCount)), visibleControls.endForAll ? /* @__PURE__ */ React86.createElement("div", { className: "tl-leave lk-button-group" }, /* @__PURE__ */ React86.createElement("button", { className: "lk-disconnect-button" }, showIcon && /* @__PURE__ */ React86.createElement(LeaveIcon_default, null), showText && "Leave Meeting"), /* @__PURE__ */ React86.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React86.createElement(
     HostEndMeetingMenu,
     {
       leave: visibleControls.leave,
@@ -3844,6 +3845,7 @@ function VideoConference(_a) {
     showChat: null,
     unreadMessages: 0
   });
+  console.log(widgetState);
   const lastAutoFocusedScreenShareTrack = React93.useRef(null);
   const { localParticipant } = useLocalParticipant();
   const p = useEnsureParticipant(localParticipant);
