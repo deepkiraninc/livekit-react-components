@@ -3195,7 +3195,8 @@ function HostEndMeetingMenu(_a) {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          room: room.name
+          room: room.name,
+          token: meta.host
         })
       };
       fetch(`/api/end-meeting`, postData).then((res) => __async(this, null, function* () {
