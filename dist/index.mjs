@@ -2935,7 +2935,7 @@ function UserChat(_a) {
       title: time.toLocaleTimeString(locale, { timeStyle: "full" }),
       "data-lk-message-origin": ((_a2 = entry.from) == null ? void 0 : _a2.isLocal) ? "local" : "remote"
     }, props),
-    /* @__PURE__ */ React92.createElement("span", { className: "lk-meta-data" }, !hideName && /* @__PURE__ */ React92.createElement("strong", { className: "lk-participant-name" }, (_d = (_b2 = entry.from) == null ? void 0 : _b2.name) != null ? _d : (_c = entry.from) == null ? void 0 : _c.identity)),
+    /* @__PURE__ */ React92.createElement("span", { className: "lk-meta-data" }, /* @__PURE__ */ React92.createElement("strong", { className: "lk-participant-name" }, (_d = (_b2 = entry.from) == null ? void 0 : _b2.name) != null ? _d : (_c = entry.from) == null ? void 0 : _c.identity)),
     /* @__PURE__ */ React92.createElement("span", { className: "lk-message-body" }, formattedMessage)
   );
 }
