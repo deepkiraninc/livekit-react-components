@@ -3661,10 +3661,7 @@ function HostEndMeetingMenu(_a) {
       style: { visibility: isOpen ? "visible" : "hidden" }
     },
     /* @__PURE__ */ React97.createElement("ul", { className: "lk-media-device-select lk-list", style: { display: !showDropdown ? "unset" : "none" } }, endForAll && /* @__PURE__ */ React97.createElement("li", null, /* @__PURE__ */ React97.createElement(DisconnectButton, { onClick: endMeeting }, endForAll)), leave && /* @__PURE__ */ React97.createElement("li", null, /* @__PURE__ */ React97.createElement("button", { ref: leaveButtonRef, className: "lk-disconnect-button", onClick: handleLeave }, "Leave Meeting"))),
-    showDropdown && /* @__PURE__ */ React97.createElement("div", { className: "assign-menu" }, /* @__PURE__ */ React97.createElement("select", { value, onChange: handleChangeValue }, remoteParticipants.map((participant) => {
-      var _a2;
-      return /* @__PURE__ */ React97.createElement("option", { value: participant.identity, key: participant.identity }, (_a2 = participant == null ? void 0 : participant.name) == null ? void 0 : _a2.substring(0, 10));
-    })), /* @__PURE__ */ React97.createElement("div", { className: "button-container" }, /* @__PURE__ */ React97.createElement("button", { className: "lk-button", onClick: handleCancel }, "Cancel"), /* @__PURE__ */ React97.createElement("button", { className: "lk-button", onClick: handleChange }, "Ok"))),
+    showDropdown && /* @__PURE__ */ React97.createElement("div", { className: "assign-menu" }, /* @__PURE__ */ React97.createElement("select", { value, onChange: handleChangeValue }, remoteParticipants.map((participant) => /* @__PURE__ */ React97.createElement("option", { value: participant.identity, key: participant.identity }, participant == null ? void 0 : participant.name))), /* @__PURE__ */ React97.createElement("div", { className: "button-container" }, /* @__PURE__ */ React97.createElement("button", { className: "lk-button", onClick: handleCancel }, "Cancel"), /* @__PURE__ */ React97.createElement("button", { className: "lk-button", onClick: handleChange }, "Ok"))),
     /* @__PURE__ */ React97.createElement("div", { className: "arrow" }, /* @__PURE__ */ React97.createElement("div", { className: "arrow-shape" }))
   ));
 }
@@ -3739,7 +3736,6 @@ function ControlBar(_a) {
   const [isChatOpen, setIsChatOpen] = React101.useState(false);
   const [isShareLinkOpen, setIsShareLinkOpen] = React101.useState(false);
   const [isUserOpen, setIsUserOpen] = React101.useState(false);
-  const { state } = useLayoutContext().widget;
   React101.useEffect(() => {
     var _a3, _b3, _c2, _d2, _e2, _f2;
     if (((_a3 = layoutContext == null ? void 0 : layoutContext.widget.state) == null ? void 0 : _a3.showChat) == "show_chat") {
@@ -3797,7 +3793,7 @@ function ControlBar(_a) {
       title: !isScreenShareEnabled && screenShareTracks !== 0 ? "Someone has shared screen" : isScreenShareEnabled ? "You're sharing your scrren" : "You can share your screen"
     },
     showText && (isScreenShareEnabled ? "Stop screen share" : "Share screen")
-  ), visibleControls.chat && /* @__PURE__ */ React101.createElement(ChatToggle, null, showIcon && /* @__PURE__ */ React101.createElement(ChatIcon_default, null), showText && "Chat", state && state.unreadMessages !== 0 && /* @__PURE__ */ React101.createElement("span", { className: "waiting-count" }, state.unreadMessages < 10 ? state.unreadMessages.toFixed(0) : "9+")), visibleControls.sharelink && /* @__PURE__ */ React101.createElement(ShareLinkToggle, null, showIcon && /* @__PURE__ */ React101.createElement(InviteIcon_default, null), showText && "Invite"), visibleControls.users && /* @__PURE__ */ React101.createElement(UserToggle, null, showIcon && /* @__PURE__ */ React101.createElement(UsersIcon_default, null), showText && "Participants", waitingRoomCount !== 0 && /* @__PURE__ */ React101.createElement("span", { className: "waiting-count" }, waitingRoomCount)), visibleControls.endForAll ? /* @__PURE__ */ React101.createElement("div", { className: "tl-leave lk-button-group" }, /* @__PURE__ */ React101.createElement("button", { className: "lk-disconnect-button" }, showIcon && /* @__PURE__ */ React101.createElement(LeaveIcon_default, null), showText && "Leave"), /* @__PURE__ */ React101.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React101.createElement(
+  ), visibleControls.chat && /* @__PURE__ */ React101.createElement(ChatToggle, null, showIcon && /* @__PURE__ */ React101.createElement(ChatIcon_default, null), showText && "Chat"), visibleControls.sharelink && /* @__PURE__ */ React101.createElement(ShareLinkToggle, null, showIcon && /* @__PURE__ */ React101.createElement(InviteIcon_default, null), showText && "Invite"), visibleControls.users && /* @__PURE__ */ React101.createElement(UserToggle, null, showIcon && /* @__PURE__ */ React101.createElement(UsersIcon_default, null), showText && "Participants", waitingRoomCount !== 0 && /* @__PURE__ */ React101.createElement("span", { className: "waiting-count" }, waitingRoomCount)), visibleControls.endForAll ? /* @__PURE__ */ React101.createElement("div", { className: "tl-leave lk-button-group" }, /* @__PURE__ */ React101.createElement("button", { className: "lk-disconnect-button" }, showIcon && /* @__PURE__ */ React101.createElement(LeaveIcon_default, null), showText && "Leave"), /* @__PURE__ */ React101.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React101.createElement(
     HostEndMeetingMenu,
     {
       leave: visibleControls.leave,
