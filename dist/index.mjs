@@ -3657,11 +3657,30 @@ function HostEndMeetingMenu(_a) {
       }));
     });
   }
+  const [hostError, setHostError] = React100.useState(false);
   const handleChange = () => {
-    setIsOpen(false);
-    setValue(value);
-    makeNewHost(value);
+    if (value !== "") {
+      setIsOpen(false);
+      setValue(value);
+      makeNewHost(value);
+    } else {
+      console.log("Must have to select participant");
+      setHostError(true);
+    }
   };
+  React100.useEffect(() => {
+    let timer;
+    if (hostError) {
+      timer = setTimeout(() => {
+        setHostError(false);
+      }, 5e3);
+    }
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [hostError]);
   const handleLeave = () => {
     if (remoteParticipants.length) {
       console.log("Openning dropdown");
@@ -3696,7 +3715,7 @@ function HostEndMeetingMenu(_a) {
       style: { visibility: isOpen ? "visible" : "hidden" }
     },
     /* @__PURE__ */ React100.createElement("ul", { className: "lk-media-device-select lk-list", style: { display: !showDropdown ? "unset" : "none" } }, endForAll && /* @__PURE__ */ React100.createElement("li", null, /* @__PURE__ */ React100.createElement(DisconnectButton, { onClick: endMeeting }, endForAll)), leave && /* @__PURE__ */ React100.createElement("li", null, /* @__PURE__ */ React100.createElement("button", { ref: leaveButtonRef, className: "lk-disconnect-button", onClick: handleLeave }, "Leave Meeting"))),
-    showDropdown && /* @__PURE__ */ React100.createElement("div", { className: "assign-menu" }, /* @__PURE__ */ React100.createElement("select", { value, onChange: handleChangeValue }, remoteParticipants.map((participant) => /* @__PURE__ */ React100.createElement("option", { value: participant.identity, key: participant.identity }, participant == null ? void 0 : participant.name))), /* @__PURE__ */ React100.createElement("div", { className: "button-container" }, /* @__PURE__ */ React100.createElement("button", { className: "lk-button", onClick: handleCancel }, "Cancel"), /* @__PURE__ */ React100.createElement("button", { className: "lk-button", onClick: handleChange }, "Ok"))),
+    showDropdown && /* @__PURE__ */ React100.createElement("div", { className: "assign-menu" }, hostError && /* @__PURE__ */ React100.createElement("span", { className: "text-invalid" }, "Must have to select participant"), /* @__PURE__ */ React100.createElement("select", { value, onChange: handleChangeValue }, /* @__PURE__ */ React100.createElement("option", { value: "" }, "Select meeting host"), remoteParticipants.map((participant) => /* @__PURE__ */ React100.createElement("option", { value: participant.identity, key: participant.identity }, participant == null ? void 0 : participant.name))), /* @__PURE__ */ React100.createElement("div", { className: "button-container" }, /* @__PURE__ */ React100.createElement("button", { className: "lk-button tl-cancel", onClick: handleCancel }, "Cancel"), /* @__PURE__ */ React100.createElement("button", { className: "lk-button tl-ok", onClick: handleChange }, "Ok"))),
     /* @__PURE__ */ React100.createElement("div", { className: "arrow" }, /* @__PURE__ */ React100.createElement("div", { className: "arrow-shape" }))
   ));
 }
@@ -3990,6 +4009,29 @@ function Users(_a) {
   const [waitingRoom, setWaitingRoom] = React109.useState([]);
   const [toggleWaiting, setToggleWaiting] = React109.useState(true);
   const room = useRoomContext();
+  function getWaitingRoomState() {
+    return __async(this, null, function* () {
+      const postData = {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          meeting_id: room.name
+        })
+      };
+      fetch(`/api/get-waitingroom-state`, postData).then((res) => __async(this, null, function* () {
+        if (res.ok) {
+          const body = yield res.json();
+          console.log(body);
+          setToggleWaiting(body.waiting_room);
+        } else {
+          throw Error("Error fetching server url, check server logs");
+        }
+      }));
+    });
+  }
   function usersList() {
     return __async(this, null, function* () {
       const postData = {
@@ -4022,6 +4064,9 @@ function Users(_a) {
       usersList();
     }, 2e3);
     return () => clearInterval(interval);
+  }, []);
+  React109.useEffect(() => {
+    getWaitingRoomState();
   }, []);
   React109.useEffect(() => {
     onWaitingRoomChange(waitingRoom.length);
