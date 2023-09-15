@@ -1,22 +1,18 @@
 import * as React from 'react';
 import type { Participant, Track } from 'livekit-client';
+import type { TrackReferenceOrPlaceholder } from '@livekit/components-core';
 /** @public */
 export interface TrackMutedIndicatorProps extends React.HTMLAttributes<HTMLDivElement> {
-    source: Track.Source;
+    /** @deprecated This parameter will be removed in a future version use `trackRef` instead. */
+    source?: Track.Source;
+    /** @deprecated This parameter will be removed in a future version use `trackRef` instead. */
     participant?: Participant;
+    trackRef?: TrackReferenceOrPlaceholder;
     show?: 'always' | 'muted' | 'unmuted';
 }
-/** @public */
-export interface UseTrackMutedIndicatorOptions {
-    participant?: Participant;
-}
-/** @public */
-export declare const useTrackMutedIndicator: (source: Track.Source, options?: UseTrackMutedIndicatorOptions) => {
-    isMuted: boolean;
-    className: string;
-};
 /**
- * The TrackMutedIndicator shows whether the participant's camera or microphone is muted or not.
+ * The `TrackMutedIndicator` shows whether the participant's camera or microphone is muted or not.
+ * By default, a muted/unmuted icon is displayed for a camera, microphone, and screen sharing track.
  *
  * @example
  * ```tsx
@@ -25,5 +21,5 @@ export declare const useTrackMutedIndicator: (source: Track.Source, options?: Us
  * ```
  * @public
  */
-export declare const TrackMutedIndicator: ({ source, participant, show, ...props }: TrackMutedIndicatorProps) => React.JSX.Element | null;
+export declare function TrackMutedIndicator({ source, participant, trackRef, show, ...props }: TrackMutedIndicatorProps): React.JSX.Element | null;
 //# sourceMappingURL=TrackMutedIndicator.d.ts.map

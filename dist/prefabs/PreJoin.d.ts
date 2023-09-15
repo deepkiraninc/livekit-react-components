@@ -1,4 +1,4 @@
-import type { LocalAudioTrack, LocalVideoTrack } from 'livekit-client';
+import type { CreateLocalTracksOptions, LocalAudioTrack, LocalTrack, LocalVideoTrack } from 'livekit-client';
 import * as React from 'react';
 /** @public */
 export type LocalUserChoices = {
@@ -7,9 +7,11 @@ export type LocalUserChoices = {
     audioEnabled: boolean;
     videoDeviceId: string;
     audioDeviceId: string;
+    e2ee: boolean;
+    sharedPassphrase: string;
 };
 /** @public */
-export type PreJoinProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'onSubmit'> & {
+export interface PreJoinProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onSubmit' | 'onError'> {
     /** This function is called with the `LocalUserChoices` if validation is passed. */
     onSubmit?: (values: LocalUserChoices) => void;
     /**
@@ -25,7 +27,10 @@ export type PreJoinProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'onSubmit'
     micLabel?: string;
     camLabel?: string;
     userLabel?: string;
-};
+    showE2EEOptions?: boolean;
+}
+/** @alpha */
+export declare function usePreviewTracks(options: CreateLocalTracksOptions, onError?: (err: Error) => void): LocalTrack[] | undefined;
 /** @public */
 export declare function usePreviewDevice<T extends LocalVideoTrack | LocalAudioTrack>(enabled: boolean, deviceId: string, kind: 'videoinput' | 'audioinput'): {
     selectedDevice: MediaDeviceInfo | undefined;
@@ -33,12 +38,12 @@ export declare function usePreviewDevice<T extends LocalVideoTrack | LocalAudioT
     deviceError: Error | null;
 };
 /**
- * The PreJoin prefab component is normally presented to the user before he enters a room.
+ * The `PreJoin` prefab component is normally presented to the user before he enters a room.
  * This component allows the user to check and select the preferred media device (camera und microphone).
- * On submit the user decisions are returned, which can then be passed on to the LiveKitRoom so that the user enters the room with the correct media devices.
+ * On submit the user decisions are returned, which can then be passed on to the `LiveKitRoom` so that the user enters the room with the correct media devices.
  *
  * @remarks
- * This component is independent from the LiveKitRoom component and don't has to be nested inside it.
+ * This component is independent from the `LiveKitRoom` component and don't has to be nested inside it.
  * Because it only access the local media tracks this component is self contained and works without connection to the LiveKit server.
  *
  * @example
@@ -47,5 +52,5 @@ export declare function usePreviewDevice<T extends LocalVideoTrack | LocalAudioT
  * ```
  * @public
  */
-export declare const PreJoin: ({ defaults, onValidate, onSubmit, onError, debug, joinLabel, micLabel, camLabel, userLabel, ...htmlProps }: PreJoinProps) => React.JSX.Element;
+export declare function PreJoin({ defaults, onValidate, onSubmit, onError, debug, joinLabel, micLabel, camLabel, userLabel, showE2EEOptions, ...htmlProps }: PreJoinProps): React.JSX.Element;
 //# sourceMappingURL=PreJoin.d.ts.map

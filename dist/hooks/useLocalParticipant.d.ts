@@ -7,15 +7,23 @@ export interface UseLocalParticipantOptions {
     room?: Room;
 }
 /**
- * The useLocalParticipant hook the state of the local participant.
+ * The `useLocalParticipant` hook returns the local participant and the associated state
+ * around the participant.
+ *
+ * @example
+ * ```tsx
+ * const { localParticipant } = useLocalParticipant();
+ * ```
  * @public
  */
-export declare const useLocalParticipant: (options?: UseLocalParticipantOptions) => {
+export declare function useLocalParticipant(options?: UseLocalParticipantOptions): {
     isMicrophoneEnabled: boolean;
     isScreenShareEnabled: boolean;
     isCameraEnabled: boolean;
     microphoneTrack: TrackPublication | undefined;
     cameraTrack: TrackPublication | undefined;
+    lastMicrophoneError: Error | undefined;
+    lastCameraError: Error | undefined;
     localParticipant: LocalParticipant;
 };
 //# sourceMappingURL=useLocalParticipant.d.ts.map

@@ -8,17 +8,8 @@ export interface ConnectionStatusProps extends React.HTMLAttributes<HTMLDivEleme
     room?: Room;
 }
 /**
- * The `useConnectionState` hook allows you to simply implement your own `ConnectionState` component.
- *
- * @example
- * ```tsx
- * const connectionState = useConnectionState(room);
- * ```
- * @public
- */
-export declare function useConnectionState(room?: Room): import("livekit-client").ConnectionState;
-/**
- * The ConnectionState component displays the connection status of the room in written form.
+ * The `ConnectionState` component displays the connection status of the room as strings
+ * (`"connected" | "connecting" | "disconnected" | "reconnecting"`).
  *
  * @example
  * ```tsx
