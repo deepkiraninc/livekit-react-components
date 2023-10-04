@@ -3383,6 +3383,25 @@ function ControlBar(_a) {
     setIsScreenShareEnabled(enabled);
   };
   const htmlProps = mergeProps2({ className: "lk-control-bar" }, props);
+  console.log(`Share scree tracks ${screenShareTracks}`);
+  React88.useEffect(() => {
+    const buttons = document.querySelectorAll("[data-lk-source]");
+    if (!isScreenShareEnabled && screenShareTracks !== 0) {
+      buttons.forEach((button) => {
+        const source = button.getAttribute("data-lk-source");
+        if (source === "screen_share") {
+          button.disabled = true;
+        }
+      });
+    } else {
+      buttons.forEach((button) => {
+        const source = button.getAttribute("data-lk-source");
+        if (source === "screen_share") {
+          button.disabled = false;
+        }
+      });
+    }
+  }, [screenShareTracks, isScreenShareEnabled]);
   return /* @__PURE__ */ React88.createElement("div", __spreadValues({}, htmlProps), visibleControls.microphone && /* @__PURE__ */ React88.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React88.createElement(TrackToggle, { source: Track9.Source.Microphone, showIcon }, showText && "Microphone"), /* @__PURE__ */ React88.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React88.createElement(MediaDeviceMenu, { kind: "audioinput" }))), visibleControls.camera && /* @__PURE__ */ React88.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React88.createElement(TrackToggle, { source: Track9.Source.Camera, showIcon }, showText && "Camera"), /* @__PURE__ */ React88.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React88.createElement(MediaDeviceMenu, { kind: "videoinput" }))), visibleControls.screenShare && browserSupportsScreenSharing && /* @__PURE__ */ React88.createElement(
     TrackToggle,
     {
