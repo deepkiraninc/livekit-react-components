@@ -3170,6 +3170,8 @@ function HostEndMeetingMenu(_a) {
       };
       fetch(`/api/end-meeting`, postData).then((res) => __async(this, null, function* () {
         if (res.ok) {
+          localStorage.removeItem("host");
+          localStorage.removeItem("limited");
           console.log("Meeting ended");
         } else {
           throw Error("Error fetching server url, check server logs");
@@ -3960,9 +3962,11 @@ function VideoConference(_a) {
   const focusTrack = (_a2 = usePinnedTracks(layoutContext)) == null ? void 0 : _a2[0];
   const carouselTracks = tracks.filter((track) => !isEqualTrackRef(track, focusTrack));
   React95.useEffect(() => {
-    console.log("Initial meta update", /* @__PURE__ */ new Date());
-    console.log(meta);
     if (meta && meta.host) {
+      localStorage.setItem("host", meta.host);
+      if (meta.limited) {
+        localStorage.setItem("limited", meta.limited);
+      }
       setShowShareButton(true);
       setShowParticipantButton(true);
       setLeaveButton("Leave Meeting");
@@ -3970,9 +3974,12 @@ function VideoConference(_a) {
     }
   }, [meta]);
   React95.useEffect(() => {
-    console.log("P data update", /* @__PURE__ */ new Date());
     const pmeta = p.metadata ? JSON.parse(p.metadata) : {};
     if (pmeta && pmeta.host) {
+      localStorage.setItem("host", meta.host);
+      if (meta.limited) {
+        localStorage.setItem("limited", meta.limited);
+      }
       setShowShareButton(true);
       setShowParticipantButton(true);
       setLeaveButton("Leave Meeting");
