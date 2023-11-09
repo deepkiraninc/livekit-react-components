@@ -14,8 +14,15 @@ export interface AudioTrackProps<T extends HTMLMediaElement = HTMLMediaElement> 
     /** @deprecated This property will be removed in a future version use `trackRef` instead. */
     publication?: TrackPublication;
     onSubscriptionStatusChanged?: (subscribed: boolean) => void;
-    /** by the default the range is between 0 and 1 */
+    /** Sets the volume of the audio track. By default, the range is between `0.0` and `1.0`. */
     volume?: number;
+    /**
+     * Mutes the audio track if set to `true`.
+     * @remarks
+     * If set to `true`, the server will stop sending audio track data to the client.
+     * @alpha
+     */
+    muted?: boolean;
 }
 /**
  * The AudioTrack component is responsible for rendering participant audio tracks.

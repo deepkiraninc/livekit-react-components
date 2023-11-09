@@ -1285,7 +1285,9 @@ function useStartAudio({ room, props }) {
     () => roomAudioPlaybackAllowedObservable2(roomEnsured),
     [roomEnsured, roomAudioPlaybackAllowedObservable2]
   );
-  const { canPlayAudio } = useObservableState(observable, { canPlayAudio: false });
+  const { canPlayAudio } = useObservableState(observable, {
+    canPlayAudio: roomEnsured.canPlaybackAudio
+  });
   const mergedProps = React37.useMemo(
     () => mergeProps(props, {
       className,
@@ -2446,7 +2448,7 @@ function VideoTrack(_a) {
 // src/components/participant/AudioTrack.tsx
 import * as React77 from "react";
 import { log as log8 } from "@livekit/components-core";
-import { RemoteAudioTrack } from "livekit-client";
+import { RemoteAudioTrack, RemoteTrackPublication as RemoteTrackPublication2 } from "livekit-client";
 function AudioTrack(_a) {
   var _b = _a, {
     trackRef,
@@ -2476,7 +2478,12 @@ function AudioTrack(_a) {
   }
   const mediaEl = React77.useRef(null);
   const participant = useEnsureParticipant(_participant);
-  const { elementProps, isSubscribed, track } = useMediaTrackBySourceOrName(
+  const {
+    elementProps,
+    isSubscribed,
+    track,
+    publication: pub
+  } = useMediaTrackBySourceOrName(
     { source: _source, name: _name, participant, publication: _publication },
     {
       element: mediaEl,
@@ -2493,9 +2500,19 @@ function AudioTrack(_a) {
     if (track instanceof RemoteAudioTrack) {
       track.setVolume(volume);
     } else {
-      log8.warn("volume can only be set on remote audio tracks");
+      log8.warn("Volume can only be set on remote audio tracks.");
     }
   }, [volume, track]);
+  React77.useEffect(() => {
+    if (pub === void 0 || props.muted === void 0) {
+      return;
+    }
+    if (pub instanceof RemoteTrackPublication2) {
+      pub.setEnabled(!props.muted);
+    } else {
+      log8.warn("Can only call setEnabled on remote track publications.");
+    }
+  }, [props.muted, pub, track]);
   return /* @__PURE__ */ React77.createElement("audio", __spreadValues({ ref: mediaEl }, elementProps));
 }
 
@@ -2858,15 +2875,28 @@ function ParticipantLoop(_a) {
 import { getTrackReferenceId as getTrackReferenceId4, isLocal as isLocal2 } from "@livekit/components-core";
 import { Track as Track6 } from "livekit-client";
 import * as React90 from "react";
-function RoomAudioRenderer() {
-  const tracks = useTracks([Track6.Source.Microphone, Track6.Source.ScreenShareAudio], {
-    updateOnlyOn: [],
-    onlySubscribed: false
-  }).filter((ref) => !isLocal2(ref.participant));
+function RoomAudioRenderer({ volume, muted }) {
+  const tracks = useTracks(
+    [Track6.Source.Microphone, Track6.Source.ScreenShareAudio, Track6.Source.Unknown],
+    {
+      updateOnlyOn: [],
+      onlySubscribed: false
+    }
+  ).filter((ref) => !isLocal2(ref.participant) && ref.publication.kind === Track6.Kind.Audio);
   React90.useEffect(() => {
-    tracks.forEach((track) => track.publication.setSubscribed(true));
+    for (const track of tracks) {
+      track.publication.setSubscribed(true);
+    }
   }, [tracks]);
-  return /* @__PURE__ */ React90.createElement("div", { style: { display: "none" } }, tracks.map((trackRef) => /* @__PURE__ */ React90.createElement(AudioTrack, { key: getTrackReferenceId4(trackRef), trackRef })));
+  return /* @__PURE__ */ React90.createElement("div", { style: { display: "none" } }, tracks.map((trackRef) => /* @__PURE__ */ React90.createElement(
+    AudioTrack,
+    {
+      key: getTrackReferenceId4(trackRef),
+      trackRef,
+      volume,
+      muted
+    }
+  )));
 }
 
 // src/components/RoomName.tsx

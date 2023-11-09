@@ -7,14 +7,14 @@ import * as React from 'react';
 export declare const TrackRefContext: React.Context<TrackReferenceOrPlaceholder | undefined>;
 /**
  * @public
- * @deprecated `TrackContext` has been to `TrackRefContext`, use this as a drop in replacement.
+ * @deprecated `TrackContext` has been renamed to `TrackRefContext`, use this as a drop in replacement.
  */
 export declare const TrackContext: React.Context<TrackReferenceOrPlaceholder | undefined>;
 /**
  * Ensures that a track reference is provided via context.
  * If not inside a `TrackRefContext`, an error is thrown.
  * @public
- * @deprecated `useTrackContext` has been to `useTrackRefContext`, use this as a drop in replacement.
+ * @deprecated `useTrackContext` has been renamed to `useTrackRefContext`, use this as a drop in replacement.
  */
 export declare function useTrackContext(): TrackReferenceOrPlaceholder;
 /**
@@ -26,7 +26,7 @@ export declare function useTrackRefContext(): TrackReferenceOrPlaceholder;
 /**
  * Returns a track reference from the `TrackContext` if it exists, otherwise `undefined`.
  * @public
- * @deprecated `useMaybeTrackContext` has been to `useMaybeTrackRefContext`, use this as a drop in replacement.
+ * @deprecated `useMaybeTrackContext` has been renamed to `useMaybeTrackRefContext`, use this as a drop in replacement.
  */
 export declare function useMaybeTrackContext(): TrackReferenceOrPlaceholder | undefined;
 /**
@@ -38,7 +38,7 @@ export declare function useMaybeTrackRefContext(): TrackReferenceOrPlaceholder |
  * Ensures that a track reference is provided, either via context or explicitly as a parameter.
  * If not inside a `TrackContext` and no track reference is provided, an error is thrown.
  * @public
- * @deprecated `useEnsureTrackReference` has been to `useEnsureTrackRef`, use this as a drop in replacement.
+ * @deprecated `useEnsureTrackReference` has been renamed to `useEnsureTrackRef`, use this as a drop in replacement.
  */
 export declare function useEnsureTrackReference(track?: TrackReferenceOrPlaceholder): TrackReferenceOrPlaceholder;
 /**
