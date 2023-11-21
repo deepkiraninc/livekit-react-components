@@ -203,7 +203,7 @@ import * as React4 from "react";
 function chatReducer(state, action) {
   if (action.msg && action.msg !== state.showChat) {
     if (action.msg === "show_chat") {
-      return __spreadProps(__spreadValues({}, state), { showChat: "show_chat" });
+      return __spreadProps(__spreadValues({}, state), { showChat: "show_chat", unreadMessages: 0 });
     } else if (action.msg === "toggle_chat") {
       const newState = __spreadProps(__spreadValues({}, state), { showChat: state.showChat == "show_chat" ? null : "show_chat" });
       if (newState.showChat === "show_chat") {
@@ -3041,7 +3041,7 @@ function UserChat(_a) {
     "hideTimestamp",
     "messageFormatter"
   ]);
-  var _a2, _b2, _c, _d;
+  var _a2, _b2, _c, _d, _e;
   const formattedMessage = React96.useMemo(() => {
     return messageFormatter ? messageFormatter(entry.message) : entry.message;
   }, [entry.message, messageFormatter]);
@@ -3054,7 +3054,7 @@ function UserChat(_a) {
       title: time.toLocaleTimeString(locale, { timeStyle: "full" }),
       "data-lk-message-origin": ((_a2 = entry.from) == null ? void 0 : _a2.isLocal) ? "local" : "remote"
     }, props),
-    /* @__PURE__ */ React96.createElement("span", { className: "lk-meta-data" }, /* @__PURE__ */ React96.createElement("strong", { className: "lk-participant-name" }, (_d = (_b2 = entry.from) == null ? void 0 : _b2.name) != null ? _d : (_c = entry.from) == null ? void 0 : _c.identity)),
+    !((_b2 = entry.from) == null ? void 0 : _b2.isLocal) ? /* @__PURE__ */ React96.createElement("span", { className: "lk-meta-data" }, /* @__PURE__ */ React96.createElement("strong", { className: "lk-participant-name" }, (_e = (_c = entry.from) == null ? void 0 : _c.name) != null ? _e : (_d = entry.from) == null ? void 0 : _d.identity)) : /* @__PURE__ */ React96.createElement(React96.Fragment, null),
     /* @__PURE__ */ React96.createElement("span", { className: "lk-message-body" }, formattedMessage)
   );
 }
@@ -3128,7 +3128,6 @@ function Chat(_a) {
     "input",
     {
       className: "lk-form-control lk-chat-form-input",
-      disabled: isSending,
       ref: inputRef,
       type: "text",
       placeholder: "Enter a message..."
