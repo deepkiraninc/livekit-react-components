@@ -3220,7 +3220,9 @@ function Chat(_a) {
     const unreadMessageCount = chatMessages.filter(
       (msg) => !lastReadMsgAt.current || msg.timestamp > lastReadMsgAt.current
     ).length;
-    console.log("Unread message counts" + unreadMessageCount);
+    console.log(chatMessages);
+    console.log("Last read message" + lastReadMsgAt);
+    console.log("Unread message counts " + unreadMessageCount);
     const { widget } = layoutContext;
     if (unreadMessageCount > 0 && ((_d = widget.state) == null ? void 0 : _d.unreadMessages) !== unreadMessageCount) {
       (_e = widget.dispatch) == null ? void 0 : _e.call(widget, { msg: "unread_msg", count: unreadMessageCount });
