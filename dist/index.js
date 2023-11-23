@@ -3209,23 +3209,22 @@ function Chat(_a) {
     }
   }, [ulRef, chatMessages]);
   React97.useEffect(() => {
-    var _a2, _b2, _c, _d, _e;
+    var _a2, _b2, _c;
     if (!layoutContext || chatMessages.length === 0) {
       return;
     }
-    if (((_a2 = layoutContext.widget.state) == null ? void 0 : _a2.showChat) && chatMessages.length > 0 && lastReadMsgAt.current !== ((_b2 = chatMessages[chatMessages.length - 1]) == null ? void 0 : _b2.timestamp)) {
-      lastReadMsgAt.current = (_c = chatMessages[chatMessages.length - 1]) == null ? void 0 : _c.timestamp;
+    if (((_a2 = layoutContext.widget.state) == null ? void 0 : _a2.showChat) && chatMessages.length > 0 && // lastReadMsgAt.current !== chatMessages[chatMessages.length - 1]?.timestamp
+    lastReadMsgAt.current < chatMessages.length) {
+      lastReadMsgAt.current = chatMessages.length;
       return;
     }
-    const unreadMessageCount = chatMessages.filter(
-      (msg) => !lastReadMsgAt.current || msg.timestamp > lastReadMsgAt.current
-    ).length;
+    const unreadMessageCount = chatMessages.length - lastReadMsgAt.current;
     console.log(chatMessages);
     console.log("Last read message" + lastReadMsgAt.current);
     console.log("Unread message counts " + unreadMessageCount);
     const { widget } = layoutContext;
-    if (unreadMessageCount > 0 && ((_d = widget.state) == null ? void 0 : _d.unreadMessages) !== unreadMessageCount) {
-      (_e = widget.dispatch) == null ? void 0 : _e.call(widget, { msg: "unread_msg", count: unreadMessageCount });
+    if (unreadMessageCount > 0 && ((_b2 = widget.state) == null ? void 0 : _b2.unreadMessages) !== unreadMessageCount) {
+      (_c = widget.dispatch) == null ? void 0 : _c.call(widget, { msg: "unread_msg", count: unreadMessageCount });
     }
   }, [chatMessages, layoutContext == null ? void 0 : layoutContext.widget]);
   return /* @__PURE__ */ React97.createElement("div", __spreadProps(__spreadValues({}, props), { className: "lk-chat" }), /* @__PURE__ */ React97.createElement("ul", { className: "tl-list lk-chat-messages", ref: ulRef }, props.children ? chatMessages.map(
