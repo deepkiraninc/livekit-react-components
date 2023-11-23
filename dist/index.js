@@ -3209,22 +3209,22 @@ function Chat(_a) {
     }
   }, [ulRef, chatMessages]);
   React97.useEffect(() => {
-    var _a2, _b2, _c;
+    var _a2, _b2, _c, _d;
     if (!layoutContext || chatMessages.length === 0) {
       return;
     }
-    if (((_a2 = layoutContext.widget.state) == null ? void 0 : _a2.showChat) && chatMessages.length > 0 && // lastReadMsgAt.current !== chatMessages[chatMessages.length - 1]?.timestamp
+    if (((_a2 = layoutContext.widget.state) == null ? void 0 : _a2.showChat) == "show_chat" && chatMessages.length > 0 && // lastReadMsgAt.current !== chatMessages[chatMessages.length - 1]?.timestamp
     lastReadMsgAt.current < chatMessages.length) {
       lastReadMsgAt.current = chatMessages.length;
       return;
     }
     const unreadMessageCount = chatMessages.length - lastReadMsgAt.current;
-    console.log(chatMessages);
+    console.log((_b2 = layoutContext.widget.state) == null ? void 0 : _b2.showChat);
     console.log("Last read message" + lastReadMsgAt.current);
     console.log("Unread message counts " + unreadMessageCount);
     const { widget } = layoutContext;
-    if (unreadMessageCount > 0 && ((_b2 = widget.state) == null ? void 0 : _b2.unreadMessages) !== unreadMessageCount) {
-      (_c = widget.dispatch) == null ? void 0 : _c.call(widget, { msg: "unread_msg", count: unreadMessageCount });
+    if (unreadMessageCount > 0 && ((_c = widget.state) == null ? void 0 : _c.unreadMessages) !== unreadMessageCount) {
+      (_d = widget.dispatch) == null ? void 0 : _d.call(widget, { msg: "unread_msg", count: unreadMessageCount });
     }
   }, [chatMessages, layoutContext == null ? void 0 : layoutContext.widget]);
   return /* @__PURE__ */ React97.createElement("div", __spreadProps(__spreadValues({}, props), { className: "lk-chat" }), /* @__PURE__ */ React97.createElement("ul", { className: "tl-list lk-chat-messages", ref: ulRef }, props.children ? chatMessages.map(
@@ -4633,7 +4633,7 @@ function VideoConference(_a) {
       Chat,
       {
         style: { display: widgetState.showChat == "show_chat" ? "flex" : "none" },
-        messageFormatter: chatMessageFormatter,
+        messageFormatter: formatChatMessageLinks,
         messageEncoder: chatMessageEncoder,
         messageDecoder: chatMessageDecoder
       }
