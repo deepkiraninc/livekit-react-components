@@ -3134,7 +3134,7 @@ function Chat(_a) {
       type: "text",
       placeholder: "Enter a message..."
     }
-  ), /* @__PURE__ */ React97.createElement("button", { type: "submit", className: "lk-button lk-chat-form-button", disabled: isSending }, "Send")));
+  ), /* @__PURE__ */ React97.createElement("button", { type: "submit", className: "lk-button lk-chat-form-button tl-submit", disabled: isSending }, "Send")));
 }
 
 // src/prefabs/PreJoin.tsx
