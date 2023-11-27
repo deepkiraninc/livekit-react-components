@@ -1147,7 +1147,9 @@ function useStartAudio({ room, props }) {
     () => roomAudioPlaybackAllowedObservable2(roomEnsured),
     [roomEnsured, roomAudioPlaybackAllowedObservable2]
   );
-  const { canPlayAudio } = useObservableState(observable, { canPlayAudio: false });
+  const { canPlayAudio } = useObservableState(observable, {
+    canPlayAudio: roomEnsured.canPlaybackAudio
+  });
   const mergedProps = React35.useMemo(
     () => mergeProps(props, {
       className,
