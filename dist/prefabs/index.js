@@ -374,6 +374,7 @@ var SendMessage_default = SvgSendMessage;
 function Chat(_a) {
   var _b = _a, { messageFormatter, messageDecoder, messageEncoder } = _b, props = __objRest(_b, ["messageFormatter", "messageDecoder", "messageEncoder"]);
   const inputRef = React11.useRef(null);
+  const chatForm = React11.useRef(null);
   const ulRef = React11.useRef(null);
   const chatOptions = React11.useMemo(() => {
     return { messageDecoder, messageEncoder };
@@ -390,6 +391,14 @@ function Chat(_a) {
           inputRef.current.value = "";
           inputRef.current.focus();
         }
+      }
+    });
+  }
+  function onEnterPress(e) {
+    return __async(this, null, function* () {
+      if (e.code == "Enter" && e.shiftKey == false) {
+        e.preventDefault();
+        yield handleSubmit(e);
       }
     });
   }
@@ -434,12 +443,13 @@ function Chat(_a) {
         messageFormatter
       }
     );
-  })), /* @__PURE__ */ React11.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React11.createElement(
-    "input",
+  })), /* @__PURE__ */ React11.createElement("form", { className: "lk-chat-form", ref: chatForm, onSubmit: handleSubmit }, /* @__PURE__ */ React11.createElement(
+    "textarea",
     {
-      className: "lk-form-control lk-chat-form-input",
+      className: "lk-form-control lk-chat-form-input overflow-hidden",
       ref: inputRef,
-      type: "text",
+      onKeyDown: onEnterPress,
+      rows: 1,
       placeholder: "Enter a message..."
     }
   ), /* @__PURE__ */ React11.createElement("button", { type: "submit", className: "lk-button lk-chat-form-button tl-submit", disabled: isSending }, /* @__PURE__ */ React11.createElement(SendMessage_default, null))));
@@ -3145,10 +3155,18 @@ function ConnectionStateToast(props) {
 // src/components/ChatEntry.tsx
 var import_components_core37 = require("@livekit/components-core");
 var React85 = __toESM(require("react"));
+function nl2br(str, is_xhtml) {
+  if (typeof str === "undefined" || str === null) {
+    return "";
+  }
+  var breakTag = is_xhtml || typeof is_xhtml === "undefined" ? "<br />" : "<br>";
+  return (str + "").replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, "$1" + breakTag + "$2");
+}
 function formatChatMessageLinks(message) {
   return (0, import_components_core37.tokenize)(message, (0, import_components_core37.createDefaultGrammar)()).map((tok, i) => {
     if (typeof tok === `string`) {
-      return tok;
+      const html = nl2br(tok, false);
+      return /* @__PURE__ */ React85.createElement("span", { key: i, dangerouslySetInnerHTML: { __html: html } });
     } else {
       const content = tok.content.toString();
       const href = tok.type === `url` ? /^http(s?):\/\//.test(content) ? content : `https://${content}` : `mailto:${content}`;

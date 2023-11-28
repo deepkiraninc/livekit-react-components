@@ -3027,10 +3027,18 @@ function ChatEntry(_a) {
     /* @__PURE__ */ React96.createElement("span", { className: "lk-message-body" }, formattedMessage)
   );
 }
+function nl2br(str, is_xhtml) {
+  if (typeof str === "undefined" || str === null) {
+    return "";
+  }
+  var breakTag = is_xhtml || typeof is_xhtml === "undefined" ? "<br />" : "<br>";
+  return (str + "").replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, "$1" + breakTag + "$2");
+}
 function formatChatMessageLinks(message) {
   return tokenize(message, createDefaultGrammar()).map((tok, i) => {
     if (typeof tok === `string`) {
-      return tok;
+      const html = nl2br(tok, false);
+      return /* @__PURE__ */ React96.createElement("span", { key: i, dangerouslySetInnerHTML: { __html: html } });
     } else {
       const content = tok.content.toString();
       const href = tok.type === `url` ? /^http(s?):\/\//.test(content) ? content : `https://${content}` : `mailto:${content}`;
@@ -3077,6 +3085,7 @@ function UserChat(_a) {
 function Chat(_a) {
   var _b = _a, { messageFormatter, messageDecoder, messageEncoder } = _b, props = __objRest(_b, ["messageFormatter", "messageDecoder", "messageEncoder"]);
   const inputRef = React98.useRef(null);
+  const chatForm = React98.useRef(null);
   const ulRef = React98.useRef(null);
   const chatOptions = React98.useMemo(() => {
     return { messageDecoder, messageEncoder };
@@ -3093,6 +3102,14 @@ function Chat(_a) {
           inputRef.current.value = "";
           inputRef.current.focus();
         }
+      }
+    });
+  }
+  function onEnterPress(e) {
+    return __async(this, null, function* () {
+      if (e.code == "Enter" && e.shiftKey == false) {
+        e.preventDefault();
+        yield handleSubmit(e);
       }
     });
   }
@@ -3137,12 +3154,13 @@ function Chat(_a) {
         messageFormatter
       }
     );
-  })), /* @__PURE__ */ React98.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React98.createElement(
-    "input",
+  })), /* @__PURE__ */ React98.createElement("form", { className: "lk-chat-form", ref: chatForm, onSubmit: handleSubmit }, /* @__PURE__ */ React98.createElement(
+    "textarea",
     {
-      className: "lk-form-control lk-chat-form-input",
+      className: "lk-form-control lk-chat-form-input overflow-hidden",
       ref: inputRef,
-      type: "text",
+      onKeyDown: onEnterPress,
+      rows: 1,
       placeholder: "Enter a message..."
     }
   ), /* @__PURE__ */ React98.createElement("button", { type: "submit", className: "lk-button lk-chat-form-button tl-submit", disabled: isSending }, /* @__PURE__ */ React98.createElement(SendMessage_default, null))));
