@@ -356,10 +356,9 @@ function Chat(_a) {
   }
   function onEnterPress(e) {
     return __async(this, null, function* () {
-      var _a2;
-      if (e.keyCode == 13 && e.shiftKey == false) {
+      if (e.code == "Enter" && e.shiftKey == false) {
         e.preventDefault();
-        (_a2 = chatForm.current) == null ? void 0 : _a2.dispatchEvent(new Event("submit"));
+        yield handleSubmit(e);
       }
     });
   }
@@ -3140,10 +3139,18 @@ function ConnectionStateToast(props) {
 // src/components/ChatEntry.tsx
 import { tokenize, createDefaultGrammar } from "@livekit/components-core";
 import * as React85 from "react";
+function nl2br(str, is_xhtml) {
+  if (typeof str === "undefined" || str === null) {
+    return "";
+  }
+  var breakTag = is_xhtml || typeof is_xhtml === "undefined" ? "<br />" : "<br>";
+  return (str + "").replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, "$1" + breakTag + "$2");
+}
 function formatChatMessageLinks(message) {
   return tokenize(message, createDefaultGrammar()).map((tok, i) => {
     if (typeof tok === `string`) {
-      return tok;
+      const html = nl2br(tok, false);
+      return /* @__PURE__ */ React85.createElement("span", { key: i, dangerouslySetInnerHTML: { __html: html } });
     } else {
       const content = tok.content.toString();
       const href = tok.type === `url` ? /^http(s?):\/\//.test(content) ? content : `https://${content}` : `mailto:${content}`;

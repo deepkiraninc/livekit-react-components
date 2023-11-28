@@ -3147,10 +3147,18 @@ function ChatEntry(_a) {
     /* @__PURE__ */ React96.createElement("span", { className: "lk-message-body" }, formattedMessage)
   );
 }
+function nl2br(str, is_xhtml) {
+  if (typeof str === "undefined" || str === null) {
+    return "";
+  }
+  var breakTag = is_xhtml || typeof is_xhtml === "undefined" ? "<br />" : "<br>";
+  return (str + "").replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, "$1" + breakTag + "$2");
+}
 function formatChatMessageLinks(message) {
   return (0, import_components_core45.tokenize)(message, (0, import_components_core45.createDefaultGrammar)()).map((tok, i) => {
     if (typeof tok === `string`) {
-      return tok;
+      const html = nl2br(tok, false);
+      return /* @__PURE__ */ React96.createElement("span", { key: i, dangerouslySetInnerHTML: { __html: html } });
     } else {
       const content = tok.content.toString();
       const href = tok.type === `url` ? /^http(s?):\/\//.test(content) ? content : `https://${content}` : `mailto:${content}`;
@@ -3219,10 +3227,9 @@ function Chat(_a) {
   }
   function onEnterPress(e) {
     return __async(this, null, function* () {
-      var _a2;
-      if (e.keyCode == 13 && e.shiftKey == false) {
+      if (e.code == "Enter" && e.shiftKey == false) {
         e.preventDefault();
-        (_a2 = chatForm.current) == null ? void 0 : _a2.dispatchEvent(new Event("submit"));
+        yield handleSubmit(e);
       }
     });
   }
