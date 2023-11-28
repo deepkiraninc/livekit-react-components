@@ -3077,6 +3077,7 @@ function UserChat(_a) {
 function Chat(_a) {
   var _b = _a, { messageFormatter, messageDecoder, messageEncoder } = _b, props = __objRest(_b, ["messageFormatter", "messageDecoder", "messageEncoder"]);
   const inputRef = React98.useRef(null);
+  const chatForm = React98.useRef(null);
   const ulRef = React98.useRef(null);
   const chatOptions = React98.useMemo(() => {
     return { messageDecoder, messageEncoder };
@@ -3093,6 +3094,15 @@ function Chat(_a) {
           inputRef.current.value = "";
           inputRef.current.focus();
         }
+      }
+    });
+  }
+  function onEnterPress(e) {
+    return __async(this, null, function* () {
+      var _a2;
+      if (e.keyCode == 13 && e.shiftKey == false) {
+        e.preventDefault();
+        (_a2 = chatForm.current) == null ? void 0 : _a2.dispatchEvent(new Event("submit"));
       }
     });
   }
@@ -3137,11 +3147,12 @@ function Chat(_a) {
         messageFormatter
       }
     );
-  })), /* @__PURE__ */ React98.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React98.createElement(
+  })), /* @__PURE__ */ React98.createElement("form", { className: "lk-chat-form", ref: chatForm, onSubmit: handleSubmit }, /* @__PURE__ */ React98.createElement(
     "textarea",
     {
-      className: "lk-form-control lk-chat-form-input",
+      className: "lk-form-control lk-chat-form-input overflow-hidden",
       ref: inputRef,
+      onKeyDown: onEnterPress,
       rows: 1,
       placeholder: "Enter a message..."
     }
