@@ -3204,18 +3204,6 @@ function Chat(_a) {
   const { send, chatMessages, isSending } = useChat(chatOptions);
   const layoutContext = useMaybeLayoutContext();
   const lastReadMsgAt = React98.useRef(0);
-  function press(event) {
-    return __async(this, null, function* () {
-      if (event.keyCode == 13 && !event.shiftKey) {
-        event.preventDefault();
-        yield handleSubmit(event);
-        return true;
-      } else {
-        console.log(event.shiftKey);
-      }
-      return false;
-    });
-  }
   function handleSubmit(event) {
     return __async(this, null, function* () {
       event.preventDefault();
@@ -3269,12 +3257,12 @@ function Chat(_a) {
         messageFormatter
       }
     );
-  })), /* @__PURE__ */ React98.createElement("form", { className: "lk-chat-form", onSubmit: press }, /* @__PURE__ */ React98.createElement(
-    "input",
+  })), /* @__PURE__ */ React98.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React98.createElement(
+    "textarea",
     {
       className: "lk-form-control lk-chat-form-input",
       ref: inputRef,
-      type: "text",
+      rows: 1,
       placeholder: "Enter a message..."
     }
   ), /* @__PURE__ */ React98.createElement("button", { type: "submit", className: "lk-button lk-chat-form-button tl-submit", disabled: isSending }, /* @__PURE__ */ React98.createElement(SendMessage_default, null))));
