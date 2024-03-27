@@ -118,7 +118,8 @@ __export(hooks_exports, {
   useTrackMutedIndicator: () => useTrackMutedIndicator,
   useTrackToggle: () => useTrackToggle,
   useTracks: () => useTracks,
-  useVisualStableUpdate: () => useVisualStableUpdate
+  useVisualStableUpdate: () => useVisualStableUpdate,
+  useWhiteboard: () => useWhiteboard
 });
 module.exports = __toCommonJS(hooks_exports);
 
@@ -1514,6 +1515,31 @@ function useChat(options) {
   }, [room, options]);
   return { send: setup == null ? void 0 : setup.send, chatMessages, isSending };
 }
+
+// src/hooks/useWhiteboard.ts
+var import_react = __toESM(require("react"));
+function useWhiteboard() {
+  const { metadata } = useRoomInfo();
+  const room = useRoomContext();
+  const [isWhiteboardShared, setIsWhiteboardShared] = import_react.default.useState(false);
+  const [isWhiteboardHost, setIsWhiteboardHost] = import_react.default.useState(true);
+  import_react.default.useEffect(() => {
+    let meta = JSON.parse(metadata || "{}");
+    if (meta) {
+      if (meta == null ? void 0 : meta.whiteboard) {
+        setIsWhiteboardShared(meta == null ? void 0 : meta.whiteboard);
+      } else {
+        setIsWhiteboardShared(false);
+      }
+      if ((meta == null ? void 0 : meta.whiteboard_host) == room.localParticipant.identity) {
+        setIsWhiteboardHost(true);
+      } else {
+        setIsWhiteboardHost(false);
+      }
+    }
+  }, [metadata]);
+  return { isWhiteboardShared, isWhiteboardHost };
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   useAudioPlayback,
@@ -1555,6 +1581,7 @@ function useChat(options) {
   useTrackMutedIndicator,
   useTrackToggle,
   useTracks,
-  useVisualStableUpdate
+  useVisualStableUpdate,
+  useWhiteboard
 });
 //# sourceMappingURL=index.js.map
