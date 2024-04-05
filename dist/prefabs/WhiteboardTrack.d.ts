@@ -13,5 +13,4 @@ import * as React from 'react';
  * @public
  */
 export declare function WhiteboardTrack(): React.JSX.Element;
-export declare function getURL(): string;
 //# sourceMappingURL=WhiteboardTrack.d.ts.map

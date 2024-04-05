@@ -1465,6 +1465,7 @@ function useWhiteboard() {
   const room = useRoomContext();
   const [isWhiteboardShared, setIsWhiteboardShared] = React43.useState(false);
   const [isWhiteboardHost, setIsWhiteboardHost] = React43.useState(true);
+  const [url, setUrl] = React43.useState("");
   React43.useEffect(() => {
     let meta = JSON.parse(metadata || "{}");
     if (meta) {
@@ -1478,9 +1479,18 @@ function useWhiteboard() {
       } else {
         setIsWhiteboardHost(false);
       }
+      if (meta == null ? void 0 : meta.whiteboard_domain) {
+        let url2 = `${meta == null ? void 0 : meta.whiteboard_domain}?whiteboardid=${room.name}`;
+        if (room.localParticipant.name) {
+          url2 += `&username=${room.localParticipant.name}`;
+        }
+        setUrl(url2);
+      } else {
+        setUrl("/");
+      }
     }
   }, [metadata]);
-  return { isWhiteboardShared, isWhiteboardHost };
+  return { isWhiteboardShared, isWhiteboardHost, url };
 }
 export {
   useAudioPlayback,

@@ -1617,6 +1617,7 @@ function useWhiteboard() {
   const room = useRoomContext();
   const [isWhiteboardShared, setIsWhiteboardShared] = React45.useState(false);
   const [isWhiteboardHost, setIsWhiteboardHost] = React45.useState(true);
+  const [url, setUrl] = React45.useState("");
   React45.useEffect(() => {
     let meta = JSON.parse(metadata || "{}");
     if (meta) {
@@ -1630,9 +1631,18 @@ function useWhiteboard() {
       } else {
         setIsWhiteboardHost(false);
       }
+      if (meta == null ? void 0 : meta.whiteboard_domain) {
+        let url2 = `${meta == null ? void 0 : meta.whiteboard_domain}?whiteboardid=${room.name}`;
+        if (room.localParticipant.name) {
+          url2 += `&username=${room.localParticipant.name}`;
+        }
+        setUrl(url2);
+      } else {
+        setUrl("/");
+      }
     }
   }, [metadata]);
-  return { isWhiteboardShared, isWhiteboardHost };
+  return { isWhiteboardShared, isWhiteboardHost, url };
 }
 
 // src/components/controls/ClearPinButton.tsx
@@ -2588,16 +2598,8 @@ function useIsEncrypted(participant) {
 // src/prefabs/WhiteboardTrack.tsx
 import * as React81 from "react";
 function WhiteboardTrack() {
-  return /* @__PURE__ */ React81.createElement("iframe", { src: getURL(), width: "100%", height: "100%" });
-}
-function getURL() {
-  const room = useRoomContext();
-  let url = `https://cloud13.de/testwhiteboard/?whiteboardid=${room.name}`;
-  const username = room.localParticipant.name;
-  if (username) {
-    url += `&username=${username}`;
-  }
-  return url;
+  const { url } = useWhiteboard();
+  return /* @__PURE__ */ React81.createElement("iframe", { src: url, width: "100%", height: "100%" });
 }
 
 // src/components/participant/ParticipantTile.tsx
