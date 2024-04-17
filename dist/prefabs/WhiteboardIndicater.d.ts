@@ -1,7 +1,7 @@
 import React from "react";
 export interface WhiteboardIndicaterProps {
-    isWhiteboard?: boolean;
+    shareScreenTracks?: number;
     parentCallback: () => void;
 }
-export declare function WhiteboardIndicater({ parentCallback, }: WhiteboardIndicaterProps): React.JSX.Element;
+export declare function WhiteboardIndicater({ shareScreenTracks, parentCallback, }: WhiteboardIndicaterProps): React.JSX.Element;
 //# sourceMappingURL=WhiteboardIndicater.d.ts.map

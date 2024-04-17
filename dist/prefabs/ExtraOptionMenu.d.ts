@@ -2,7 +2,7 @@ import * as React from 'react';
 /** @public */
 export interface ExtraOptionMenuProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     blurEnabled?: boolean;
-    whiteBoard?: boolean;
+    shareScreenTracks?: number;
 }
 /**
  * The HostEndMeetingMenu prefab component is a button that opens a menu lists that use to leave or end meeting for host
@@ -15,5 +15,5 @@ export interface ExtraOptionMenuProps extends React.ButtonHTMLAttributes<HTMLBut
  * ```
  * @public
  */
-export declare function ExtraOptionMenu({ blurEnabled, whiteBoard, ...props }: ExtraOptionMenuProps): React.JSX.Element;
+export declare function ExtraOptionMenu({ blurEnabled, shareScreenTracks, ...props }: ExtraOptionMenuProps): React.JSX.Element;
 //# sourceMappingURL=ExtraOptionMenu.d.ts.map

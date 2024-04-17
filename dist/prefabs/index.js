@@ -7877,6 +7877,7 @@ var import_livekit_client16 = require("livekit-client");
 // src/prefabs/WhiteboardIndicater.tsx
 var import_react3 = __toESM(require("react"));
 function WhiteboardIndicater({
+  shareScreenTracks,
   parentCallback
 }) {
   const room = useRoomContext();
@@ -7887,7 +7888,9 @@ function WhiteboardIndicater({
   const [disableWhiteboard, setDisableWhiteboard] = import_react3.default.useState(false);
   import_react3.default.useEffect(() => {
     console.log({ isWhiteboardShared, isWhiteboardHost });
-    if (isWhiteboardShared) {
+    if (shareScreenTracks !== 0) {
+      setDisableWhiteboard(true);
+    } else if (isWhiteboardShared) {
       if (isWhiteboardHost) {
         setDisableWhiteboard(false);
       } else {
@@ -7896,7 +7899,7 @@ function WhiteboardIndicater({
     } else {
       setDisableWhiteboard(false);
     }
-  }, [isWhiteboardHost, isWhiteboardShared]);
+  }, [isWhiteboardHost, isWhiteboardShared, shareScreenTracks]);
   const toggleWhiteboard = () => __async(this, null, function* () {
     if (!room)
       return;
@@ -7948,10 +7951,10 @@ function WhiteboardIndicater({
 function ExtraOptionMenu(_a2) {
   var _b = _a2, {
     blurEnabled,
-    whiteBoard
+    shareScreenTracks
   } = _b, props = __objRest(_b, [
     "blurEnabled",
-    "whiteBoard"
+    "shareScreenTracks"
   ]);
   const [isOpen, setIsOpen] = React91.useState(false);
   const [updateRequired, setUpdateRequired] = React91.useState(true);
@@ -8015,7 +8018,7 @@ function ExtraOptionMenu(_a2) {
       ref: tooltip,
       style: { visibility: isOpen ? "visible" : "hidden" }
     },
-    /* @__PURE__ */ React91.createElement("ul", { className: "lk-media-device-select lk-list", style: { display: !showDropdown ? "unset" : "none" } }, /* @__PURE__ */ React91.createElement("li", null, /* @__PURE__ */ React91.createElement(WhiteboardIndicater, { isWhiteboard: whiteBoard, parentCallback: changeState })), blurEnabled && /* @__PURE__ */ React91.createElement("li", null, /* @__PURE__ */ React91.createElement(BlurIndicater, { source: import_livekit_client16.Track.Source.Camera, parentCallback: changeState }))),
+    /* @__PURE__ */ React91.createElement("ul", { className: "lk-media-device-select lk-list", style: { display: !showDropdown ? "unset" : "none" } }, /* @__PURE__ */ React91.createElement("li", null, /* @__PURE__ */ React91.createElement(WhiteboardIndicater, { shareScreenTracks, parentCallback: changeState })), blurEnabled && /* @__PURE__ */ React91.createElement("li", null, /* @__PURE__ */ React91.createElement(BlurIndicater, { source: import_livekit_client16.Track.Source.Camera, parentCallback: changeState }))),
     /* @__PURE__ */ React91.createElement("div", { className: "arrow" }, /* @__PURE__ */ React91.createElement("div", { className: "arrow-shape" }))
   ));
 }
@@ -8151,7 +8154,7 @@ function ControlBar(_a2) {
     ExtraOptionMenu,
     {
       blurEnabled: true,
-      whiteBoard: isWhiteboard
+      shareScreenTracks: screenShareTracks
     }
   ))), visibleControls.endForAll ? /* @__PURE__ */ React92.createElement("div", { className: "tl-leave lk-button-group" }, /* @__PURE__ */ React92.createElement("button", { className: "lk-disconnect-button" }, showIcon && /* @__PURE__ */ React92.createElement(LeaveIcon_default, null), showText && "Leave"), /* @__PURE__ */ React92.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React92.createElement(
     HostEndMeetingMenu,
