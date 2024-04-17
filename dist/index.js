@@ -8458,7 +8458,7 @@ var BackgroundProcessor2 = (options, name = "background-processor") => {
 
 // src/prefabs/BlurIndicater.tsx
 var import_react2 = __toESM(require("react"));
-function BlurIndicater({ source }) {
+function BlurIndicater({ source, parentCallback }) {
   const state = {
     defaultDevices: /* @__PURE__ */ new Map(),
     bitrateInterval: void 0,
@@ -8483,6 +8483,7 @@ function BlurIndicater({ source }) {
     } catch (e2) {
       console.log(`ERROR: ${e2.message}`);
     } finally {
+      parentCallback();
     }
   });
   return /* @__PURE__ */ import_react2.default.createElement("button", { className: "tl-blur lk-button", onClick: toggleBlur }, isBlur ? "Remove Blur" : "Blur Background");
@@ -8494,16 +8495,17 @@ var import_livekit_client17 = require("livekit-client");
 // src/prefabs/WhiteboardIndicater.tsx
 var import_react3 = __toESM(require("react"));
 function WhiteboardIndicater({
-  isWhiteboard
+  parentCallback
 }) {
   const room = useRoomContext();
   const { dispatch, state } = useLayoutContext().whiteboard;
   const participant = room.localParticipant;
   const encoder = new TextEncoder();
-  const { isWhiteboardHost } = useWhiteboard();
+  const { isWhiteboardHost, isWhiteboardShared } = useWhiteboard();
   const [disableWhiteboard, setDisableWhiteboard] = import_react3.default.useState(false);
   import_react3.default.useEffect(() => {
-    if (isWhiteboard) {
+    console.log({ isWhiteboardShared, isWhiteboardHost });
+    if (isWhiteboardShared) {
       if (isWhiteboardHost) {
         setDisableWhiteboard(false);
       } else {
@@ -8512,7 +8514,7 @@ function WhiteboardIndicater({
     } else {
       setDisableWhiteboard(false);
     }
-  }, [isWhiteboardHost, isWhiteboard]);
+  }, [isWhiteboardHost, isWhiteboardShared]);
   const toggleWhiteboard = () => __async(this, null, function* () {
     if (!room)
       return;
@@ -8537,6 +8539,7 @@ function WhiteboardIndicater({
     } catch (e2) {
       console.log(`ERROR: ${e2.message}`);
     } finally {
+      parentCallback();
       console.log("Whiteboard toggle");
     }
   });
@@ -8602,6 +8605,10 @@ function ExtraOptionMenu(_a2) {
     },
     [isOpen, tooltip, button]
   );
+  function changeState() {
+    setIsOpen(false);
+    setShowDropdown(false);
+  }
   React109.useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     window.addEventListener("resize", () => setUpdateRequired(true));
@@ -8626,7 +8633,7 @@ function ExtraOptionMenu(_a2) {
       ref: tooltip,
       style: { visibility: isOpen ? "visible" : "hidden" }
     },
-    /* @__PURE__ */ React109.createElement("ul", { className: "lk-media-device-select lk-list", style: { display: !showDropdown ? "unset" : "none" } }, /* @__PURE__ */ React109.createElement("li", null, /* @__PURE__ */ React109.createElement(WhiteboardIndicater, { isWhiteboard: whiteBoard })), blurEnabled && /* @__PURE__ */ React109.createElement("li", null, /* @__PURE__ */ React109.createElement(BlurIndicater, { source: import_livekit_client17.Track.Source.Camera }))),
+    /* @__PURE__ */ React109.createElement("ul", { className: "lk-media-device-select lk-list", style: { display: !showDropdown ? "unset" : "none" } }, /* @__PURE__ */ React109.createElement("li", null, /* @__PURE__ */ React109.createElement(WhiteboardIndicater, { isWhiteboard: whiteBoard, parentCallback: changeState })), blurEnabled && /* @__PURE__ */ React109.createElement("li", null, /* @__PURE__ */ React109.createElement(BlurIndicater, { source: import_livekit_client17.Track.Source.Camera, parentCallback: changeState }))),
     /* @__PURE__ */ React109.createElement("div", { className: "arrow" }, /* @__PURE__ */ React109.createElement("div", { className: "arrow-shape" }))
   ));
 }
@@ -8735,6 +8742,18 @@ function ControlBar(_a2) {
       });
     }
   }, [isWhiteboardShared]);
+  const [sharescreenTitle, setSharescreenTitle] = React110.useState("You can share your screen");
+  React110.useEffect(() => {
+    if (!isScreenShareEnabled && screenShareTracks !== 0) {
+      setSharescreenTitle("Someone has shared screen");
+    } else if (isWhiteboardShared) {
+      setSharescreenTitle("Whiteboard is shared");
+    } else if (isScreenShareEnabled) {
+      setSharescreenTitle("You're sharing your screen");
+    } else {
+      setSharescreenTitle("You can share your screen");
+    }
+  }, [isScreenShareEnabled, screenShareTracks, isWhiteboardShared]);
   return /* @__PURE__ */ React110.createElement("div", __spreadValues({}, htmlProps), visibleControls.microphone && /* @__PURE__ */ React110.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React110.createElement(TrackToggle, { source: import_livekit_client18.Track.Source.Microphone, showIcon }, showText && "Microphone"), /* @__PURE__ */ React110.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React110.createElement(MediaDeviceMenu, { kind: "audioinput" }))), visibleControls.camera && /* @__PURE__ */ React110.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React110.createElement(TrackToggle, { source: import_livekit_client18.Track.Source.Camera, showIcon }, showText && "Camera"), /* @__PURE__ */ React110.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React110.createElement(MediaDeviceMenu, { kind: "videoinput" }))), visibleControls.screenShare && browserSupportsScreenSharing && /* @__PURE__ */ React110.createElement(
     TrackToggle,
     {
@@ -8742,8 +8761,8 @@ function ControlBar(_a2) {
       captureOptions: { audio: true, selfBrowserSurface: "include" },
       showIcon,
       onChange: onScreenShareChange,
-      disabled: !isScreenShareEnabled && screenShareTracks !== 0,
-      title: !isScreenShareEnabled && screenShareTracks !== 0 ? "Someone has shared screen" : isScreenShareEnabled ? "You're sharing your scrren" : "You can share your screen"
+      disabled: !isScreenShareEnabled && screenShareTracks !== 0 && isWhiteboardShared,
+      title: sharescreenTitle
     },
     showText && (isScreenShareEnabled ? "Stop screen share" : "Share screen")
   ), visibleControls.chat && /* @__PURE__ */ React110.createElement(ChatToggle, null, showIcon && /* @__PURE__ */ React110.createElement(ChatIcon_default, null), showText && "Chat", state && state.unreadMessages !== 0 && /* @__PURE__ */ React110.createElement("span", { className: "waiting-count" }, state.unreadMessages < 10 ? state.unreadMessages.toFixed(0) : "9+")), visibleControls.sharelink && /* @__PURE__ */ React110.createElement(ShareLinkToggle, null, showIcon && /* @__PURE__ */ React110.createElement(InviteIcon_default, null), showText && "Invite"), visibleControls.users && /* @__PURE__ */ React110.createElement(UserToggle, null, showIcon && /* @__PURE__ */ React110.createElement(UsersIcon_default, null), showText && "Participants", waitingRoomCount !== 0 && /* @__PURE__ */ React110.createElement("span", { className: "waiting-count" }, waitingRoomCount)), /* @__PURE__ */ React110.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React110.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React110.createElement(
