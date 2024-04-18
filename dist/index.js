@@ -2956,7 +2956,6 @@ function LayoutContextProvider({
   }, [onWidgetChange, layoutContextValue.widget.state]);
   React89.useEffect(() => {
     import_components_core43.log.debug("Whiteboard Updated", { state: layoutContextValue.whiteboard.state });
-    console.log("Whiteboard Updated", onWhiteboardChange, { state: layoutContextValue.whiteboard.state });
     if (onWhiteboardChange && layoutContextValue.whiteboard.state) {
       onWhiteboardChange(layoutContextValue.whiteboard.state);
     }
@@ -8505,7 +8504,6 @@ function WhiteboardIndicater({
   const { isWhiteboardHost, isWhiteboardShared } = useWhiteboard();
   const [disableWhiteboard, setDisableWhiteboard] = import_react3.default.useState(false);
   import_react3.default.useEffect(() => {
-    console.log({ isWhiteboardShared, isWhiteboardHost });
     if (shareScreenTracks !== 0) {
       setDisableWhiteboard(true);
     } else if (isWhiteboardShared) {
@@ -8543,7 +8541,6 @@ function WhiteboardIndicater({
       console.log(`ERROR: ${e2.message}`);
     } finally {
       parentCallback();
-      console.log("Whiteboard toggle");
     }
   });
   const updateMeta = (data) => {
@@ -9382,7 +9379,6 @@ function VideoConference(_a2) {
   };
   React117.useEffect(() => {
     var _a4, _b3, _c2, _d, _e2, _f, _g, _h;
-    console.log("Updating initail whiteboard setting");
     if (isWhiteboardShared) {
       (_b3 = (_a4 = layoutContext.pin).dispatch) == null ? void 0 : _b3.call(_a4, { msg: "set_pin", trackReference: whiteboardTrack });
       (_d = (_c2 = layoutContext.whiteboard).dispatch) == null ? void 0 : _d.call(_c2, { msg: "show_whiteboard" });
