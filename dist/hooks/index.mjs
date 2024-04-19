@@ -1457,6 +1457,41 @@ function useChat(options) {
   }, [room, options]);
   return { send: setup == null ? void 0 : setup.send, chatMessages, isSending };
 }
+
+// src/hooks/useWhiteboard.ts
+import React43 from "react";
+function useWhiteboard() {
+  const { metadata } = useRoomInfo();
+  const room = useRoomContext();
+  const [isWhiteboardShared, setIsWhiteboardShared] = React43.useState(false);
+  const [isWhiteboardHost, setIsWhiteboardHost] = React43.useState(true);
+  const [url, setUrl] = React43.useState("");
+  React43.useEffect(() => {
+    let meta = JSON.parse(metadata || "{}");
+    if (meta) {
+      if (meta == null ? void 0 : meta.whiteboard) {
+        setIsWhiteboardShared(meta == null ? void 0 : meta.whiteboard);
+      } else {
+        setIsWhiteboardShared(false);
+      }
+      if ((meta == null ? void 0 : meta.whiteboard_host) == room.localParticipant.identity) {
+        setIsWhiteboardHost(true);
+      } else {
+        setIsWhiteboardHost(false);
+      }
+      if (meta == null ? void 0 : meta.whiteboard_domain) {
+        let url2 = `${meta == null ? void 0 : meta.whiteboard_domain}?whiteboardid=${room.name}`;
+        if (room.localParticipant.name) {
+          url2 += `&username=${room.localParticipant.name}`;
+        }
+        setUrl(url2);
+      } else {
+        setUrl("/");
+      }
+    }
+  }, [metadata]);
+  return { isWhiteboardShared, isWhiteboardHost, url };
+}
 export {
   useAudioPlayback,
   useChat,
@@ -1497,6 +1532,7 @@ export {
   useTrackMutedIndicator,
   useTrackToggle,
   useTracks,
-  useVisualStableUpdate
+  useVisualStableUpdate,
+  useWhiteboard
 };
 //# sourceMappingURL=index.mjs.map
