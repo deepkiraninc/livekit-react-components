@@ -15,5 +15,5 @@ export interface ChatToggleProps extends React.ButtonHTMLAttributes<HTMLButtonEl
  * ```
  * @public
  */
-export declare function ChatToggle(props: ChatToggleProps): React.JSX.Element;
+export declare const ChatToggle: (props: ChatToggleProps & React.RefAttributes<HTMLButtonElement>) => React.ReactElement<any, string | React.JSXElementConstructor<any>> | null;
 //# sourceMappingURL=ChatToggle.d.ts.map

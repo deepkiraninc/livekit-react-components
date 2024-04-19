@@ -29,7 +29,7 @@ export interface ChatEntryProps extends React.HTMLAttributes<HTMLLIElement> {
  * @see `Chat`
  * @public
  */
-export declare function ChatEntry({ entry, hideName, hideTimestamp, messageFormatter, ...props }: ChatEntryProps): React.JSX.Element;
+export declare const ChatEntry: (props: ChatEntryProps & React.RefAttributes<HTMLLIElement>) => React.ReactElement<any, string | React.JSXElementConstructor<any>> | null;
 export declare function nl2br(str: string, is_xhtml: any): string;
 /** @public */
 export declare function formatChatMessageLinks(message: string): React.ReactNode;

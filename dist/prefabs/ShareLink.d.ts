@@ -2,7 +2,7 @@ import * as React from 'react';
 export declare function useGetLink(): {
     link: string;
 };
-export declare function useGetRoom(): import("livekit-client/dist/src/room/Room").default;
+export declare function useGetRoom(): import("livekit-client").Room;
 export declare function getHostUrl(): string;
 export type User = {
     user_id: string;

@@ -16,5 +16,5 @@ export interface ClearPinButtonProps extends React.ButtonHTMLAttributes<HTMLButt
  * ```
  * @public
  */
-export declare function ClearPinButton(props: ClearPinButtonProps): React.JSX.Element;
+export declare const ClearPinButton: (props: ClearPinButtonProps & React.RefAttributes<HTMLButtonElement>) => React.ReactElement<any, string | React.JSXElementConstructor<any>> | null;
 //# sourceMappingURL=ClearPinButton.d.ts.map

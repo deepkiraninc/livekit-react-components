@@ -19,5 +19,5 @@ export interface ConnectionStatusProps extends React.HTMLAttributes<HTMLDivEleme
  * ```
  * @public
  */
-export declare function ConnectionState({ room, ...props }: ConnectionStatusProps): React.JSX.Element;
+export declare const ConnectionState: (props: ConnectionStatusProps & React.RefAttributes<HTMLDivElement>) => React.ReactElement<any, string | React.JSXElementConstructor<any>> | null;
 //# sourceMappingURL=ConnectionState.d.ts.map

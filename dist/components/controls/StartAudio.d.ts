@@ -18,5 +18,5 @@ export interface AllowAudioPlaybackProps extends React.ButtonHTMLAttributes<HTML
  * @see Autoplay policy on MDN web docs: {@link https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Best_practices#autoplay_policy}
  * @public
  */
-export declare function StartAudio({ label, ...props }: AllowAudioPlaybackProps): React.JSX.Element;
+export declare const StartAudio: (props: AllowAudioPlaybackProps & React.RefAttributes<HTMLButtonElement>) => React.ReactElement<any, string | React.JSXElementConstructor<any>> | null;
 //# sourceMappingURL=StartAudio.d.ts.map

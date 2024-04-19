@@ -5,4 +5,12 @@ export declare function isProp<U extends HTMLElement, T extends React.HTMLAttrib
 export declare function mergeProps<U extends HTMLElement, T extends Array<React.HTMLAttributes<U> | undefined>>(...props: T): React.HTMLAttributes<U>;
 /** @internal */
 export declare function cloneSingleChild(children: React.ReactNode | React.ReactNode[], props?: Record<string, any>, key?: any): (string | number | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode>)[] | null | undefined;
+/**
+ * @internal
+ */
+export declare function warnAboutMissingStyles(el?: HTMLElement): void;
+/**
+ * @internal
+ */
+export declare function useForwardedRef<T extends HTMLElement>(ref: React.ForwardedRef<T>): React.RefObject<T>;
 //# sourceMappingURL=utils.d.ts.map
