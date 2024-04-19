@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { type LocalAudioTrack, type LocalVideoTrack } from 'livekit-client';
+import type { LocalAudioTrack, LocalVideoTrack } from 'livekit-client';
 /** @public */
-export interface MediaDeviceSelectProps extends Omit<React.HTMLAttributes<HTMLUListElement>, 'onError'> {
+export interface MediaDeviceSelectProps extends React.HTMLAttributes<HTMLUListElement> {
     kind: MediaDeviceKind;
     onActiveDeviceChange?: (deviceId: string) => void;
     onDeviceListChange?: (devices: MediaDeviceInfo[]) => void;
@@ -22,7 +22,6 @@ export interface MediaDeviceSelectProps extends Omit<React.HTMLAttributes<HTMLUL
      * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/enumerateDevices | MDN enumerateDevices}
      */
     requestPermissions?: boolean;
-    onError?: (e: Error) => void;
 }
 /**
  * The `MediaDeviceSelect` list all media devices of one kind.
@@ -36,5 +35,5 @@ export interface MediaDeviceSelectProps extends Omit<React.HTMLAttributes<HTMLUL
  * ```
  * @public
  */
-export declare const MediaDeviceSelect: (props: MediaDeviceSelectProps & React.RefAttributes<HTMLUListElement>) => React.ReactElement<any, string | React.JSXElementConstructor<any>> | null;
+export declare function MediaDeviceSelect({ kind, initialSelection, onActiveDeviceChange, onDeviceListChange, onDeviceSelectError, exactMatch, track, requestPermissions, ...props }: MediaDeviceSelectProps): React.JSX.Element;
 //# sourceMappingURL=MediaDeviceSelect.d.ts.map

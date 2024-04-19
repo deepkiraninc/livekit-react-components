@@ -5,10 +5,7 @@ export interface PaginationIndicatorProps {
   currentPage: number;
 }
 
-export const PaginationIndicator = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  PaginationIndicatorProps
->(function PaginationIndicator({ totalPageCount, currentPage }: PaginationIndicatorProps, ref) {
+export function PaginationIndicator({ totalPageCount, currentPage }: PaginationIndicatorProps) {
   const bubbles = new Array(totalPageCount).fill('').map((_, index) => {
     if (index + 1 === currentPage) {
       return <span data-lk-active key={index} />;
@@ -17,9 +14,5 @@ export const PaginationIndicator = /* @__PURE__ */ React.forwardRef<
     }
   });
 
-  return (
-    <div ref={ref} className="lk-pagination-indicator">
-      {bubbles}
-    </div>
-  );
-});
+  return <div className="lk-pagination-indicator">{bubbles}</div>;
+}

@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { useMaybeRoomContext } from '../../context';
 import { mergeProps } from '../../utils';
-import { RoomEvent, type LocalAudioTrack, type LocalVideoTrack } from 'livekit-client';
+import type { LocalAudioTrack, LocalVideoTrack } from 'livekit-client';
 import { useMediaDeviceSelect } from '../../hooks';
 
 /** @public */
-export interface MediaDeviceSelectProps
-  extends Omit<React.HTMLAttributes<HTMLUListElement>, 'onError'> {
+export interface MediaDeviceSelectProps extends React.HTMLAttributes<HTMLUListElement> {
   kind: MediaDeviceKind;
   onActiveDeviceChange?: (deviceId: string) => void;
   onDeviceListChange?: (devices: MediaDeviceInfo[]) => void;
@@ -27,7 +26,6 @@ export interface MediaDeviceSelectProps
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/enumerateDevices | MDN enumerateDevices}
    */
   requestPermissions?: boolean;
-  onError?: (e: Error) => void;
 }
 
 /**
@@ -42,41 +40,23 @@ export interface MediaDeviceSelectProps
  * ```
  * @public
  */
-export const MediaDeviceSelect = /* @__PURE__ */ React.forwardRef<
-  HTMLUListElement,
-  MediaDeviceSelectProps
->(function MediaDeviceSelect(
-  {
-    kind,
-    initialSelection,
-    onActiveDeviceChange,
-    onDeviceListChange,
-    onDeviceSelectError,
-    exactMatch,
-    track,
-    requestPermissions,
-    onError,
-    ...props
-  }: MediaDeviceSelectProps,
-  ref,
-) {
+export function MediaDeviceSelect({
+  kind,
+  initialSelection,
+  onActiveDeviceChange,
+  onDeviceListChange,
+  onDeviceSelectError,
+  exactMatch,
+  track,
+  requestPermissions,
+  ...props
+}: MediaDeviceSelectProps) {
   const room = useMaybeRoomContext();
-  const handleError = React.useCallback(
-    (e: Error) => {
-      if (room) {
-        // awkwardly emit the event from outside of the room, as we don't have other means to raise a MediaDeviceError
-        room.emit(RoomEvent.MediaDevicesError, e);
-      }
-      onError?.(e);
-    },
-    [room, onError],
-  );
   const { devices, activeDeviceId, setActiveMediaDevice, className } = useMediaDeviceSelect({
     kind,
     room,
     track,
     requestPermissions,
-    onError: handleError,
   });
   React.useEffect(() => {
     if (initialSelection !== undefined) {
@@ -118,7 +98,7 @@ export const MediaDeviceSelect = /* @__PURE__ */ React.forwardRef<
   }
 
   return (
-    <ul ref={ref} {...mergedProps}>
+    <ul {...mergedProps}>
       {devices.map((device, index) => (
         <li
           key={device.deviceId}
@@ -134,4 +114,4 @@ export const MediaDeviceSelect = /* @__PURE__ */ React.forwardRef<
       ))}
     </ul>
   );
-});
+}

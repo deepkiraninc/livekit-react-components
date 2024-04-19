@@ -1,15 +1,16 @@
 import * as React from 'react';
+import { Track } from 'livekit-client';
 
 import { ConnectionQualityIndicator } from './ConnectionQualityIndicator';
 import { ParticipantName } from './ParticipantName';
 import { TrackMutedIndicator } from './TrackMutedIndicator';
-import { TrackRefContext, useEnsureTrackRef } from '../../context';
+import { useEnsureParticipant } from '../../context';
 
 import { AudioVisualizer } from './AudioVisualizer';
 import type { ParticipantTileProps } from './ParticipantTile';
+import { ParticipantContextIfNeeded } from './ParticipantTile';
 import { AudioTrack } from './AudioTrack';
 import { useParticipantTile } from '../../hooks';
-import { isTrackReference } from '@livekit/components-core';
 
 /**
  * The `ParticipantAudioTile` component is the base utility wrapper for displaying a visual representation of a participant.
@@ -21,46 +22,42 @@ import { isTrackReference } from '@livekit/components-core';
  * ```
  * @public
  */
-export const ParticipantAudioTile = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  ParticipantTileProps
->(function ParticipantAudioTile(
-  {
-    children,
-    disableSpeakingIndicator,
-    onParticipantClick,
-    trackRef,
-    ...htmlProps
-  }: ParticipantTileProps,
-  ref,
-) {
-  const trackReference = useEnsureTrackRef(trackRef);
+export function ParticipantAudioTile({
+  participant,
+  children,
+  source,
+  publication,
+  disableSpeakingIndicator,
+  onParticipantClick,
+  ...htmlProps
+}: ParticipantTileProps) {
+  const p = useEnsureParticipant(participant);
   const { elementProps } = useParticipantTile({
-    trackRef: trackReference,
+    participant: p,
     htmlProps,
     disableSpeakingIndicator,
+    source: Track.Source.Microphone,
+    publication,
     onParticipantClick,
   });
 
   return (
-    <div ref={ref} style={{ position: 'relative' }} {...elementProps}>
-      <TrackRefContext.Provider value={trackReference}>
+    <div style={{ position: 'relative' }} {...elementProps}>
+      <ParticipantContextIfNeeded participant={p}>
         {children ?? (
           <>
-            {isTrackReference(trackReference) && (
-              <AudioTrack trackRef={trackReference}></AudioTrack>
-            )}
+            <AudioTrack source={source ?? Track.Source.Microphone}></AudioTrack>
             <AudioVisualizer />
             <div className="lk-participant-metadata">
               <div className="lk-participant-metadata-item">
-                <TrackMutedIndicator trackRef={trackReference}></TrackMutedIndicator>
+                <TrackMutedIndicator source={Track.Source.Microphone}></TrackMutedIndicator>
                 <ParticipantName />
               </div>
               <ConnectionQualityIndicator className="lk-participant-metadata-item" />
             </div>
           </>
         )}
-      </TrackRefContext.Provider>
+      </ParticipantContextIfNeeded>
     </div>
   );
-});
+}

@@ -18,14 +18,7 @@ export interface ClearPinButtonProps extends React.ButtonHTMLAttributes<HTMLButt
  * ```
  * @public
  */
-export const ClearPinButton = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  ClearPinButtonProps
->(function ClearPinButton(props: ClearPinButtonProps, ref) {
+export function ClearPinButton(props: ClearPinButtonProps) {
   const { buttonProps } = useClearPinButton(props);
-  return (
-    <button ref={ref} {...buttonProps}>
-      {props.children}
-    </button>
-  );
-});
+  return <button {...buttonProps}>{props.children}</button>;
+}

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import type { Participant } from 'livekit-client';
+import type { Participant, TrackPublication } from 'livekit-client';
+import { Track } from 'livekit-client';
 import type { ParticipantClickEvent, TrackReferenceOrPlaceholder } from '@livekit/components-core';
 /**
  * The `ParticipantContextIfNeeded` component only creates a `ParticipantContext`
@@ -20,6 +21,12 @@ export interface ParticipantTileProps extends React.HTMLAttributes<HTMLDivElemen
     /** The track reference to display. */
     trackRef?: TrackReferenceOrPlaceholder;
     disableSpeakingIndicator?: boolean;
+    /** @deprecated This parameter will be removed in a future version use `trackRef` instead. */
+    participant?: Participant;
+    /** @deprecated This parameter will be removed in a future version use `trackRef` instead. */
+    source?: Track.Source;
+    /** @deprecated This parameter will be removed in a future version use `trackRef` instead. */
+    publication?: TrackPublication;
     onParticipantClick?: (event: ParticipantClickEvent) => void;
 }
 /**
@@ -38,5 +45,5 @@ export interface ParticipantTileProps extends React.HTMLAttributes<HTMLDivElemen
  * ```
  * @public
  */
-export declare const ParticipantTile: (props: ParticipantTileProps & React.RefAttributes<HTMLDivElement>) => React.ReactElement<any, string | React.JSXElementConstructor<any>> | null;
+export declare function ParticipantTile({ trackRef, participant, children, source, onParticipantClick, publication, disableSpeakingIndicator, ...htmlProps }: ParticipantTileProps): React.JSX.Element;
 //# sourceMappingURL=ParticipantTile.d.ts.map

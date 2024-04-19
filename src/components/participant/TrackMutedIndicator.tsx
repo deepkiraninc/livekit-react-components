@@ -1,12 +1,17 @@
 import * as React from 'react';
 import { mergeProps } from '../../utils';
+import type { Participant, Track } from 'livekit-client';
 import { getSourceIcon } from '../../assets/icons/util';
 import { useTrackMutedIndicator } from '../../hooks';
 import type { TrackReferenceOrPlaceholder } from '@livekit/components-core';
 
 /** @public */
 export interface TrackMutedIndicatorProps extends React.HTMLAttributes<HTMLDivElement> {
-  trackRef: TrackReferenceOrPlaceholder;
+  /** @deprecated This parameter will be removed in a future version use `trackRef` instead. */
+  source?: Track.Source;
+  /** @deprecated This parameter will be removed in a future version use `trackRef` instead. */
+  participant?: Participant;
+  trackRef?: TrackReferenceOrPlaceholder;
   show?: 'always' | 'muted' | 'unmuted';
 }
 
@@ -21,14 +26,15 @@ export interface TrackMutedIndicatorProps extends React.HTMLAttributes<HTMLDivEl
  * ```
  * @public
  */
-export const TrackMutedIndicator = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  TrackMutedIndicatorProps
->(function TrackMutedIndicator(
-  { trackRef, show = 'always', ...props }: TrackMutedIndicatorProps,
-  ref,
-) {
-  const { className, isMuted } = useTrackMutedIndicator(trackRef);
+export function TrackMutedIndicator({
+  source,
+  participant,
+  trackRef,
+  show = 'always',
+  ...props
+}: TrackMutedIndicatorProps) {
+  // @ts-ignore this should work
+  const { className, isMuted } = useTrackMutedIndicator(trackRef ?? source, { participant });
 
   const showIndicator =
     show === 'always' || (show === 'muted' && isMuted) || (show === 'unmuted' && !isMuted);
@@ -46,8 +52,8 @@ export const TrackMutedIndicator = /* @__PURE__ */ React.forwardRef<
   }
 
   return (
-    <div ref={ref} {...htmlProps} data-lk-muted={isMuted}>
-      {props.children ?? getSourceIcon(trackRef.source, !isMuted)}
+    <div {...htmlProps} data-lk-muted={isMuted}>
+      {props.children ?? getSourceIcon((trackRef?.source ?? source)!, !isMuted)}
     </div>
   );
-});
+}

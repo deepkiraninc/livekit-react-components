@@ -22,9 +22,8 @@ export function BlurIndicater({ source, parentCallback }: BlurIndicaterProps) {
         if (!room) return;
 
         try {
-            const camTrack = room.localParticipant.getTrackPublication(source)!
+            const camTrack = room.localParticipant.getTrack(source)!
                 .track as LocalVideoTrack;
-
             if (camTrack.getProcessor()?.name !== 'background-blur') {
                 await camTrack.setProcessor(state.blur);
                 setIsBlur(true);

@@ -48,7 +48,6 @@ export function MediaDeviceMenu({
   const [isOpen, setIsOpen] = React.useState(false);
   const [devices, setDevices] = React.useState<MediaDeviceInfo[]>([]);
   const [updateRequired, setUpdateRequired] = React.useState<boolean>(true);
-  const [needPermissions, setNeedPermissions] = React.useState(requestPermissions);
 
   const handleActiveDeviceChange = (kind: MediaDeviceKind, deviceId: string) => {
     log.debug('handle device change');
@@ -58,12 +57,6 @@ export function MediaDeviceMenu({
 
   const button = React.useRef<HTMLButtonElement>(null);
   const tooltip = React.useRef<HTMLDivElement>(null);
-
-  React.useLayoutEffect(() => {
-    if (isOpen) {
-      setNeedPermissions(true);
-    }
-  }, [isOpen]);
 
   React.useLayoutEffect(() => {
     if (button.current && tooltip.current && (devices || updateRequired)) {
@@ -125,7 +118,7 @@ export function MediaDeviceMenu({
               onDeviceListChange={setDevices}
               kind={kind}
               track={tracks?.[kind]}
-              requestPermissions={needPermissions}
+              requestPermissions={requestPermissions}
             />
           ) : (
             <>
@@ -137,7 +130,7 @@ export function MediaDeviceMenu({
                 }
                 onDeviceListChange={setDevices}
                 track={tracks?.audioinput}
-                requestPermissions={needPermissions}
+                requestPermissions={requestPermissions}
               />
               <div className="lk-device-menu-heading">Video inputs</div>
               <MediaDeviceSelect
@@ -147,7 +140,7 @@ export function MediaDeviceMenu({
                 }
                 onDeviceListChange={setDevices}
                 track={tracks?.videoinput}
-                requestPermissions={needPermissions}
+                requestPermissions={requestPermissions}
               />
             </>
           )}

@@ -39,16 +39,10 @@ export function useToken(
       log.debug('fetching token');
       const params = new URLSearchParams({ ...options.userInfo, roomName });
       const res = await fetch(`${tokenEndpoint}?${params.toString()}`);
-      if (!res.ok) {
-        log.error(
-          `Could not fetch token. Server responded with status ${res.status}: ${res.statusText}`,
-        );
-        return;
-      }
       const { accessToken } = await res.json();
       setToken(accessToken);
     };
     tokenFetcher();
-  }, [tokenEndpoint, roomName, JSON.stringify(options)]);
+  }, [tokenEndpoint, roomName, options]);
   return token;
 }

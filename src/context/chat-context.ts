@@ -8,11 +8,10 @@ export type ChatContextAction =
   | { msg: 'show_users' }
   | { msg: 'hide_chat' }
   | { msg: 'toggle_chat' }
-  | { msg: 'unread_msg'; count: number }
-  | { msg: 'toggle_settings' };
+  | { msg: 'unread_msg'; count: number };
 
 /** @internal */
-export type WidgetContextType = {
+export type ChatContextType = {
   dispatch?: React.Dispatch<ChatContextAction>;
   state?: WidgetState;
 };
@@ -34,8 +33,6 @@ export function chatReducer(state: WidgetState, action: ChatContextAction): Widg
       return { ...state, showChat: 'show_users' };
     } else if (action.msg === 'unread_msg') {
       return { ...state, unreadMessages: action.count };
-    } else if (action.msg === 'toggle_settings') {
-      return { ...state, showSettings: !state.showSettings };
     } else if (action.msg === 'hide_chat') {
       return { ...state, showChat: null };
     } else {

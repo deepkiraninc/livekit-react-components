@@ -6,7 +6,7 @@ import type { DisconnectButtonProps } from '../components';
  *
  * @example
  * ```tsx
- * const { buttonProps } = useDisconnectButton(buttonProps);
+ * const { buttonProps } = useDisconnectButton();
  * return <button {...buttonProps}>Disconnect</button>;
  * ```
  * @public

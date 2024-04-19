@@ -5,10 +5,8 @@ import { ParticipantAudioTile } from '../components/participant/ParticipantAudio
 import { LayoutContextProvider } from '../components/layout/LayoutContextProvider';
 import type { WidgetState } from '@livekit/components-core';
 import { Chat } from './Chat';
-import { TrackLoop } from '../components';
-import { useTracks } from '../hooks';
-import { useWarnAboutMissingStyles } from '../hooks/useWarnAboutMissingStyles';
-import { Track } from 'livekit-client';
+import { ParticipantLoop } from '../components';
+import { useParticipants } from '../hooks';
 
 /** @public */
 export interface AudioConferenceProps extends React.HTMLAttributes<HTMLDivElement> { }
@@ -34,18 +32,15 @@ export function AudioConference({ ...props }: AudioConferenceProps) {
     showChat: null,
     unreadMessages: 0,
   });
-
-  const audioTracks = useTracks([Track.Source.Microphone]);
-
-  useWarnAboutMissingStyles();
+  const participants = useParticipants();
 
   return (
     <LayoutContextProvider onWidgetChange={setWidgetState}>
       <div className="lk-audio-conference" {...props}>
         <div className="lk-audio-conference-stage">
-          <TrackLoop tracks={audioTracks}>
+          <ParticipantLoop participants={participants}>
             <ParticipantAudioTile />
-          </TrackLoop>
+          </ParticipantLoop>
         </div>
         <ControlBar
           controls={{ microphone: true, screenShare: false, camera: false, chat: true }}

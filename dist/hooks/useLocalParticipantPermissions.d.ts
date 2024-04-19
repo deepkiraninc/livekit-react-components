@@ -1,4 +1,3 @@
-import type { ParticipantPermission } from '@livekit/protocol';
 /**
  * The `useLocalParticipantPermissions` hook returns the local participant's permissions.
  *
@@ -8,5 +7,5 @@ import type { ParticipantPermission } from '@livekit/protocol';
  * ```
  * @public
  */
-export declare function useLocalParticipantPermissions(): ParticipantPermission | undefined;
+export declare function useLocalParticipantPermissions(): import("livekit-client/dist/src/proto/livekit_models_pb").ParticipantPermission | undefined;
 //# sourceMappingURL=useLocalParticipantPermissions.d.ts.map

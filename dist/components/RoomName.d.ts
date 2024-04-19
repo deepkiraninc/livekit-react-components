@@ -14,5 +14,5 @@ export interface RoomNameProps extends React.HTMLAttributes<HTMLSpanElement> {
  * ```
  * @public
  */
-export declare const RoomName: (props: RoomNameProps & React.RefAttributes<HTMLSpanElement>) => React.ReactElement<any, string | React.JSXElementConstructor<any>> | null;
+export declare function RoomName({ childrenPosition, children, ...htmlAttributes }: RoomNameProps): React.JSX.Element;
 //# sourceMappingURL=RoomName.d.ts.map

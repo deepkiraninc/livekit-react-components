@@ -39,10 +39,12 @@ export const ParticipantList = ({
   ...htmlProps
 }: ParticipantListProps) => {
   const p = useEnsureParticipant(participant);
-
   const { elementProps } = useParticipantTile({
+    participant: p,
     htmlProps,
     disableSpeakingIndicator,
+    source: Track.Source.Microphone,
+    publication,
     onParticipantClick,
   });
 
@@ -57,17 +59,11 @@ export const ParticipantList = ({
               </div>
               <div className="display-flex">
                 <TrackMutedIndicator
-                  trackRef={{
-                    participant: p,
-                    source: Track.Source.Microphone,
-                  }}
+                  source={Track.Source.Microphone}
                   show={'always'}
                 ></TrackMutedIndicator>
                 <TrackMutedIndicator
-                  trackRef={{
-                    participant: p,
-                    source: Track.Source.Camera,
-                  }}
+                  source={Track.Source.Camera}
                   show={'always'}
                 ></TrackMutedIndicator>
               </div>

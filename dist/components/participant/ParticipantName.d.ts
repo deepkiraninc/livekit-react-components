@@ -13,5 +13,5 @@ export interface ParticipantNameProps extends React.HTMLAttributes<HTMLSpanEleme
  * ```
  * @public
  */
-export declare const ParticipantName: (props: ParticipantNameProps & React.RefAttributes<HTMLSpanElement>) => React.ReactElement<any, string | React.JSXElementConstructor<any>> | null;
+export declare function ParticipantName({ participant, ...props }: ParticipantNameProps): React.JSX.Element;
 //# sourceMappingURL=ParticipantName.d.ts.map

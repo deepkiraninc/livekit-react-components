@@ -54,10 +54,10 @@ export function useLocalParticipant(options: UseLocalParticipantOptions = {}) {
     setLocalParticipant(media.participant);
   };
   React.useEffect(() => {
-    const listener = observeParticipantMedia(room.localParticipant).subscribe(handleUpdate);
+    const listener = observeParticipantMedia(localParticipant).subscribe(handleUpdate);
     // TODO also listen to permission and metadata etc. events
     return () => listener.unsubscribe();
-  }, [room]);
+  }, [localParticipant]);
 
   return {
     isMicrophoneEnabled,

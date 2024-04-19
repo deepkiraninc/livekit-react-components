@@ -1,11 +1,17 @@
+import type { Participant } from 'livekit-client';
 import * as React from 'react';
 import { mergeProps } from '../../utils';
-import type { TrackReferenceOrPlaceholder } from '@livekit/components-core';
+import type { TrackReference, TrackReferenceOrPlaceholder } from '@livekit/components-core';
 import { ParticipantTile } from '../participant/ParticipantTile';
 import type { ParticipantClickEvent } from '@livekit/components-core';
 
 /** @public */
-export interface FocusLayoutContainerProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface FocusLayoutContainerProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** @deprecated This property has no effect and will be removed in a future version. */
+  focusTrack?: TrackReference;
+  /** @deprecated This property has no effect and will be removed in a future version. */
+  participants?: Array<Participant>;
+}
 
 /**
  * The `FocusLayoutContainer` is a layout component that expects two children:
@@ -24,7 +30,8 @@ export function FocusLayoutContainer(props: FocusLayoutContainerProps) {
 export interface FocusLayoutProps extends React.HTMLAttributes<HTMLElement> {
   /** The track to display in the focus layout. */
   trackRef?: TrackReferenceOrPlaceholder;
-
+  /** @deprecated This property will be removed in a future version use `trackRef` instead. */
+  track?: TrackReferenceOrPlaceholder;
   onParticipantClick?: (evt: ParticipantClickEvent) => void;
 }
 
@@ -32,6 +39,7 @@ export interface FocusLayoutProps extends React.HTMLAttributes<HTMLElement> {
  * The `FocusLayout` component is just a light wrapper around the `ParticipantTile` to display a single participant.
  * @public
  */
-export function FocusLayout({ trackRef, ...htmlProps }: FocusLayoutProps) {
-  return <ParticipantTile trackRef={trackRef} {...htmlProps} />;
+export function FocusLayout({ trackRef, track, ...htmlProps }: FocusLayoutProps) {
+  const trackReference = trackRef ?? track;
+  return <ParticipantTile {...trackReference} {...htmlProps} />;
 }

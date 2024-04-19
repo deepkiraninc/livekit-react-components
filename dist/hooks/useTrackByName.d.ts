@@ -1,10 +1,14 @@
-import type { Participant } from 'livekit-client';
+/// <reference types="react" />
+import type { UseMediaTrackOptions } from './useMediaTrack';
+import type { TrackReferenceOrPlaceholder } from '@livekit/components-core';
 /**
- * This function `useTrackByName` allows you to access a track by referencing its track name.
- * Inside the function, it ensures that the a valid `participant` reference is available by checking
- * for both a passed participant argument and, if not available, a valid participant context.
- *
  * @public
  */
-export declare function useTrackByName(name: string, participant?: Participant): import("@livekit/components-core").TrackReferenceOrPlaceholder;
+export declare function useTrackByName(trackRef?: TrackReferenceOrPlaceholder, options?: UseMediaTrackOptions): {
+    publication: import("livekit-client").TrackPublication | undefined;
+    isMuted: boolean | undefined;
+    isSubscribed: boolean | undefined;
+    track: import("livekit-client").Track | undefined;
+    elementProps: import("react").HTMLAttributes<HTMLElement>;
+};
 //# sourceMappingURL=useTrackByName.d.ts.map

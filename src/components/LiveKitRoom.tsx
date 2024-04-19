@@ -67,7 +67,6 @@ export interface LiveKitRoomProps extends Omit<React.HTMLAttributes<HTMLDivEleme
   onDisconnected?: () => void;
   onError?: (error: Error) => void;
   onMediaDeviceFailure?: (failure?: MediaDeviceFailure) => void;
-  onEncryptionError?: (error: Error) => void;
   /**
    * Optional room instance.
    * By passing your own room instance you overwrite the `options` parameter,
@@ -100,13 +99,10 @@ export interface LiveKitRoomProps extends Omit<React.HTMLAttributes<HTMLDivEleme
  * ```
  * @public
  */
-export const LiveKitRoom = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.PropsWithChildren<LiveKitRoomProps>
->(function LiveKitRoom(props: React.PropsWithChildren<LiveKitRoomProps>, ref) {
+export function LiveKitRoom(props: React.PropsWithChildren<LiveKitRoomProps>) {
   const { room, htmlProps } = useLiveKitRoom(props);
   return (
-    <div ref={ref} {...htmlProps}>
+    <div {...htmlProps}>
       {room && (
         <RoomContext.Provider value={room}>
           <LKFeatureContext.Provider value={props.featureFlags}>
@@ -116,4 +112,4 @@ export const LiveKitRoom = /* @__PURE__ */ React.forwardRef<
       )}
     </div>
   );
-});
+}
