@@ -1523,10 +1523,19 @@ function useWhiteboard() {
   const room = useRoomContext();
   const [isWhiteboardShared, setIsWhiteboardShared] = import_react.default.useState(false);
   const [isWhiteboardHost, setIsWhiteboardHost] = import_react.default.useState(true);
-  const [url, setUrl] = import_react.default.useState("");
+  const [url, setUrl] = import_react.default.useState(null);
   import_react.default.useEffect(() => {
     let meta = JSON.parse(metadata || "{}");
     if (meta) {
+      if (meta == null ? void 0 : meta.whiteboard_domain) {
+        let url2 = `${meta == null ? void 0 : meta.whiteboard_domain}?whiteboardid=${room.name}`;
+        if (room.localParticipant.name) {
+          url2 += `&username=${room.localParticipant.name}`;
+        }
+        setUrl(url2);
+      } else {
+        setUrl("/");
+      }
       if (meta == null ? void 0 : meta.whiteboard) {
         setIsWhiteboardShared(meta == null ? void 0 : meta.whiteboard);
       } else {
@@ -1536,15 +1545,6 @@ function useWhiteboard() {
         setIsWhiteboardHost(true);
       } else {
         setIsWhiteboardHost(false);
-      }
-      if (meta == null ? void 0 : meta.whiteboard_domain) {
-        let url2 = `${meta == null ? void 0 : meta.whiteboard_domain}?whiteboardid=${room.name}`;
-        if (room.localParticipant.name) {
-          url2 += `&username=${room.localParticipant.name}`;
-        }
-        setUrl(url2);
-      } else {
-        setUrl("/");
       }
     }
   }, [metadata]);

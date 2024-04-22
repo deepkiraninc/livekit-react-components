@@ -1617,10 +1617,19 @@ function useWhiteboard() {
   const room = useRoomContext();
   const [isWhiteboardShared, setIsWhiteboardShared] = React45.useState(false);
   const [isWhiteboardHost, setIsWhiteboardHost] = React45.useState(true);
-  const [url, setUrl] = React45.useState("");
+  const [url, setUrl] = React45.useState(null);
   React45.useEffect(() => {
     let meta = JSON.parse(metadata || "{}");
     if (meta) {
+      if (meta == null ? void 0 : meta.whiteboard_domain) {
+        let url2 = `${meta == null ? void 0 : meta.whiteboard_domain}?whiteboardid=${room.name}`;
+        if (room.localParticipant.name) {
+          url2 += `&username=${room.localParticipant.name}`;
+        }
+        setUrl(url2);
+      } else {
+        setUrl("/");
+      }
       if (meta == null ? void 0 : meta.whiteboard) {
         setIsWhiteboardShared(meta == null ? void 0 : meta.whiteboard);
       } else {
@@ -1630,15 +1639,6 @@ function useWhiteboard() {
         setIsWhiteboardHost(true);
       } else {
         setIsWhiteboardHost(false);
-      }
-      if (meta == null ? void 0 : meta.whiteboard_domain) {
-        let url2 = `${meta == null ? void 0 : meta.whiteboard_domain}?whiteboardid=${room.name}`;
-        if (room.localParticipant.name) {
-          url2 += `&username=${room.localParticipant.name}`;
-        }
-        setUrl(url2);
-      } else {
-        setUrl("/");
       }
     }
   }, [metadata]);
@@ -2599,7 +2599,7 @@ function useIsEncrypted(participant) {
 import * as React81 from "react";
 function WhiteboardTrack() {
   const { url } = useWhiteboard();
-  return /* @__PURE__ */ React81.createElement("iframe", { src: url, width: "100%", height: "100%" });
+  return url ? /* @__PURE__ */ React81.createElement("iframe", { src: url, width: "100%", height: "100%" }) : /* @__PURE__ */ React81.createElement(React81.Fragment, null);
 }
 
 // src/components/participant/ParticipantTile.tsx
@@ -3830,7 +3830,9 @@ function HostEndMeetingMenu(_a) {
       onClick: () => setIsOpen(!isOpen),
       ref: button
     }),
-    props.children
+    props.children,
+    showIcon && /* @__PURE__ */ React103.createElement(LeaveIcon_default, null),
+    showText && "Leave"
   ), /* @__PURE__ */ React103.createElement(
     "div",
     {
@@ -3951,17 +3953,22 @@ function WhiteboardIndicater({
   const encoder = new TextEncoder();
   const { isWhiteboardHost, isWhiteboardShared } = useWhiteboard();
   const [disableWhiteboard, setDisableWhiteboard] = React108.useState(false);
+  const [title, setTitle] = React108.useState("Whiteboard");
   React108.useEffect(() => {
     if (shareScreenTracks !== 0) {
       setDisableWhiteboard(true);
+      setTitle("Whiteboard");
     } else if (isWhiteboardShared) {
       if (isWhiteboardHost) {
         setDisableWhiteboard(false);
+        setTitle("Close Whiteboard");
       } else {
         setDisableWhiteboard(true);
+        setTitle("Whiteboard");
       }
     } else {
       setDisableWhiteboard(false);
+      setTitle("Whiteboard");
     }
   }, [isWhiteboardHost, isWhiteboardShared, shareScreenTracks]);
   const toggleWhiteboard = () => __async(this, null, function* () {
@@ -3969,21 +3976,21 @@ function WhiteboardIndicater({
       return;
     try {
       if (state == null ? void 0 : state.show_whiteboard) {
+        if (dispatch) {
+          dispatch({ msg: "hide_whiteboard" });
+        }
         const strData = JSON.stringify({ openWhiteboard: false });
         const data = encoder.encode(strData);
         room.localParticipant.publishData(data, 0);
         updateMeta(false);
-        if (dispatch) {
-          dispatch({ msg: "hide_whiteboard" });
-        }
       } else {
+        if (dispatch) {
+          dispatch({ msg: "show_whiteboard" });
+        }
         const strData = JSON.stringify({ openWhiteboard: true });
         const data = encoder.encode(strData);
         room.localParticipant.publishData(data, 0);
         updateMeta(true);
-        if (dispatch) {
-          dispatch({ msg: "show_whiteboard" });
-        }
       }
     } catch (e) {
       console.log(`ERROR: ${e.message}`);
@@ -4007,7 +4014,7 @@ function WhiteboardIndicater({
       }
     }));
   };
-  return /* @__PURE__ */ React108.createElement("button", { disabled: disableWhiteboard, className: "tl-blur lk-button", onClick: toggleWhiteboard }, "Whiteboard ", state == null ? void 0 : state.show_whiteboard);
+  return /* @__PURE__ */ React108.createElement("button", { disabled: disableWhiteboard, className: "tl-blur lk-button", onClick: toggleWhiteboard }, title);
 }
 
 // src/prefabs/ExtraOptionMenu.tsx
@@ -4219,7 +4226,7 @@ function ControlBar(_a) {
       blurEnabled: true,
       shareScreenTracks: screenShareTracks
     }
-  ))), visibleControls.endForAll ? /* @__PURE__ */ React110.createElement("div", { className: "tl-leave lk-button-group" }, /* @__PURE__ */ React110.createElement("button", { className: "lk-disconnect-button" }, showIcon && /* @__PURE__ */ React110.createElement(LeaveIcon_default, null), showText && "Leave"), /* @__PURE__ */ React110.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React110.createElement(
+  ))), visibleControls.endForAll ? /* @__PURE__ */ React110.createElement("div", { className: "tl-leave lk-button-group" }, /* @__PURE__ */ React110.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React110.createElement(
     HostEndMeetingMenu,
     {
       leave: visibleControls.leave,
