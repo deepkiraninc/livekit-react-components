@@ -1330,10 +1330,19 @@ function useWhiteboard() {
   const room = useRoomContext();
   const [isWhiteboardShared, setIsWhiteboardShared] = React37.useState(false);
   const [isWhiteboardHost, setIsWhiteboardHost] = React37.useState(true);
-  const [url, setUrl] = React37.useState("");
+  const [url, setUrl] = React37.useState(null);
   React37.useEffect(() => {
     let meta = JSON.parse(metadata || "{}");
     if (meta) {
+      if (meta == null ? void 0 : meta.whiteboard_domain) {
+        let url2 = `${meta == null ? void 0 : meta.whiteboard_domain}?whiteboardid=${room.name}`;
+        if (room.localParticipant.name) {
+          url2 += `&username=${room.localParticipant.name}`;
+        }
+        setUrl(url2);
+      } else {
+        setUrl("/");
+      }
       if (meta == null ? void 0 : meta.whiteboard) {
         setIsWhiteboardShared(meta == null ? void 0 : meta.whiteboard);
       } else {
@@ -1343,15 +1352,6 @@ function useWhiteboard() {
         setIsWhiteboardHost(true);
       } else {
         setIsWhiteboardHost(false);
-      }
-      if (meta == null ? void 0 : meta.whiteboard_domain) {
-        let url2 = `${meta == null ? void 0 : meta.whiteboard_domain}?whiteboardid=${room.name}`;
-        if (room.localParticipant.name) {
-          url2 += `&username=${room.localParticipant.name}`;
-        }
-        setUrl(url2);
-      } else {
-        setUrl("/");
       }
     }
   }, [metadata]);
@@ -2677,7 +2677,7 @@ function useIsEncrypted(participant) {
 import * as React69 from "react";
 function WhiteboardTrack() {
   const { url } = useWhiteboard();
-  return /* @__PURE__ */ React69.createElement("iframe", { src: url, width: "100%", height: "100%" });
+  return url ? /* @__PURE__ */ React69.createElement("iframe", { src: url, width: "100%", height: "100%" }) : /* @__PURE__ */ React69.createElement(React69.Fragment, null);
 }
 
 // src/components/participant/ParticipantTile.tsx
@@ -3175,7 +3175,8 @@ function HostEndMeetingMenu(_a) {
     if (button.current && tooltip.current && updateRequired) {
       computeMenuPosition2(button.current, tooltip.current).then(({ x, y }) => {
         if (tooltip.current) {
-          Object.assign(tooltip.current.style, { left: `${x}px`, top: `${y + 5}px` });
+          console.log({ x, y });
+          Object.assign(tooltip.current.style, { left: `${x}px`, top: `${y - 5}px` });
         }
       });
       setUpdateRequired(false);
@@ -3306,7 +3307,9 @@ function HostEndMeetingMenu(_a) {
       onClick: () => setIsOpen(!isOpen),
       ref: button
     }),
-    props.children
+    props.children,
+    showIcon && /* @__PURE__ */ React85.createElement(LeaveIcon_default, null),
+    showText && "Leave"
   ), /* @__PURE__ */ React85.createElement(
     "div",
     {
@@ -3390,6 +3393,7 @@ function BlurIndicater({ source, parentCallback }) {
   };
   const room = useRoomContext();
   const [isBlur, setIsBlur] = React89.useState(false);
+  const track = room == null ? void 0 : room.localParticipant.getTrack(source);
   const toggleBlur = () => __async(this, null, function* () {
     var _a;
     if (!room)
@@ -3409,7 +3413,7 @@ function BlurIndicater({ source, parentCallback }) {
       parentCallback();
     }
   });
-  return /* @__PURE__ */ React89.createElement("button", { className: "tl-blur lk-button", onClick: toggleBlur }, isBlur ? "Remove Blur" : "Blur Background");
+  return /* @__PURE__ */ React89.createElement("button", { className: "tl-blur lk-button", onClick: toggleBlur, disabled: track == null ? void 0 : track.isMuted }, isBlur ? "Remove Blur" : "Blur Background");
 }
 
 // src/prefabs/ExtraOptionMenu.tsx
@@ -3427,17 +3431,22 @@ function WhiteboardIndicater({
   const encoder = new TextEncoder();
   const { isWhiteboardHost, isWhiteboardShared } = useWhiteboard();
   const [disableWhiteboard, setDisableWhiteboard] = React90.useState(false);
+  const [title, setTitle] = React90.useState("Whiteboard");
   React90.useEffect(() => {
     if (shareScreenTracks !== 0) {
       setDisableWhiteboard(true);
+      setTitle("Whiteboard");
     } else if (isWhiteboardShared) {
       if (isWhiteboardHost) {
         setDisableWhiteboard(false);
+        setTitle("Close Whiteboard");
       } else {
         setDisableWhiteboard(true);
+        setTitle("Whiteboard");
       }
     } else {
       setDisableWhiteboard(false);
+      setTitle("Whiteboard");
     }
   }, [isWhiteboardHost, isWhiteboardShared, shareScreenTracks]);
   const toggleWhiteboard = () => __async(this, null, function* () {
@@ -3445,21 +3454,21 @@ function WhiteboardIndicater({
       return;
     try {
       if (state == null ? void 0 : state.show_whiteboard) {
+        if (dispatch) {
+          dispatch({ msg: "hide_whiteboard" });
+        }
         const strData = JSON.stringify({ openWhiteboard: false });
         const data = encoder.encode(strData);
         room.localParticipant.publishData(data, 0);
         updateMeta(false);
-        if (dispatch) {
-          dispatch({ msg: "hide_whiteboard" });
-        }
       } else {
+        if (dispatch) {
+          dispatch({ msg: "show_whiteboard" });
+        }
         const strData = JSON.stringify({ openWhiteboard: true });
         const data = encoder.encode(strData);
         room.localParticipant.publishData(data, 0);
         updateMeta(true);
-        if (dispatch) {
-          dispatch({ msg: "show_whiteboard" });
-        }
       }
     } catch (e) {
       console.log(`ERROR: ${e.message}`);
@@ -3483,7 +3492,7 @@ function WhiteboardIndicater({
       }
     }));
   };
-  return /* @__PURE__ */ React90.createElement("button", { disabled: disableWhiteboard, className: "tl-blur lk-button", onClick: toggleWhiteboard }, "Whiteboard ", state == null ? void 0 : state.show_whiteboard);
+  return /* @__PURE__ */ React90.createElement("button", { disabled: disableWhiteboard, className: "tl-blur lk-button", onClick: toggleWhiteboard }, title);
 }
 
 // src/prefabs/ExtraOptionMenu.tsx
@@ -3695,7 +3704,7 @@ function ControlBar(_a) {
       blurEnabled: true,
       shareScreenTracks: screenShareTracks
     }
-  ))), visibleControls.endForAll ? /* @__PURE__ */ React92.createElement("div", { className: "tl-leave lk-button-group" }, /* @__PURE__ */ React92.createElement("button", { className: "lk-disconnect-button" }, showIcon && /* @__PURE__ */ React92.createElement(LeaveIcon_default, null), showText && "Leave"), /* @__PURE__ */ React92.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React92.createElement(
+  ))), visibleControls.endForAll ? /* @__PURE__ */ React92.createElement("div", { className: "tl-leave lk-button-group" }, /* @__PURE__ */ React92.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React92.createElement(
     HostEndMeetingMenu,
     {
       leave: visibleControls.leave,

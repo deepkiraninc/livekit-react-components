@@ -1742,10 +1742,19 @@ function useWhiteboard() {
   const room = useRoomContext();
   const [isWhiteboardShared, setIsWhiteboardShared] = import_react.default.useState(false);
   const [isWhiteboardHost, setIsWhiteboardHost] = import_react.default.useState(true);
-  const [url, setUrl] = import_react.default.useState("");
+  const [url, setUrl] = import_react.default.useState(null);
   import_react.default.useEffect(() => {
     let meta = JSON.parse(metadata || "{}");
     if (meta) {
+      if (meta == null ? void 0 : meta.whiteboard_domain) {
+        let url2 = `${meta == null ? void 0 : meta.whiteboard_domain}?whiteboardid=${room.name}`;
+        if (room.localParticipant.name) {
+          url2 += `&username=${room.localParticipant.name}`;
+        }
+        setUrl(url2);
+      } else {
+        setUrl("/");
+      }
       if (meta == null ? void 0 : meta.whiteboard) {
         setIsWhiteboardShared(meta == null ? void 0 : meta.whiteboard);
       } else {
@@ -1755,15 +1764,6 @@ function useWhiteboard() {
         setIsWhiteboardHost(true);
       } else {
         setIsWhiteboardHost(false);
-      }
-      if (meta == null ? void 0 : meta.whiteboard_domain) {
-        let url2 = `${meta == null ? void 0 : meta.whiteboard_domain}?whiteboardid=${room.name}`;
-        if (room.localParticipant.name) {
-          url2 += `&username=${room.localParticipant.name}`;
-        }
-        setUrl(url2);
-      } else {
-        setUrl("/");
       }
     }
   }, [metadata]);
@@ -2722,7 +2722,7 @@ function useIsEncrypted(participant) {
 var React81 = __toESM(require("react"));
 function WhiteboardTrack() {
   const { url } = useWhiteboard();
-  return /* @__PURE__ */ React81.createElement("iframe", { src: url, width: "100%", height: "100%" });
+  return url ? /* @__PURE__ */ React81.createElement("iframe", { src: url, width: "100%", height: "100%" }) : /* @__PURE__ */ React81.createElement(React81.Fragment, null);
 }
 
 // src/components/participant/ParticipantTile.tsx
@@ -3815,7 +3815,8 @@ function HostEndMeetingMenu(_a2) {
     if (button.current && tooltip.current && updateRequired) {
       (0, import_components_core49.computeMenuPosition)(button.current, tooltip.current).then(({ x: x2, y: y2 }) => {
         if (tooltip.current) {
-          Object.assign(tooltip.current.style, { left: `${x2}px`, top: `${y2 + 5}px` });
+          console.log({ x: x2, y: y2 });
+          Object.assign(tooltip.current.style, { left: `${x2}px`, top: `${y2 - 5}px` });
         }
       });
       setUpdateRequired(false);
@@ -3946,7 +3947,9 @@ function HostEndMeetingMenu(_a2) {
       onClick: () => setIsOpen(!isOpen),
       ref: button
     }),
-    props.children
+    props.children,
+    showIcon && /* @__PURE__ */ React103.createElement(LeaveIcon_default, null),
+    showText && "Leave"
   ), /* @__PURE__ */ React103.createElement(
     "div",
     {
@@ -8466,6 +8469,7 @@ function BlurIndicater({ source, parentCallback }) {
   };
   const room = useRoomContext();
   const [isBlur, setIsBlur] = import_react2.default.useState(false);
+  const track = room == null ? void 0 : room.localParticipant.getTrack(source);
   const toggleBlur = () => __async(this, null, function* () {
     var _a2;
     if (!room)
@@ -8485,7 +8489,7 @@ function BlurIndicater({ source, parentCallback }) {
       parentCallback();
     }
   });
-  return /* @__PURE__ */ import_react2.default.createElement("button", { className: "tl-blur lk-button", onClick: toggleBlur }, isBlur ? "Remove Blur" : "Blur Background");
+  return /* @__PURE__ */ import_react2.default.createElement("button", { className: "tl-blur lk-button", onClick: toggleBlur, disabled: track == null ? void 0 : track.isMuted }, isBlur ? "Remove Blur" : "Blur Background");
 }
 
 // src/prefabs/ExtraOptionMenu.tsx
@@ -8503,17 +8507,22 @@ function WhiteboardIndicater({
   const encoder = new TextEncoder();
   const { isWhiteboardHost, isWhiteboardShared } = useWhiteboard();
   const [disableWhiteboard, setDisableWhiteboard] = import_react3.default.useState(false);
+  const [title, setTitle] = import_react3.default.useState("Whiteboard");
   import_react3.default.useEffect(() => {
     if (shareScreenTracks !== 0) {
       setDisableWhiteboard(true);
+      setTitle("Whiteboard");
     } else if (isWhiteboardShared) {
       if (isWhiteboardHost) {
         setDisableWhiteboard(false);
+        setTitle("Close Whiteboard");
       } else {
         setDisableWhiteboard(true);
+        setTitle("Whiteboard");
       }
     } else {
       setDisableWhiteboard(false);
+      setTitle("Whiteboard");
     }
   }, [isWhiteboardHost, isWhiteboardShared, shareScreenTracks]);
   const toggleWhiteboard = () => __async(this, null, function* () {
@@ -8521,21 +8530,21 @@ function WhiteboardIndicater({
       return;
     try {
       if (state == null ? void 0 : state.show_whiteboard) {
+        if (dispatch) {
+          dispatch({ msg: "hide_whiteboard" });
+        }
         const strData = JSON.stringify({ openWhiteboard: false });
         const data = encoder.encode(strData);
         room.localParticipant.publishData(data, 0);
         updateMeta(false);
-        if (dispatch) {
-          dispatch({ msg: "hide_whiteboard" });
-        }
       } else {
+        if (dispatch) {
+          dispatch({ msg: "show_whiteboard" });
+        }
         const strData = JSON.stringify({ openWhiteboard: true });
         const data = encoder.encode(strData);
         room.localParticipant.publishData(data, 0);
         updateMeta(true);
-        if (dispatch) {
-          dispatch({ msg: "show_whiteboard" });
-        }
       }
     } catch (e2) {
       console.log(`ERROR: ${e2.message}`);
@@ -8559,7 +8568,7 @@ function WhiteboardIndicater({
       }
     }));
   };
-  return /* @__PURE__ */ import_react3.default.createElement("button", { disabled: disableWhiteboard, className: "tl-blur lk-button", onClick: toggleWhiteboard }, "Whiteboard ", state == null ? void 0 : state.show_whiteboard);
+  return /* @__PURE__ */ import_react3.default.createElement("button", { disabled: disableWhiteboard, className: "tl-blur lk-button", onClick: toggleWhiteboard }, title);
 }
 
 // src/prefabs/ExtraOptionMenu.tsx
@@ -8771,7 +8780,7 @@ function ControlBar(_a2) {
       blurEnabled: true,
       shareScreenTracks: screenShareTracks
     }
-  ))), visibleControls.endForAll ? /* @__PURE__ */ React110.createElement("div", { className: "tl-leave lk-button-group" }, /* @__PURE__ */ React110.createElement("button", { className: "lk-disconnect-button" }, showIcon && /* @__PURE__ */ React110.createElement(LeaveIcon_default, null), showText && "Leave"), /* @__PURE__ */ React110.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React110.createElement(
+  ))), visibleControls.endForAll ? /* @__PURE__ */ React110.createElement("div", { className: "tl-leave lk-button-group" }, /* @__PURE__ */ React110.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React110.createElement(
     HostEndMeetingMenu,
     {
       leave: visibleControls.leave,
