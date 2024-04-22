@@ -3175,7 +3175,8 @@ function HostEndMeetingMenu(_a) {
     if (button.current && tooltip.current && updateRequired) {
       computeMenuPosition2(button.current, tooltip.current).then(({ x, y }) => {
         if (tooltip.current) {
-          Object.assign(tooltip.current.style, { left: `${x}px`, top: `${y + 5}px` });
+          console.log({ x, y });
+          Object.assign(tooltip.current.style, { left: `${x}px`, top: `${y - 5}px` });
         }
       });
       setUpdateRequired(false);
@@ -3392,6 +3393,7 @@ function BlurIndicater({ source, parentCallback }) {
   };
   const room = useRoomContext();
   const [isBlur, setIsBlur] = React89.useState(false);
+  const track = room == null ? void 0 : room.localParticipant.getTrack(source);
   const toggleBlur = () => __async(this, null, function* () {
     var _a;
     if (!room)
@@ -3411,7 +3413,7 @@ function BlurIndicater({ source, parentCallback }) {
       parentCallback();
     }
   });
-  return /* @__PURE__ */ React89.createElement("button", { className: "tl-blur lk-button", onClick: toggleBlur }, isBlur ? "Remove Blur" : "Blur Background");
+  return /* @__PURE__ */ React89.createElement("button", { className: "tl-blur lk-button", onClick: toggleBlur, disabled: track == null ? void 0 : track.isMuted }, isBlur ? "Remove Blur" : "Blur Background");
 }
 
 // src/prefabs/ExtraOptionMenu.tsx

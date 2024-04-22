@@ -3815,7 +3815,8 @@ function HostEndMeetingMenu(_a2) {
     if (button.current && tooltip.current && updateRequired) {
       (0, import_components_core49.computeMenuPosition)(button.current, tooltip.current).then(({ x: x2, y: y2 }) => {
         if (tooltip.current) {
-          Object.assign(tooltip.current.style, { left: `${x2}px`, top: `${y2 + 5}px` });
+          console.log({ x: x2, y: y2 });
+          Object.assign(tooltip.current.style, { left: `${x2}px`, top: `${y2 - 5}px` });
         }
       });
       setUpdateRequired(false);
@@ -8468,6 +8469,7 @@ function BlurIndicater({ source, parentCallback }) {
   };
   const room = useRoomContext();
   const [isBlur, setIsBlur] = import_react2.default.useState(false);
+  const track = room == null ? void 0 : room.localParticipant.getTrack(source);
   const toggleBlur = () => __async(this, null, function* () {
     var _a2;
     if (!room)
@@ -8487,7 +8489,7 @@ function BlurIndicater({ source, parentCallback }) {
       parentCallback();
     }
   });
-  return /* @__PURE__ */ import_react2.default.createElement("button", { className: "tl-blur lk-button", onClick: toggleBlur }, isBlur ? "Remove Blur" : "Blur Background");
+  return /* @__PURE__ */ import_react2.default.createElement("button", { className: "tl-blur lk-button", onClick: toggleBlur, disabled: track == null ? void 0 : track.isMuted }, isBlur ? "Remove Blur" : "Blur Background");
 }
 
 // src/prefabs/ExtraOptionMenu.tsx
