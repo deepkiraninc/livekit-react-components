@@ -8632,7 +8632,7 @@ function BlurIndicater({ source, parentCallback }) {
     } else {
       setIsCameraEnabled(true);
     }
-  }, [track == null ? void 0 : track.isMuted]);
+  }, [track]);
   const toggleBlur = () => __async(this, null, function* () {
     var _a2;
     if (!room)
