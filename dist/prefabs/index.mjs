@@ -3941,7 +3941,7 @@ function ControlBar(_a) {
       title: sharescreenTitle
     },
     showText && (isScreenShareEnabled ? "Stop screen share" : "Share screen")
-  ), visibleControls.chat && /* @__PURE__ */ React107.createElement(ChatToggle, null, showIcon && /* @__PURE__ */ React107.createElement(ChatIcon_default, null), showText && "Chat", state && state.unreadMessages !== 0 && /* @__PURE__ */ React107.createElement("span", { className: "waiting-count" }, state.unreadMessages < 10 ? state.unreadMessages.toFixed(0) : "9+")), visibleControls.sharelink && /* @__PURE__ */ React107.createElement(ShareLinkToggle, null, showIcon && /* @__PURE__ */ React107.createElement(InviteIcon_default, null), showText && "Invite"), visibleControls.users && /* @__PURE__ */ React107.createElement(UserToggle, null, showIcon && /* @__PURE__ */ React107.createElement(UsersIcon_default, null), showText && "Participants", waitingRoomCount !== 0 && /* @__PURE__ */ React107.createElement("span", { className: "waiting-count" }, waitingRoomCount)), /* @__PURE__ */ React107.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React107.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React107.createElement(ExtraOptionMenu, { blurEnabled: true, shareScreenTracks: screenShareTracks }))), visibleControls.endForAll ? /* @__PURE__ */ React107.createElement("div", { className: "tl-leave lk-button-group" }, /* @__PURE__ */ React107.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React107.createElement(
+  ), visibleControls.chat && /* @__PURE__ */ React107.createElement(ChatToggle, null, showIcon && /* @__PURE__ */ React107.createElement(ChatIcon_default, null), showText && "Chat", state && state.unreadMessages !== 0 && /* @__PURE__ */ React107.createElement("span", { className: "waiting-count" }, state.unreadMessages < 10 ? state.unreadMessages.toFixed(0) : "9+")), visibleControls.sharelink && /* @__PURE__ */ React107.createElement(ShareLinkToggle, null, showIcon && /* @__PURE__ */ React107.createElement(InviteIcon_default, null), showText && "Invite"), visibleControls.users && /* @__PURE__ */ React107.createElement(UserToggle, null, showIcon && /* @__PURE__ */ React107.createElement(UsersIcon_default, null), showText && "Participants", waitingRoomCount !== 0 && /* @__PURE__ */ React107.createElement("span", { className: "waiting-count" }, waitingRoomCount)), /* @__PURE__ */ React107.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React107.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React107.createElement(ExtraOptionMenu, { blurEnabled: false, shareScreenTracks: screenShareTracks }))), visibleControls.endForAll ? /* @__PURE__ */ React107.createElement("div", { className: "tl-leave lk-button-group" }, /* @__PURE__ */ React107.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React107.createElement(
     HostEndMeetingMenu,
     {
       leave: visibleControls.leave,
@@ -4573,7 +4573,7 @@ function VideoConference(_a) {
     /* @__PURE__ */ React112.createElement(
       Chat,
       {
-        style: { display: widgetState.showChat == "show_chat" ? "grid" : "none" },
+        style: { display: widgetState.showChat == "show_chat" ? "flex" : "none" },
         messageFormatter: formatChatMessageLinks,
         messageEncoder: chatMessageEncoder,
         messageDecoder: chatMessageDecoder
