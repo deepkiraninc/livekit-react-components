@@ -1707,7 +1707,7 @@ var SvgChatIcon = (props) => /* @__PURE__ */ React51.createElement("svg", __spre
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M0 2.75A2.75 2.75 0 0 1 2.75 0h10.5A2.75 2.75 0 0 1 16 2.75v13.594a.75.75 0 0 1-1.234.572l-3.691-3.12a1.25 1.25 0 0 0-.807-.296H2.75A2.75 2.75 0 0 1 0 10.75v-8ZM2.75 1.5c-.69 0-1.25.56-1.25 1.25v8c0 .69.56 1.25 1.25 1.25h7.518c.65 0 1.279.23 1.775.65l2.457 2.077V2.75c0-.69-.56-1.25-1.25-1.25H2.75Z",
+    d: "M0 2.75A2.75 2.75 0 0 1 2.75 0h10.5A2.75 2.75 0 0 1 16 2.75v13.594a.75.75 0 0 1-1.234.572l-3.691-3.12a1.25 1.25 0 0 0-.807-.296H2.75A2.75 2.75 0 0 1 0 10.75zM2.75 1.5c-.69 0-1.25.56-1.25 1.25v8c0 .69.56 1.25 1.25 1.25h7.518c.65 0 1.279.23 1.775.65l2.457 2.077V2.75c0-.69-.56-1.25-1.25-1.25z",
     clipRule: "evenodd"
   }
 ), /* @__PURE__ */ React51.createElement(
@@ -1715,7 +1715,7 @@ var SvgChatIcon = (props) => /* @__PURE__ */ React51.createElement("svg", __spre
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M3 4.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Z",
+    d: "M3 4.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5",
     clipRule: "evenodd"
   }
 ));
@@ -1728,7 +1728,7 @@ var SvgChevron = (props) => /* @__PURE__ */ React52.createElement("svg", __sprea
   {
     fill: "currentcolor",
     fillRule: "evenodd",
-    d: "M5.293 2.293a1 1 0 0 1 1.414 0l4.823 4.823a1.25 1.25 0 0 1 0 1.768l-4.823 4.823a1 1 0 0 1-1.414-1.414L9.586 8 5.293 3.707a1 1 0 0 1 0-1.414z",
+    d: "M5.293 2.293a1 1 0 0 1 1.414 0l4.823 4.823a1.25 1.25 0 0 1 0 1.768l-4.823 4.823a1 1 0 0 1-1.414-1.414L9.586 8 5.293 3.707a1 1 0 0 1 0-1.414",
     clipRule: "evenodd"
   }
 ));
@@ -1746,7 +1746,7 @@ var SvgLeaveIcon = (props) => /* @__PURE__ */ React54.createElement("svg", __spr
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M2 2.75A2.75 2.75 0 0 1 4.75 0h6.5A2.75 2.75 0 0 1 14 2.75v10.5A2.75 2.75 0 0 1 11.25 16h-6.5A2.75 2.75 0 0 1 2 13.25v-.5a.75.75 0 0 1 1.5 0v.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V2.75c0-.69-.56-1.25-1.25-1.25h-6.5c-.69 0-1.25.56-1.25 1.25v.5a.75.75 0 0 1-1.5 0v-.5Z",
+    d: "M2 2.75A2.75 2.75 0 0 1 4.75 0h6.5A2.75 2.75 0 0 1 14 2.75v10.5A2.75 2.75 0 0 1 11.25 16h-6.5A2.75 2.75 0 0 1 2 13.25v-.5a.75.75 0 0 1 1.5 0v.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V2.75c0-.69-.56-1.25-1.25-1.25h-6.5c-.69 0-1.25.56-1.25 1.25v.5a.75.75 0 0 1-1.5 0z",
     clipRule: "evenodd"
   }
 ), /* @__PURE__ */ React54.createElement(
@@ -1754,7 +1754,7 @@ var SvgLeaveIcon = (props) => /* @__PURE__ */ React54.createElement("svg", __spr
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M8.78 7.47a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 1 1-1.06-1.06l.97-.97H1.75a.75.75 0 0 1 0-1.5h4.69l-.97-.97a.75.75 0 0 1 1.06-1.06l2.25 2.25Z",
+    d: "M8.78 7.47a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 1 1-1.06-1.06l.97-.97H1.75a.75.75 0 0 1 0-1.5h4.69l-.97-.97a.75.75 0 0 1 1.06-1.06z",
     clipRule: "evenodd"
   }
 ));
@@ -1767,7 +1767,7 @@ var SvgLockLockedIcon = (props) => /* @__PURE__ */ React55.createElement("svg", 
   {
     fill: "currentcolor",
     fillRule: "evenodd",
-    d: "M4 6.104V4a4 4 0 1 1 8 0v2.104c1.154.326 2 1.387 2 2.646v4.5A2.75 2.75 0 0 1 11.25 16h-6.5A2.75 2.75 0 0 1 2 13.25v-4.5c0-1.259.846-2.32 2-2.646ZM5.5 4a2.5 2.5 0 0 1 5 0v2h-5V4Z",
+    d: "M4 6.104V4a4 4 0 1 1 8 0v2.104c1.154.326 2 1.387 2 2.646v4.5A2.75 2.75 0 0 1 11.25 16h-6.5A2.75 2.75 0 0 1 2 13.25v-4.5c0-1.259.846-2.32 2-2.646M5.5 4a2.5 2.5 0 0 1 5 0v2h-5z",
     clipRule: "evenodd"
   }
 ));
@@ -1790,7 +1790,7 @@ var QualityPoorIcon_default = SvgQualityPoorIcon;
 
 // src/assets/icons/QualityUnknownIcon.tsx
 import * as React59 from "react";
-var SvgQualityUnknownIcon = (props) => /* @__PURE__ */ React59.createElement("svg", __spreadValues({ xmlns: "http://www.w3.org/2000/svg", width: 16, height: 16, fill: "currentColor" }, props), /* @__PURE__ */ React59.createElement("g", { opacity: 0.25 }, /* @__PURE__ */ React59.createElement("path", { d: "M0 11.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-4Zm6-5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-9Zm6-6a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V.5Z" }), /* @__PURE__ */ React59.createElement("path", { d: "M0 11.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-4Zm6-5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-9Zm6-6a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V.5Z" })));
+var SvgQualityUnknownIcon = (props) => /* @__PURE__ */ React59.createElement("svg", __spreadValues({ xmlns: "http://www.w3.org/2000/svg", width: 16, height: 16, fill: "currentColor" }, props), /* @__PURE__ */ React59.createElement("g", { opacity: 0.25 }, /* @__PURE__ */ React59.createElement("path", { d: "M0 11.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5zm6-5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5zm6-6a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5z" }), /* @__PURE__ */ React59.createElement("path", { d: "M0 11.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5zm6-5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5zm6-6a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5z" })));
 var QualityUnknownIcon_default = SvgQualityUnknownIcon;
 
 // src/assets/icons/ScreenShareIcon.tsx
@@ -1800,7 +1800,7 @@ var SvgScreenShareIcon = (props) => /* @__PURE__ */ React60.createElement("svg",
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M0 2.75A2.75 2.75 0 0 1 2.75 0h14.5A2.75 2.75 0 0 1 20 2.75v10.5A2.75 2.75 0 0 1 17.25 16H2.75A2.75 2.75 0 0 1 0 13.25V2.75ZM2.75 1.5c-.69 0-1.25.56-1.25 1.25v10.5c0 .69.56 1.25 1.25 1.25h14.5c.69 0 1.25-.56 1.25-1.25V2.75c0-.69-.56-1.25-1.25-1.25H2.75Z",
+    d: "M0 2.75A2.75 2.75 0 0 1 2.75 0h14.5A2.75 2.75 0 0 1 20 2.75v10.5A2.75 2.75 0 0 1 17.25 16H2.75A2.75 2.75 0 0 1 0 13.25zM2.75 1.5c-.69 0-1.25.56-1.25 1.25v10.5c0 .69.56 1.25 1.25 1.25h14.5c.69 0 1.25-.56 1.25-1.25V2.75c0-.69-.56-1.25-1.25-1.25z",
     clipRule: "evenodd"
   }
 ), /* @__PURE__ */ React60.createElement(
@@ -1808,7 +1808,7 @@ var SvgScreenShareIcon = (props) => /* @__PURE__ */ React60.createElement("svg",
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M9.47 4.22a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1-1.06 1.06l-.97-.97v4.69a.75.75 0 0 1-1.5 0V6.56l-.97.97a.75.75 0 0 1-1.06-1.06l2.25-2.25Z",
+    d: "M9.47 4.22a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1-1.06 1.06l-.97-.97v4.69a.75.75 0 0 1-1.5 0V6.56l-.97.97a.75.75 0 0 1-1.06-1.06z",
     clipRule: "evenodd"
   }
 ));
@@ -1833,7 +1833,7 @@ var SvgSpinnerIcon = (props) => /* @__PURE__ */ React62.createElement("svg", __s
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M8 0a.75.75 0 0 1 .75.75v2.5a.75.75 0 0 1-1.5 0V.75A.75.75 0 0 1 8 0Z",
+    d: "M8 0a.75.75 0 0 1 .75.75v2.5a.75.75 0 0 1-1.5 0V.75A.75.75 0 0 1 8 0",
     clipRule: "evenodd"
   }
 ), /* @__PURE__ */ React62.createElement(
@@ -1841,7 +1841,7 @@ var SvgSpinnerIcon = (props) => /* @__PURE__ */ React62.createElement("svg", __s
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M8 12a.75.75 0 0 1 .75.75v2.5a.75.75 0 0 1-1.5 0v-2.5A.75.75 0 0 1 8 12Z",
+    d: "M8 12a.75.75 0 0 1 .75.75v2.5a.75.75 0 0 1-1.5 0v-2.5A.75.75 0 0 1 8 12",
     clipRule: "evenodd",
     opacity: 0.7
   }
@@ -1850,7 +1850,7 @@ var SvgSpinnerIcon = (props) => /* @__PURE__ */ React62.createElement("svg", __s
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M12 1.072a.75.75 0 0 1 .274 1.024l-1.25 2.165a.75.75 0 0 1-1.299-.75l1.25-2.165A.75.75 0 0 1 12 1.072Z",
+    d: "M12 1.072a.75.75 0 0 1 .274 1.024l-1.25 2.165a.75.75 0 0 1-1.299-.75l1.25-2.165A.75.75 0 0 1 12 1.072",
     clipRule: "evenodd"
   }
 ), /* @__PURE__ */ React62.createElement(
@@ -1858,7 +1858,7 @@ var SvgSpinnerIcon = (props) => /* @__PURE__ */ React62.createElement("svg", __s
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M6 11.464a.75.75 0 0 1 .274 1.025l-1.25 2.165a.75.75 0 0 1-1.299-.75l1.25-2.165A.75.75 0 0 1 6 11.464Z",
+    d: "M6 11.464a.75.75 0 0 1 .274 1.025l-1.25 2.165a.75.75 0 0 1-1.299-.75l1.25-2.165A.75.75 0 0 1 6 11.464",
     clipRule: "evenodd",
     opacity: 0.6
   }
@@ -1867,7 +1867,7 @@ var SvgSpinnerIcon = (props) => /* @__PURE__ */ React62.createElement("svg", __s
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M14.928 4a.75.75 0 0 1-.274 1.025l-2.165 1.25a.75.75 0 1 1-.75-1.3l2.165-1.25A.75.75 0 0 1 14.928 4Z",
+    d: "M14.928 4a.75.75 0 0 1-.274 1.025l-2.165 1.25a.75.75 0 1 1-.75-1.3l2.165-1.25A.75.75 0 0 1 14.928 4",
     clipRule: "evenodd"
   }
 ), /* @__PURE__ */ React62.createElement(
@@ -1875,7 +1875,7 @@ var SvgSpinnerIcon = (props) => /* @__PURE__ */ React62.createElement("svg", __s
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M4.536 10a.75.75 0 0 1-.275 1.024l-2.165 1.25a.75.75 0 0 1-.75-1.298l2.165-1.25A.75.75 0 0 1 4.536 10Z",
+    d: "M4.536 10a.75.75 0 0 1-.275 1.024l-2.165 1.25a.75.75 0 0 1-.75-1.298l2.165-1.25A.75.75 0 0 1 4.536 10",
     clipRule: "evenodd",
     opacity: 0.5
   }
@@ -1884,7 +1884,7 @@ var SvgSpinnerIcon = (props) => /* @__PURE__ */ React62.createElement("svg", __s
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M16 8a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h2.5A.75.75 0 0 1 16 8Z",
+    d: "M16 8a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h2.5A.75.75 0 0 1 16 8",
     clipRule: "evenodd"
   }
 ), /* @__PURE__ */ React62.createElement(
@@ -1892,7 +1892,7 @@ var SvgSpinnerIcon = (props) => /* @__PURE__ */ React62.createElement("svg", __s
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M4 8a.75.75 0 0 1-.75.75H.75a.75.75 0 0 1 0-1.5h2.5A.75.75 0 0 1 4 8Z",
+    d: "M4 8a.75.75 0 0 1-.75.75H.75a.75.75 0 0 1 0-1.5h2.5A.75.75 0 0 1 4 8",
     clipRule: "evenodd",
     opacity: 0.4
   }
@@ -1901,7 +1901,7 @@ var SvgSpinnerIcon = (props) => /* @__PURE__ */ React62.createElement("svg", __s
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M14.928 12a.75.75 0 0 1-1.024.274l-2.165-1.25a.75.75 0 0 1 .75-1.299l2.165 1.25A.75.75 0 0 1 14.928 12Z",
+    d: "M14.928 12a.75.75 0 0 1-1.024.274l-2.165-1.25a.75.75 0 0 1 .75-1.299l2.165 1.25A.75.75 0 0 1 14.928 12",
     clipRule: "evenodd",
     opacity: 0.9
   }
@@ -1910,7 +1910,7 @@ var SvgSpinnerIcon = (props) => /* @__PURE__ */ React62.createElement("svg", __s
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M4.536 6a.75.75 0 0 1-1.025.275l-2.165-1.25a.75.75 0 1 1 .75-1.3l2.165 1.25A.75.75 0 0 1 4.536 6Z",
+    d: "M4.536 6a.75.75 0 0 1-1.025.275l-2.165-1.25a.75.75 0 1 1 .75-1.3l2.165 1.25A.75.75 0 0 1 4.536 6",
     clipRule: "evenodd",
     opacity: 0.3
   }
@@ -1919,7 +1919,7 @@ var SvgSpinnerIcon = (props) => /* @__PURE__ */ React62.createElement("svg", __s
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M12 14.928a.75.75 0 0 1-1.024-.274l-1.25-2.165a.75.75 0 0 1 1.298-.75l1.25 2.165A.75.75 0 0 1 12 14.928Z",
+    d: "M12 14.928a.75.75 0 0 1-1.024-.274l-1.25-2.165a.75.75 0 0 1 1.298-.75l1.25 2.165A.75.75 0 0 1 12 14.928",
     clipRule: "evenodd",
     opacity: 0.8
   }
@@ -1928,7 +1928,7 @@ var SvgSpinnerIcon = (props) => /* @__PURE__ */ React62.createElement("svg", __s
   {
     fill: "currentColor",
     fillRule: "evenodd",
-    d: "M6 4.536a.75.75 0 0 1-1.024-.275l-1.25-2.165a.75.75 0 1 1 1.299-.75l1.25 2.165A.75.75 0 0 1 6 4.536Z",
+    d: "M6 4.536a.75.75 0 0 1-1.024-.275l-1.25-2.165a.75.75 0 1 1 1.299-.75l1.25 2.165A.75.75 0 0 1 6 4.536",
     clipRule: "evenodd",
     opacity: 0.2
   }
@@ -2678,7 +2678,7 @@ function ParticipantTile(_a) {
       source: Track4.Source.Microphone,
       show: "muted"
     }
-  ), /* @__PURE__ */ React82.createElement(ParticipantName, null)) : /* @__PURE__ */ React82.createElement(React82.Fragment, null, /* @__PURE__ */ React82.createElement(ScreenShareIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React82.createElement(ParticipantName, null, "'s screen"))), /* @__PURE__ */ React82.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" }))), ((_d = trackReference.publication) == null ? void 0 : _d.trackName) !== "whiteboard")));
+  ), /* @__PURE__ */ React82.createElement(ParticipantName, null)) : /* @__PURE__ */ React82.createElement(React82.Fragment, null, /* @__PURE__ */ React82.createElement(ScreenShareIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React82.createElement(ParticipantName, null, "'s screen"))), /* @__PURE__ */ React82.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" }))), ((_d = trackReference.publication) == null ? void 0 : _d.trackName) !== "whiteboard" ? /* @__PURE__ */ React82.createElement(FocusToggle, { trackRef: trackReference }) : /* @__PURE__ */ React82.createElement(React82.Fragment, null))));
 }
 
 // src/components/layout/FocusLayout.tsx
@@ -4225,7 +4225,7 @@ function ControlBar(_a) {
   ), visibleControls.chat && /* @__PURE__ */ React110.createElement(ChatToggle, null, showIcon && /* @__PURE__ */ React110.createElement(ChatIcon_default, null), showText && "Chat", state && state.unreadMessages !== 0 && /* @__PURE__ */ React110.createElement("span", { className: "waiting-count" }, state.unreadMessages < 10 ? state.unreadMessages.toFixed(0) : "9+")), visibleControls.sharelink && /* @__PURE__ */ React110.createElement(ShareLinkToggle, null, showIcon && /* @__PURE__ */ React110.createElement(InviteIcon_default, null), showText && "Invite"), visibleControls.users && /* @__PURE__ */ React110.createElement(UserToggle, null, showIcon && /* @__PURE__ */ React110.createElement(UsersIcon_default, null), showText && "Participants", waitingRoomCount !== 0 && /* @__PURE__ */ React110.createElement("span", { className: "waiting-count" }, waitingRoomCount)), /* @__PURE__ */ React110.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React110.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React110.createElement(
     ExtraOptionMenu,
     {
-      blurEnabled: true,
+      blurEnabled: false,
       shareScreenTracks: screenShareTracks
     }
   ))), visibleControls.endForAll ? /* @__PURE__ */ React110.createElement("div", { className: "tl-leave lk-button-group" }, /* @__PURE__ */ React110.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React110.createElement(

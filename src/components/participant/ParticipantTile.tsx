@@ -198,9 +198,9 @@ export function ParticipantTile({
             </>
           )}
 
-          {trackReference.publication?.trackName !== 'whiteboard' ?? (
+          {trackReference.publication?.trackName !== 'whiteboard' ? (
             <FocusToggle trackRef={trackReference} />
-          )}
+          ) : (<></>)}
 
         </ParticipantContextIfNeeded>
       </TrackRefContextIfNeeded>
