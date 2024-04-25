@@ -10,6 +10,7 @@ export type ControlBarControls = {
     users?: boolean;
     leaveButton?: string;
     endForAll?: string | false;
+    settings?: boolean;
 };
 /** @public */
 export interface ControlBarProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -18,6 +19,7 @@ export interface ControlBarProps extends React.HTMLAttributes<HTMLDivElement> {
     waitingRoomCount: number;
     screenShareTracks?: number;
     isWhiteboard?: boolean;
+    saveUserChoices?: boolean;
 }
 /**
  * The `ControlBar` prefab gives the user the basic user interface to control their
@@ -35,5 +37,5 @@ export interface ControlBarProps extends React.HTMLAttributes<HTMLDivElement> {
  * ```
  * @public
  */
-export declare function ControlBar({ variation, controls, waitingRoomCount, screenShareTracks, isWhiteboard, ...props }: ControlBarProps): React.JSX.Element;
+export declare function ControlBar({ variation, controls, waitingRoomCount, screenShareTracks, isWhiteboard, saveUserChoices, ...props }: ControlBarProps): React.JSX.Element;
 //# sourceMappingURL=ControlBar.d.ts.map
