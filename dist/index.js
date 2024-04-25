@@ -3483,7 +3483,7 @@ function Chat(_a2) {
       (_c2 = widget.dispatch) == null ? void 0 : _c2.call(widget, { msg: "unread_msg", count: unreadMessageCount });
     }
   }, [chatMessages, layoutContext == null ? void 0 : layoutContext.widget]);
-  return /* @__PURE__ */ React116.createElement("div", __spreadProps(__spreadValues({}, props), { className: "lk-chat tl-chat" }), /* @__PURE__ */ React116.createElement("div", { className: "lk-chat-header" }, "Messages", /* @__PURE__ */ React116.createElement(ChatToggle, { className: "lk-close-button" }, /* @__PURE__ */ React116.createElement(ChatCloseIcon_default, null))), /* @__PURE__ */ React116.createElement("ul", { className: "tl-list lk-chat-messages", ref: ulRef }, props.children ? chatMessages.map(
+  return /* @__PURE__ */ React116.createElement("div", __spreadProps(__spreadValues({}, props), { className: "lk-chat tl-chat" }), /* @__PURE__ */ React116.createElement("ul", { className: "tl-list lk-chat-messages", ref: ulRef }, props.children ? chatMessages.map(
     (msg, idx) => cloneSingleChild(props.children, {
       entry: msg,
       key: idx,
