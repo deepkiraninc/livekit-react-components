@@ -1721,9 +1721,6 @@ var ChatToggle = /* @__PURE__ */ React53.forwardRef(
   }
 );
 
-// src/components/controls/ShareLinkToggle.tsx
-import { setupShareLinkToggle } from "@livekit/components-core";
-
 // src/utils.ts
 import * as React54 from "react";
 import { log as log7 } from "@livekit/components-core";
@@ -1759,7 +1756,7 @@ function warnAboutMissingStyles(el) {
 import * as React55 from "react";
 function useToggleShareLink({ props }) {
   const { dispatch, state } = useLayoutContext().widget;
-  const { className } = React55.useMemo(() => setupShareLinkToggle(), []);
+  const className = "lk-button";
   const mergedProps = React55.useMemo(
     () => mergeProps2(props, {
       className,

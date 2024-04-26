@@ -144,9 +144,9 @@ __export(src_exports, {
   VideoConference: () => VideoConference,
   VideoTrack: () => VideoTrack,
   formatChatMessageLinks: () => formatChatMessageLinks,
-  isTrackReference: () => import_components_core62.isTrackReference,
-  setLogExtension: () => import_components_core62.setLogExtension,
-  setLogLevel: () => import_components_core62.setLogLevel,
+  isTrackReference: () => import_components_core61.isTrackReference,
+  setLogExtension: () => import_components_core61.setLogExtension,
+  setLogLevel: () => import_components_core61.setLogLevel,
   useAudioPlayback: () => useAudioPlayback,
   useChat: () => useChat,
   useChatToggle: () => useChatToggle,
@@ -1869,9 +1869,6 @@ var ChatToggle = /* @__PURE__ */ React53.forwardRef(
   }
 );
 
-// src/components/controls/ShareLinkToggle.tsx
-var import_components_core40 = require("@livekit/components-core");
-
 // src/utils.ts
 var React54 = __toESM(require("react"));
 var import_components_core39 = require("@livekit/components-core");
@@ -1907,7 +1904,7 @@ function warnAboutMissingStyles(el) {
 var React55 = __toESM(require("react"));
 function useToggleShareLink({ props }) {
   const { dispatch, state } = useLayoutContext().widget;
-  const { className } = React55.useMemo(() => (0, import_components_core40.setupShareLinkToggle)(), []);
+  const className = "lk-button";
   const mergedProps = React55.useMemo(
     () => mergeProps2(props, {
       className,
@@ -2713,7 +2710,7 @@ var React99 = __toESM(require("react"));
 // src/components/participant/ParticipantTile.tsx
 var React98 = __toESM(require("react"));
 var import_livekit_client14 = require("livekit-client");
-var import_components_core45 = require("@livekit/components-core");
+var import_components_core44 = require("@livekit/components-core");
 
 // src/components/participant/ConnectionQualityIndicator.tsx
 var React90 = __toESM(require("react"));
@@ -2727,13 +2724,13 @@ var ConnectionQualityIndicator = /* @__PURE__ */ React90.forwardRef(function Con
 });
 
 // src/components/participant/ParticipantName.tsx
-var import_components_core41 = require("@livekit/components-core");
+var import_components_core40 = require("@livekit/components-core");
 var React91 = __toESM(require("react"));
 var ParticipantName = /* @__PURE__ */ React91.forwardRef(function ParticipantName2(_a2, ref) {
   var _b = _a2, { participant } = _b, props = __objRest(_b, ["participant"]);
   const p2 = useEnsureParticipant(participant);
   const { className, infoObserver } = React91.useMemo(() => {
-    return (0, import_components_core41.setupParticipantName)(p2);
+    return (0, import_components_core40.setupParticipantName)(p2);
   }, [p2]);
   const { identity, name } = useObservableState(infoObserver, {
     name: p2.name,
@@ -2801,27 +2798,27 @@ var import_livekit_client12 = require("livekit-client");
 var React95 = __toESM(require("react"));
 
 // src/hooks/useMediaTrackBySourceOrName.ts
+var import_components_core41 = require("@livekit/components-core");
 var import_components_core42 = require("@livekit/components-core");
-var import_components_core43 = require("@livekit/components-core");
 var React94 = __toESM(require("react"));
 function useMediaTrackBySourceOrName(observerOptions, options = {}) {
   var _a2;
-  const [publication, setPublication] = React94.useState((0, import_components_core43.getTrackByIdentifier)(observerOptions));
+  const [publication, setPublication] = React94.useState((0, import_components_core42.getTrackByIdentifier)(observerOptions));
   const [isMuted, setMuted] = React94.useState(publication == null ? void 0 : publication.isMuted);
   const [isSubscribed, setSubscribed] = React94.useState(publication == null ? void 0 : publication.isSubscribed);
   const [track, setTrack] = React94.useState(publication == null ? void 0 : publication.track);
   const [orientation, setOrientation] = React94.useState("landscape");
   const previousElement = React94.useRef();
   const { className, trackObserver } = React94.useMemo(() => {
-    return (0, import_components_core43.setupMediaTrack)(observerOptions);
+    return (0, import_components_core42.setupMediaTrack)(observerOptions);
   }, [
     (_a2 = observerOptions.participant.sid) != null ? _a2 : observerOptions.participant.identity,
     observerOptions.source,
-    (0, import_components_core42.isTrackReference)(observerOptions) && observerOptions.publication.trackSid
+    (0, import_components_core41.isTrackReference)(observerOptions) && observerOptions.publication.trackSid
   ]);
   React94.useEffect(() => {
     const subscription = trackObserver.subscribe((publication2) => {
-      import_components_core43.log.debug("update track", publication2);
+      import_components_core42.log.debug("update track", publication2);
       setPublication(publication2);
       setMuted(publication2 == null ? void 0 : publication2.isMuted);
       setSubscribed(publication2 == null ? void 0 : publication2.isSubscribed);
@@ -2835,7 +2832,7 @@ function useMediaTrackBySourceOrName(observerOptions, options = {}) {
       if (previousElement.current) {
         track.detach(previousElement.current);
       }
-      if (((_a3 = options.element) == null ? void 0 : _a3.current) && !((0, import_components_core43.isLocal)(observerOptions.participant) && (track == null ? void 0 : track.kind) === "audio")) {
+      if (((_a3 = options.element) == null ? void 0 : _a3.current) && !((0, import_components_core42.isLocal)(observerOptions.participant) && (track == null ? void 0 : track.kind) === "audio")) {
         track.attach(options.element.current);
       }
     }
@@ -2919,7 +2916,7 @@ var VideoTrack = /* @__PURE__ */ React95.forwardRef(
 
 // src/components/participant/AudioTrack.tsx
 var React96 = __toESM(require("react"));
-var import_components_core44 = require("@livekit/components-core");
+var import_components_core43 = require("@livekit/components-core");
 var import_livekit_client13 = require("livekit-client");
 var AudioTrack = /* @__PURE__ */ React96.forwardRef(
   function AudioTrack2(_a2, ref) {
@@ -2946,7 +2943,7 @@ var AudioTrack = /* @__PURE__ */ React96.forwardRef(
       if (track instanceof import_livekit_client13.RemoteAudioTrack) {
         track.setVolume(volume);
       } else {
-        import_components_core44.log.warn("Volume can only be set on remote audio tracks.");
+        import_components_core43.log.warn("Volume can only be set on remote audio tracks.");
       }
     }, [volume, track]);
     React96.useEffect(() => {
@@ -2956,7 +2953,7 @@ var AudioTrack = /* @__PURE__ */ React96.forwardRef(
       if (pub instanceof import_livekit_client13.RemoteTrackPublication) {
         pub.setEnabled(!props.muted);
       } else {
-        import_components_core44.log.warn("Can only call setEnabled on remote track publications.");
+        import_components_core43.log.warn("Can only call setEnabled on remote track publications.");
       }
     }, [props.muted, pub, track]);
     return /* @__PURE__ */ React96.createElement("audio", __spreadValues({ ref: mediaEl }, elementProps));
@@ -3004,20 +3001,20 @@ var ParticipantTile = /* @__PURE__ */ React98.forwardRef(function ParticipantTil
   const autoManageSubscription = (_a3 = useFeatureContext()) == null ? void 0 : _a3.autoSubscription;
   const handleSubscribe = React98.useCallback(
     (subscribed) => {
-      if (trackReference.source && !subscribed && layoutContext && layoutContext.pin.dispatch && (0, import_components_core45.isTrackReferencePinned)(trackReference, layoutContext.pin.state)) {
+      if (trackReference.source && !subscribed && layoutContext && layoutContext.pin.dispatch && (0, import_components_core44.isTrackReferencePinned)(trackReference, layoutContext.pin.state)) {
         layoutContext.pin.dispatch({ msg: "clear_pin" });
       }
     },
     [trackReference, layoutContext]
   );
-  return /* @__PURE__ */ React98.createElement("div", __spreadValues({ ref, style: { position: "relative" } }, elementProps), /* @__PURE__ */ React98.createElement(TrackRefContextIfNeeded, { trackRef: trackReference }, /* @__PURE__ */ React98.createElement(ParticipantContextIfNeeded, { participant: trackReference.participant }, children != null ? children : /* @__PURE__ */ React98.createElement(React98.Fragment, null, ((_b2 = trackReference.publication) == null ? void 0 : _b2.trackName) == "whiteboard" ? /* @__PURE__ */ React98.createElement(WhiteboardTrack, null) : (0, import_components_core45.isTrackReference)(trackReference) && (((_c2 = trackReference.publication) == null ? void 0 : _c2.kind) === "video" || trackReference.source === import_livekit_client14.Track.Source.Camera || trackReference.source === import_livekit_client14.Track.Source.ScreenShare) ? /* @__PURE__ */ React98.createElement(
+  return /* @__PURE__ */ React98.createElement("div", __spreadValues({ ref, style: { position: "relative" } }, elementProps), /* @__PURE__ */ React98.createElement(TrackRefContextIfNeeded, { trackRef: trackReference }, /* @__PURE__ */ React98.createElement(ParticipantContextIfNeeded, { participant: trackReference.participant }, children != null ? children : /* @__PURE__ */ React98.createElement(React98.Fragment, null, ((_b2 = trackReference.publication) == null ? void 0 : _b2.trackName) == "whiteboard" ? /* @__PURE__ */ React98.createElement(WhiteboardTrack, null) : (0, import_components_core44.isTrackReference)(trackReference) && (((_c2 = trackReference.publication) == null ? void 0 : _c2.kind) === "video" || trackReference.source === import_livekit_client14.Track.Source.Camera || trackReference.source === import_livekit_client14.Track.Source.ScreenShare) ? /* @__PURE__ */ React98.createElement(
     VideoTrack,
     {
       trackRef: trackReference,
       onSubscriptionStatusChanged: handleSubscribe,
       manageSubscription: autoManageSubscription
     }
-  ) : (0, import_components_core45.isTrackReference)(trackReference) && /* @__PURE__ */ React98.createElement(
+  ) : (0, import_components_core44.isTrackReference)(trackReference) && /* @__PURE__ */ React98.createElement(
     AudioTrack,
     {
       trackRef: trackReference,
@@ -3050,7 +3047,7 @@ var React103 = __toESM(require("react"));
 
 // src/components/TrackLoop.tsx
 var React100 = __toESM(require("react"));
-var import_components_core46 = require("@livekit/components-core");
+var import_components_core45 = require("@livekit/components-core");
 function TrackLoop(_a2) {
   var _b = _a2, { tracks } = _b, props = __objRest(_b, ["tracks"]);
   return /* @__PURE__ */ React100.createElement(React100.Fragment, null, tracks.map((trackReference) => {
@@ -3058,7 +3055,7 @@ function TrackLoop(_a2) {
       TrackRefContext.Provider,
       {
         value: trackReference,
-        key: (0, import_components_core46.getTrackReferenceId)(trackReference)
+        key: (0, import_components_core45.getTrackReferenceId)(trackReference)
       },
       cloneSingleChild(props.children)
     );
@@ -3067,7 +3064,7 @@ function TrackLoop(_a2) {
 
 // src/components/controls/PaginationControl.tsx
 var React101 = __toESM(require("react"));
-var import_components_core47 = require("@livekit/components-core");
+var import_components_core46 = require("@livekit/components-core");
 function PaginationControl({
   totalPageCount,
   nextPage,
@@ -3079,7 +3076,7 @@ function PaginationControl({
   React101.useEffect(() => {
     let subscription;
     if (connectedElement) {
-      subscription = (0, import_components_core47.createInteractingObservable)(connectedElement.current, 2e3).subscribe(
+      subscription = (0, import_components_core46.createInteractingObservable)(connectedElement.current, 2e3).subscribe(
         setInteractive
       );
     }
@@ -3129,7 +3126,7 @@ function GridLayout(_a2) {
 }
 
 // src/components/layout/CarouselLayout.tsx
-var import_components_core48 = require("@livekit/components-core");
+var import_components_core47 = require("@livekit/components-core");
 var React104 = __toESM(require("react"));
 var MIN_HEIGHT = 130;
 var MIN_WIDTH = 140;
@@ -3143,7 +3140,7 @@ function CarouselLayout(_a2) {
   const { width, height } = useSize(asideEl);
   const carouselOrientation = orientation ? orientation : height >= width ? "vertical" : "horizontal";
   const tileSpan = carouselOrientation === "vertical" ? Math.max(width * ASPECT_RATIO_INVERT, MIN_HEIGHT) : Math.max(height * ASPECT_RATIO, MIN_WIDTH);
-  const scrollBarWidth = (0, import_components_core48.getScrollBarWidth)();
+  const scrollBarWidth = (0, import_components_core47.getScrollBarWidth)();
   const tilesThatFit = carouselOrientation === "vertical" ? Math.max((height - scrollBarWidth) / tileSpan, MIN_VISIBLE_TILES) : Math.max((width - scrollBarWidth) / tileSpan, MIN_VISIBLE_TILES);
   let maxVisibleTiles = Math.round(tilesThatFit);
   if (Math.abs(tilesThatFit - prevTiles) < 0.5) {
@@ -3162,7 +3159,7 @@ function CarouselLayout(_a2) {
 }
 
 // src/components/layout/LayoutContextProvider.tsx
-var import_components_core49 = require("@livekit/components-core");
+var import_components_core48 = require("@livekit/components-core");
 var React105 = __toESM(require("react"));
 function LayoutContextProvider({
   value,
@@ -3173,18 +3170,18 @@ function LayoutContextProvider({
 }) {
   const layoutContextValue = useEnsureCreateLayoutContext(value);
   React105.useEffect(() => {
-    import_components_core49.log.debug("PinState Updated", { state: layoutContextValue.pin.state });
+    import_components_core48.log.debug("PinState Updated", { state: layoutContextValue.pin.state });
     if (onPinChange && layoutContextValue.pin.state)
       onPinChange(layoutContextValue.pin.state);
   }, [layoutContextValue.pin.state, onPinChange]);
   React105.useEffect(() => {
-    import_components_core49.log.debug("Chat Widget Updated", { widgetState: layoutContextValue.widget.state });
+    import_components_core48.log.debug("Chat Widget Updated", { widgetState: layoutContextValue.widget.state });
     if (onWidgetChange && layoutContextValue.widget.state) {
       onWidgetChange(layoutContextValue.widget.state);
     }
   }, [onWidgetChange, layoutContextValue.widget.state]);
   React105.useEffect(() => {
-    import_components_core49.log.debug("Whiteboard Updated", { state: layoutContextValue.whiteboard.state });
+    import_components_core48.log.debug("Whiteboard Updated", { state: layoutContextValue.whiteboard.state });
     if (onWhiteboardChange && layoutContextValue.whiteboard.state) {
       onWhiteboardChange(layoutContextValue.whiteboard.state);
     }
@@ -3251,7 +3248,7 @@ function ParticipantLoop(_a2) {
 }
 
 // src/components/RoomAudioRenderer.tsx
-var import_components_core50 = require("@livekit/components-core");
+var import_components_core49 = require("@livekit/components-core");
 var import_livekit_client15 = require("livekit-client");
 var React109 = __toESM(require("react"));
 function RoomAudioRenderer({ volume, muted }) {
@@ -3261,7 +3258,7 @@ function RoomAudioRenderer({ volume, muted }) {
       updateOnlyOn: [],
       onlySubscribed: false
     }
-  ).filter((ref) => !(0, import_components_core50.isLocal)(ref.participant) && ref.publication.kind === import_livekit_client15.Track.Kind.Audio);
+  ).filter((ref) => !(0, import_components_core49.isLocal)(ref.participant) && ref.publication.kind === import_livekit_client15.Track.Kind.Audio);
   React109.useEffect(() => {
     for (const track of tracks) {
       track.publication.setSubscribed(true);
@@ -3270,7 +3267,7 @@ function RoomAudioRenderer({ volume, muted }) {
   return /* @__PURE__ */ React109.createElement("div", { style: { display: "none" } }, tracks.map((trackRef) => /* @__PURE__ */ React109.createElement(
     AudioTrack,
     {
-      key: (0, import_components_core50.getTrackReferenceId)(trackRef),
+      key: (0, import_components_core49.getTrackReferenceId)(trackRef),
       trackRef,
       volume,
       muted
@@ -3297,7 +3294,7 @@ function Toast(props) {
 
 // src/components/participant/ParticipantAudioTile.tsx
 var React112 = __toESM(require("react"));
-var import_components_core51 = require("@livekit/components-core");
+var import_components_core50 = require("@livekit/components-core");
 var ParticipantAudioTile = /* @__PURE__ */ React112.forwardRef(function ParticipantAudioTile2(_a2, ref) {
   var _b = _a2, {
     children,
@@ -3317,7 +3314,7 @@ var ParticipantAudioTile = /* @__PURE__ */ React112.forwardRef(function Particip
     disableSpeakingIndicator,
     onParticipantClick
   });
-  return /* @__PURE__ */ React112.createElement("div", __spreadValues({ ref, style: { position: "relative" } }, elementProps), /* @__PURE__ */ React112.createElement(TrackRefContext.Provider, { value: trackReference }, children != null ? children : /* @__PURE__ */ React112.createElement(React112.Fragment, null, (0, import_components_core51.isTrackReference)(trackReference) && /* @__PURE__ */ React112.createElement(AudioTrack, { trackRef: trackReference }), /* @__PURE__ */ React112.createElement(AudioVisualizer, null), /* @__PURE__ */ React112.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React112.createElement("div", { className: "lk-participant-metadata-item" }, /* @__PURE__ */ React112.createElement(TrackMutedIndicator, { trackRef: trackReference }), /* @__PURE__ */ React112.createElement(ParticipantName, null)), /* @__PURE__ */ React112.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" })))));
+  return /* @__PURE__ */ React112.createElement("div", __spreadValues({ ref, style: { position: "relative" } }, elementProps), /* @__PURE__ */ React112.createElement(TrackRefContext.Provider, { value: trackReference }, children != null ? children : /* @__PURE__ */ React112.createElement(React112.Fragment, null, (0, import_components_core50.isTrackReference)(trackReference) && /* @__PURE__ */ React112.createElement(AudioTrack, { trackRef: trackReference }), /* @__PURE__ */ React112.createElement(AudioVisualizer, null), /* @__PURE__ */ React112.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React112.createElement("div", { className: "lk-participant-metadata-item" }, /* @__PURE__ */ React112.createElement(TrackMutedIndicator, { trackRef: trackReference }), /* @__PURE__ */ React112.createElement(ParticipantName, null)), /* @__PURE__ */ React112.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" })))));
 });
 
 // src/components/ConnectionStateToast.tsx
@@ -3350,7 +3347,7 @@ function ConnectionStateToast(props) {
 }
 
 // src/components/ChatEntry.tsx
-var import_components_core52 = require("@livekit/components-core");
+var import_components_core51 = require("@livekit/components-core");
 var React114 = __toESM(require("react"));
 var ChatEntry = /* @__PURE__ */ React114.forwardRef(
   function ChatEntry2(_a2, ref) {
@@ -3383,7 +3380,7 @@ function nl2br(str, is_xhtml) {
   return (str + "").replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, "$1" + breakTag + "$2");
 }
 function formatChatMessageLinks(message) {
-  return (0, import_components_core52.tokenize)(message, (0, import_components_core52.createDefaultGrammar)()).map((tok, i2) => {
+  return (0, import_components_core51.tokenize)(message, (0, import_components_core51.createDefaultGrammar)()).map((tok, i2) => {
     if (typeof tok === `string`) {
       const html = nl2br(tok, false);
       return /* @__PURE__ */ React114.createElement("span", { key: i2, dangerouslySetInnerHTML: { __html: html } });
@@ -3521,9 +3518,9 @@ var import_livekit_client17 = require("livekit-client");
 var React119 = __toESM(require("react"));
 
 // src/prefabs/MediaDeviceMenu.tsx
-var import_components_core53 = require("@livekit/components-core");
+var import_components_core52 = require("@livekit/components-core");
 var React117 = __toESM(require("react"));
-var import_components_core54 = require("@livekit/components-core");
+var import_components_core53 = require("@livekit/components-core");
 function MediaDeviceMenu(_a2) {
   var _b = _a2, {
     kind,
@@ -3543,7 +3540,7 @@ function MediaDeviceMenu(_a2) {
   const [updateRequired, setUpdateRequired] = React117.useState(true);
   const [needPermissions, setNeedPermissions] = React117.useState(requestPermissions);
   const handleActiveDeviceChange = (kind2, deviceId) => {
-    import_components_core54.log.debug("handle device change");
+    import_components_core53.log.debug("handle device change");
     setIsOpen(false);
     onActiveDeviceChange == null ? void 0 : onActiveDeviceChange(kind2, deviceId);
   };
@@ -3556,7 +3553,7 @@ function MediaDeviceMenu(_a2) {
   }, [isOpen]);
   React117.useLayoutEffect(() => {
     if (button.current && tooltip.current && (devices || updateRequired)) {
-      (0, import_components_core53.computeMenuPosition)(button.current, tooltip.current).then(({ x: x2, y: y2 }) => {
+      (0, import_components_core52.computeMenuPosition)(button.current, tooltip.current).then(({ x: x2, y: y2 }) => {
         if (tooltip.current) {
           Object.assign(tooltip.current.style, { left: `${x2}px`, top: `${y2}px` });
         }
@@ -3572,7 +3569,7 @@ function MediaDeviceMenu(_a2) {
       if (event.target === button.current) {
         return;
       }
-      if (isOpen && (0, import_components_core53.wasClickOutside)(tooltip.current, event)) {
+      if (isOpen && (0, import_components_core52.wasClickOutside)(tooltip.current, event)) {
         setIsOpen(false);
       }
     },
@@ -3636,7 +3633,7 @@ function MediaDeviceMenu(_a2) {
 }
 
 // src/prefabs/PreJoin.tsx
-var import_components_core55 = require("@livekit/components-core");
+var import_components_core54 = require("@livekit/components-core");
 
 // src/hooks/useWarnAboutMissingStyles.ts
 var React118 = __toESM(require("react"));
@@ -3676,7 +3673,7 @@ function usePreviewTracks(options, onError) {
         if (onError && e2 instanceof Error) {
           onError(e2);
         } else {
-          import_components_core55.log.error(e2);
+          import_components_core54.log.error(e2);
         }
       } finally {
         unlock();
@@ -3728,7 +3725,7 @@ function usePreviewDevice(enabled, deviceId, kind) {
   const prevDeviceId = React119.useRef(localDeviceId);
   React119.useEffect(() => {
     if (enabled && !localTrack && !deviceError && !isCreatingTrack) {
-      import_components_core55.log.debug("creating track", kind);
+      import_components_core54.log.debug("creating track", kind);
       setIsCreatingTrack(true);
       createTrack(localDeviceId, kind).finally(() => {
         setIsCreatingTrack(false);
@@ -3740,20 +3737,20 @@ function usePreviewDevice(enabled, deviceId, kind) {
       return;
     }
     if (!enabled) {
-      import_components_core55.log.debug(`muting ${kind} track`);
-      localTrack.mute().then(() => import_components_core55.log.debug(localTrack.mediaStreamTrack));
+      import_components_core54.log.debug(`muting ${kind} track`);
+      localTrack.mute().then(() => import_components_core54.log.debug(localTrack.mediaStreamTrack));
     } else if ((selectedDevice == null ? void 0 : selectedDevice.deviceId) && prevDeviceId.current !== (selectedDevice == null ? void 0 : selectedDevice.deviceId)) {
-      import_components_core55.log.debug(`switching ${kind} device from`, prevDeviceId.current, selectedDevice.deviceId);
+      import_components_core54.log.debug(`switching ${kind} device from`, prevDeviceId.current, selectedDevice.deviceId);
       switchDevice(localTrack, selectedDevice.deviceId);
     } else {
-      import_components_core55.log.debug(`unmuting local ${kind} track`);
+      import_components_core54.log.debug(`unmuting local ${kind} track`);
       localTrack.unmute();
     }
   }, [localTrack, selectedDevice, enabled, kind]);
   React119.useEffect(() => {
     return () => {
       if (localTrack) {
-        import_components_core55.log.debug(`stopping local ${kind} track`);
+        import_components_core54.log.debug(`stopping local ${kind} track`);
         localTrack.stop();
         localTrack.mute();
       }
@@ -3892,7 +3889,7 @@ function PreJoin(_a2) {
         onSubmit(userChoices);
       }
     } else {
-      import_components_core55.log.warn("Validation failed with: ", userChoices);
+      import_components_core54.log.warn("Validation failed with: ", userChoices);
     }
   }
   useWarnAboutMissingStyles();
@@ -3955,7 +3952,7 @@ function PreJoin(_a2) {
 }
 
 // src/prefabs/VideoConference.tsx
-var import_components_core61 = require("@livekit/components-core");
+var import_components_core60 = require("@livekit/components-core");
 var import_livekit_client21 = require("livekit-client");
 var React135 = __toESM(require("react"));
 
@@ -3964,7 +3961,7 @@ var import_livekit_client19 = require("livekit-client");
 var React128 = __toESM(require("react"));
 
 // src/prefabs/HostEndMeetingMenu.tsx
-var import_components_core56 = require("@livekit/components-core");
+var import_components_core55 = require("@livekit/components-core");
 var React120 = __toESM(require("react"));
 function HostEndMeetingMenu(_a2) {
   var _b = _a2, {
@@ -3986,7 +3983,7 @@ function HostEndMeetingMenu(_a2) {
   const button = React120.useRef(null);
   const leaveButtonRef = React120.useRef(null);
   const tooltip = React120.useRef(null);
-  const { disconnect } = (0, import_components_core56.setupDisconnectButton)(room);
+  const { disconnect } = (0, import_components_core55.setupDisconnectButton)(room);
   const [showDropdown, setShowDropdown] = React120.useState(false);
   const [value, setValue] = React120.useState("");
   const participants = useParticipants();
@@ -3995,7 +3992,7 @@ function HostEndMeetingMenu(_a2) {
   const meta = localParticipant.metadata ? JSON.parse(localParticipant.metadata) : {};
   React120.useLayoutEffect(() => {
     if (button.current && tooltip.current && updateRequired) {
-      (0, import_components_core56.computeMenuPosition)(button.current, tooltip.current).then(({ x: x2, y: y2 }) => {
+      (0, import_components_core55.computeMenuPosition)(button.current, tooltip.current).then(({ x: x2, y: y2 }) => {
         if (tooltip.current) {
           console.log({ x: x2, y: y2 });
           Object.assign(tooltip.current.style, { left: `${x2}px`, top: `${y2 - 5}px` });
@@ -4015,7 +4012,7 @@ function HostEndMeetingMenu(_a2) {
       if (event.target === button.current) {
         return;
       }
-      if (isOpen && (0, import_components_core56.wasClickOutside)(tooltip.current, event)) {
+      if (isOpen && (0, import_components_core55.wasClickOutside)(tooltip.current, event)) {
         setIsOpen(false);
         setShowDropdown(false);
       }
@@ -4147,10 +4144,10 @@ function HostEndMeetingMenu(_a2) {
 
 // src/components/controls/UserToggle.tsx
 var React121 = __toESM(require("react"));
-var import_components_core57 = require("@livekit/components-core");
+var import_components_core56 = require("@livekit/components-core");
 function useToggleUserLink({ props }) {
   const { dispatch, state } = useLayoutContext().widget;
-  const { className } = React121.useMemo(() => (0, import_components_core57.setupUserToggle)(), []);
+  const { className } = React121.useMemo(() => (0, import_components_core56.setupUserToggle)(), []);
   const mergedProps = React121.useMemo(
     () => mergeProps2(props, {
       className,
@@ -4170,10 +4167,10 @@ function UserToggle(props) {
 }
 
 // src/prefabs/ControlBar.tsx
-var import_components_core59 = require("@livekit/components-core");
+var import_components_core58 = require("@livekit/components-core");
 
 // src/prefabs/ExtraOptionMenu.tsx
-var import_components_core58 = require("@livekit/components-core");
+var import_components_core57 = require("@livekit/components-core");
 var React124 = __toESM(require("react"));
 
 // ../../node_modules/.pnpm/@mediapipe+tasks-vision@0.10.9/node_modules/@mediapipe/tasks-vision/vision_bundle.mjs
@@ -8751,7 +8748,7 @@ function ExtraOptionMenu(_a2) {
   const [showDropdown, setShowDropdown] = React124.useState(false);
   React124.useLayoutEffect(() => {
     if (button.current && tooltip.current && updateRequired) {
-      (0, import_components_core58.computeMenuPosition)(button.current, tooltip.current).then(({ x: x2, y: y2 }) => {
+      (0, import_components_core57.computeMenuPosition)(button.current, tooltip.current).then(({ x: x2, y: y2 }) => {
         if (tooltip.current) {
           Object.assign(tooltip.current.style, { left: `${x2}px`, top: `${y2 + 5}px` });
         }
@@ -8770,7 +8767,7 @@ function ExtraOptionMenu(_a2) {
       if (event.target === button.current) {
         return;
       }
-      if (isOpen && (0, import_components_core58.wasClickOutside)(tooltip.current, event)) {
+      if (isOpen && (0, import_components_core57.wasClickOutside)(tooltip.current, event)) {
         setIsOpen(false);
         setShowDropdown(false);
       }
@@ -8913,7 +8910,7 @@ function ControlBar(_a2) {
     () => variation === "textOnly" || variation === "verbose",
     [variation]
   );
-  const browserSupportsScreenSharing = (0, import_components_core59.supportsScreenSharing)();
+  const browserSupportsScreenSharing = (0, import_components_core58.supportsScreenSharing)();
   const [isScreenShareEnabled, setIsScreenShareEnabled] = React128.useState(false);
   const onScreenShareChange = React128.useCallback(
     (enabled) => {
@@ -9304,7 +9301,7 @@ function Users(_a2) {
 
 // src/prefabs/ShareLink.tsx
 var React134 = __toESM(require("react"));
-var import_components_core60 = require("@livekit/components-core");
+var import_components_core59 = require("@livekit/components-core");
 
 // src/prefabs/InviteViaPhone.tsx
 var React132 = __toESM(require("react"));
@@ -9518,7 +9515,7 @@ function ShareLink(_a2) {
   const { localParticipant } = useLocalParticipant();
   const p2 = useEnsureParticipant(localParticipant);
   const { infoObserver } = React134.useMemo(() => {
-    return (0, import_components_core60.setupParticipantName)(p2);
+    return (0, import_components_core59.setupParticipantName)(p2);
   }, [p2]);
   const { metadata } = useObservableState(infoObserver, {
     name: p2.name,
@@ -9594,7 +9591,7 @@ function VideoConference(_a2) {
   const { localParticipant } = useLocalParticipant();
   const p2 = useEnsureParticipant(localParticipant);
   const { infoObserver } = React135.useMemo(() => {
-    return (0, import_components_core61.setupParticipantName)(p2);
+    return (0, import_components_core60.setupParticipantName)(p2);
   }, [p2]);
   const { metadata } = useObservableState(infoObserver, {
     name: p2.name,
@@ -9615,15 +9612,15 @@ function VideoConference(_a2) {
     { updateOnlyOn: [import_livekit_client21.RoomEvent.ActiveSpeakersChanged], onlySubscribed: false }
   );
   const widgetUpdate = (state) => {
-    import_components_core61.log.debug("updating widget state", state);
+    import_components_core60.log.debug("updating widget state", state);
     setWidgetState(state);
   };
   const updateCount = (count) => {
-    import_components_core61.log.debug("count ", count);
+    import_components_core60.log.debug("count ", count);
     setWaitingRoomCount(count);
   };
   const layoutContext = useCreateLayoutContext();
-  const screenShareTracks = tracks.filter(import_components_core61.isTrackReference).filter((track) => track.publication.source === import_livekit_client21.Track.Source.ScreenShare);
+  const screenShareTracks = tracks.filter(import_components_core60.isTrackReference).filter((track) => track.publication.source === import_livekit_client21.Track.Source.ScreenShare);
   const whitePub = new import_livekit_client21.TrackPublication(import_livekit_client21.Track.Kind.Unknown, "whiteboard", "whiteboard");
   const whiteboardTrack = {
     participant: p2,
@@ -9631,7 +9628,7 @@ function VideoConference(_a2) {
     source: import_livekit_client21.Track.Source.Unknown
   };
   const focusTrack = (_a3 = usePinnedTracks(layoutContext)) == null ? void 0 : _a3[0];
-  const carouselTracks = tracks.filter((track) => !(0, import_components_core61.isEqualTrackRef)(track, focusTrack));
+  const carouselTracks = tracks.filter((track) => !(0, import_components_core60.isEqualTrackRef)(track, focusTrack));
   React135.useEffect(() => {
     if (meta && meta.host) {
       localStorage.setItem("host", meta.host);
@@ -9660,7 +9657,7 @@ function VideoConference(_a2) {
   React135.useEffect(() => {
     var _a4, _b3, _c2, _d;
     if (screenShareTracks.some((track) => track.publication.isSubscribed) && lastAutoFocusedScreenShareTrack.current === null) {
-      import_components_core61.log.debug("Auto set screen share focus:", { newScreenShareTrack: screenShareTracks[0] });
+      import_components_core60.log.debug("Auto set screen share focus:", { newScreenShareTrack: screenShareTracks[0] });
       (_b3 = (_a4 = layoutContext.pin).dispatch) == null ? void 0 : _b3.call(_a4, { msg: "set_pin", trackReference: screenShareTracks[0] });
       lastAutoFocusedScreenShareTrack.current = screenShareTracks[0];
     } else if (lastAutoFocusedScreenShareTrack.current && !screenShareTracks.some(
@@ -9669,7 +9666,7 @@ function VideoConference(_a2) {
         return track.publication.trackSid === ((_b4 = (_a5 = lastAutoFocusedScreenShareTrack.current) == null ? void 0 : _a5.publication) == null ? void 0 : _b4.trackSid);
       }
     )) {
-      import_components_core61.log.debug("Auto clearing screen share focus.");
+      import_components_core60.log.debug("Auto clearing screen share focus.");
       (_d = (_c2 = layoutContext.pin).dispatch) == null ? void 0 : _d.call(_c2, { msg: "clear_pin" });
       lastAutoFocusedScreenShareTrack.current = null;
     }
@@ -9682,7 +9679,7 @@ function VideoConference(_a2) {
   const { isWhiteboardShared } = useWhiteboard();
   const whiteboardUpdate = (state) => {
     var _a4, _b3, _c2, _d;
-    import_components_core61.log.debug("updating widget state", state);
+    import_components_core60.log.debug("updating widget state", state);
     if (state.show_whiteboard) {
       (_b3 = (_a4 = layoutContext.pin).dispatch) == null ? void 0 : _b3.call(_a4, { msg: "set_pin", trackReference: whiteboardTrack });
     } else {
@@ -9710,7 +9707,7 @@ function VideoConference(_a2) {
     }
   });
   useWarnAboutMissingStyles();
-  return /* @__PURE__ */ React135.createElement("div", __spreadValues({ className: "lk-video-conference" }, props), (0, import_components_core61.isWeb)() && /* @__PURE__ */ React135.createElement(
+  return /* @__PURE__ */ React135.createElement("div", __spreadValues({ className: "lk-video-conference" }, props), (0, import_components_core60.isWeb)() && /* @__PURE__ */ React135.createElement(
     LayoutContextProvider,
     {
       value: layoutContext,
@@ -9784,7 +9781,7 @@ function AudioConference(_a2) {
 }
 
 // src/index.ts
-var import_components_core62 = require("@livekit/components-core");
+var import_components_core61 = require("@livekit/components-core");
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   AudioConference,
