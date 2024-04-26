@@ -2640,7 +2640,7 @@ function PreJoin(_a) {
 // src/prefabs/VideoConference.tsx
 import { isEqualTrackRef, isTrackReference as isTrackReference5, isWeb, log as log11, setupParticipantName as setupParticipantName3 } from "@livekit/components-core";
 import { RoomEvent as RoomEvent2, Track as Track11, TrackPublication } from "livekit-client";
-import * as React111 from "react";
+import * as React113 from "react";
 
 // src/components/controls/ChatToggle.tsx
 import * as React72 from "react";
@@ -4220,8 +4220,102 @@ function Users(_a) {
 }
 
 // src/prefabs/ShareLink.tsx
-import * as React110 from "react";
+import * as React112 from "react";
 import { setupParticipantName as setupParticipantName2 } from "@livekit/components-core";
+
+// src/prefabs/InviteViaPhone.tsx
+import * as React110 from "react";
+function InviteViaPhone(_a) {
+  var _b = _a, { link, room_name, participant } = _b, props = __objRest(_b, ["link", "room_name", "participant"]);
+  const selectRef = React110.useRef(null);
+  const inputRef = React110.useRef(null);
+  const [showToast, setShowToast] = React110.useState(false);
+  function handleSubmit(event) {
+    return __async(this, null, function* () {
+      var _a2;
+      event.preventDefault();
+      if (inputRef.current && inputRef.current.value.trim() !== "") {
+        const number = ((_a2 = selectRef.current) == null ? void 0 : _a2.value) + inputRef.current.value;
+        const data = {
+          method: "POST",
+          // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            "number": number,
+            // body data type must match "Content-Type" header
+            "link": link,
+            "meeting_id": room_name,
+            "participant": participant
+          })
+        };
+        fetch(`/api/invite-phone`, data).then((res) => __async(this, null, function* () {
+          if (res.ok) {
+            setShowToast(true);
+          } else {
+            throw Error("Error fetching server url, check server logs");
+          }
+        }));
+      }
+    });
+  }
+  React110.useEffect(() => {
+    if (showToast) {
+      setTimeout(() => {
+        setShowToast(false);
+      }, 3e3);
+    }
+  }, [showToast]);
+  return /* @__PURE__ */ React110.createElement("div", __spreadValues({}, props), showToast ? /* @__PURE__ */ React110.createElement(Toast, { className: "lk-toast-connection-state" }, "Invitation Sent") : /* @__PURE__ */ React110.createElement(React110.Fragment, null), /* @__PURE__ */ React110.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React110.createElement("select", { className: "lk-form-control lk-chat-form-input tl-select", ref: selectRef }, /* @__PURE__ */ React110.createElement("option", { value: "+1" }, "United States (+1)"), /* @__PURE__ */ React110.createElement("option", { value: "+91" }, "India (+91)")), /* @__PURE__ */ React110.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "tel", ref: inputRef, placeholder: "Enter Mobile Number" }), /* @__PURE__ */ React110.createElement("button", { type: "button", onClick: handleSubmit, className: "lk-button lk-chat-form-button tl-invite-button" }, "Invite")));
+}
+
+// src/prefabs/InviteViaEmail.tsx
+import * as React111 from "react";
+function InviteViaEmail(_a) {
+  var _b = _a, { link, room_name, participant } = _b, props = __objRest(_b, ["link", "room_name", "participant"]);
+  const inputRef = React111.useRef(null);
+  const [showToast, setShowToast] = React111.useState(false);
+  function handleSubmit(event) {
+    return __async(this, null, function* () {
+      event.preventDefault();
+      if (inputRef.current && inputRef.current.value.trim() !== "") {
+        const email = inputRef.current.value;
+        const data = {
+          method: "POST",
+          // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            "email": email,
+            // body data type must match "Content-Type" header
+            "link": link,
+            "meeting_id": room_name,
+            "participant": participant
+          })
+        };
+        fetch(`/api/invite-email`, data).then((res) => __async(this, null, function* () {
+          if (res.ok) {
+            setShowToast(true);
+          } else {
+            throw Error("Error fetching server url, check server logs");
+          }
+        }));
+      }
+    });
+  }
+  React111.useEffect(() => {
+    if (showToast) {
+      setTimeout(() => {
+        setShowToast(false);
+      }, 3e3);
+    }
+  }, [showToast]);
+  return /* @__PURE__ */ React111.createElement("div", __spreadValues({}, props), showToast ? /* @__PURE__ */ React111.createElement(Toast, { className: "lk-toast-connection-state" }, "Invitation Sent") : /* @__PURE__ */ React111.createElement(React111.Fragment, null), /* @__PURE__ */ React111.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React111.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "email", ref: inputRef, placeholder: "Enter Email" }), /* @__PURE__ */ React111.createElement("button", { type: "button", onClick: handleSubmit, className: "lk-button lk-chat-form-button tl-invite-button" }, "Invite")));
+}
+
+// src/prefabs/ShareLink.tsx
 function useGetLink() {
   const host = getHostUrl();
   const link = `${host}/join/${useGetRoom().name}`;
@@ -4236,18 +4330,23 @@ function getHostUrl() {
 }
 function ShareLink(_a) {
   var props = __objRest(_a, []);
-  const inputRef = React110.useRef(null);
-  const ulRef = React110.useRef(null);
+  const inputRef = React112.useRef(null);
+  const ulRef = React112.useRef(null);
   const { link } = useGetLink();
-  const [users, setUsers] = React110.useState([]);
-  const [searched, setSearched] = React110.useState([]);
-  const [showToast, setShowToast] = React110.useState(false);
+  const [users, setUsers] = React112.useState([]);
+  const [searched, setSearched] = React112.useState([]);
+  const [showToast, setShowToast] = React112.useState(false);
+  const [inviteVia, setInviteVia] = React112.useState("chat");
+  function showInviteVia(type) {
+    setInviteVia(type);
+  }
   const room = useGetRoom();
+  const participantName = room.localParticipant.name;
   function searchUsers(key) {
     return __async(this, null, function* () {
       if (key) {
         const filteredData = users.filter(function(item) {
-          return item.user_name.toLocaleLowerCase().startsWith(key.toLocaleLowerCase());
+          return item.full_name.toLocaleLowerCase().includes(key.trim().toLocaleLowerCase());
         });
         setSearched(filteredData);
       } else {
@@ -4278,7 +4377,7 @@ function ShareLink(_a) {
       }));
     });
   }
-  React110.useEffect(() => {
+  React112.useEffect(() => {
     if (room.name) {
       getUsers();
     }
@@ -4335,7 +4434,7 @@ function ShareLink(_a) {
   }
   const { localParticipant } = useLocalParticipant();
   const p = useEnsureParticipant(localParticipant);
-  const { infoObserver } = React110.useMemo(() => {
+  const { infoObserver } = React112.useMemo(() => {
     return setupParticipantName2(p);
   }, [p]);
   const { metadata } = useObservableState(infoObserver, {
@@ -4344,13 +4443,13 @@ function ShareLink(_a) {
     metadata: p.metadata
   });
   const meta = metadata ? JSON.parse(metadata) : {};
-  const [showInviteUser, setShowInviteUser] = React110.useState(true);
-  React110.useEffect(() => {
+  const [showInviteUser, setShowInviteUser] = React112.useState(true);
+  React112.useEffect(() => {
     if (meta && meta.host && meta.limited) {
       setShowInviteUser(false);
     }
   }, [meta]);
-  React110.useEffect(() => {
+  React112.useEffect(() => {
     const pmeta = p.metadata ? JSON.parse(p.metadata) : {};
     if (pmeta && pmeta.host && meta.limited) {
       setShowInviteUser(false);
@@ -4362,20 +4461,20 @@ function ShareLink(_a) {
       setShowToast(true);
     });
   }
-  React110.useEffect(() => {
+  React112.useEffect(() => {
     if (showToast) {
       setTimeout(() => {
         setShowToast(false);
       }, 3e3);
     }
   }, [showToast]);
-  React110.useEffect(() => {
+  React112.useEffect(() => {
     var _a2;
     if (ulRef) {
       (_a2 = ulRef.current) == null ? void 0 : _a2.scrollTo({ top: ulRef.current.scrollHeight });
     }
   }, [ulRef, users]);
-  return /* @__PURE__ */ React110.createElement("div", __spreadProps(__spreadValues({}, props), { className: "lk-chat lk-sharelink" }), /* @__PURE__ */ React110.createElement("form", { className: "lk-chat-form" }, /* @__PURE__ */ React110.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "text", value: link, readOnly: true }), /* @__PURE__ */ React110.createElement("button", { type: "button", className: "lk-button lk-chat-form-button", onClick: handleCopy }, "Copy")), showToast ? /* @__PURE__ */ React110.createElement(Toast, { className: "lk-toast-connection-state" }, "Copied") : /* @__PURE__ */ React110.createElement(React110.Fragment, null), showInviteUser ? /* @__PURE__ */ React110.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React110.createElement(
+  return /* @__PURE__ */ React112.createElement("div", __spreadProps(__spreadValues({}, props), { className: "lk-chat lk-sharelink" }), /* @__PURE__ */ React112.createElement("form", { className: "lk-chat-form" }, /* @__PURE__ */ React112.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "text", value: link, readOnly: true }), /* @__PURE__ */ React112.createElement("button", { type: "button", className: "lk-button lk-chat-form-button", onClick: handleCopy }, "Copy")), showToast ? /* @__PURE__ */ React112.createElement(Toast, { className: "lk-toast-connection-state" }, "Copied") : /* @__PURE__ */ React112.createElement(React112.Fragment, null), /* @__PURE__ */ React112.createElement("div", { className: "tl-invite-buttons" }, /* @__PURE__ */ React112.createElement("button", { type: "button", className: "lk-button lk-chat-form-button", "aria-pressed": inviteVia === "chat", onClick: () => showInviteVia("chat") }, "TL-Chat"), /* @__PURE__ */ React112.createElement("button", { type: "button", className: "lk-button lk-chat-form-button", "aria-pressed": inviteVia === "phone", onClick: () => showInviteVia("phone") }, "Phone"), /* @__PURE__ */ React112.createElement("button", { type: "button", className: "lk-button lk-chat-form-button", "aria-pressed": inviteVia === "email", onClick: () => showInviteVia("email") }, "Email")), inviteVia === "phone" ? /* @__PURE__ */ React112.createElement(InviteViaPhone, { link, room_name: room.name, participant: participantName }) : /* @__PURE__ */ React112.createElement(React112.Fragment, null), inviteVia === "email" ? /* @__PURE__ */ React112.createElement(InviteViaEmail, { link, room_name: room.name, participant: participantName }) : /* @__PURE__ */ React112.createElement(React112.Fragment, null), inviteVia === "chat" ? /* @__PURE__ */ React112.createElement(React112.Fragment, null, showInviteUser ? /* @__PURE__ */ React112.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React112.createElement(
     "input",
     {
       className: "lk-form-control lk-chat-form-input",
@@ -4384,9 +4483,9 @@ function ShareLink(_a) {
       placeholder: "Search User...",
       onChange: handleSubmit
     }
-  )) : /* @__PURE__ */ React110.createElement(React110.Fragment, null), showInviteUser && searched.length > 0 ? /* @__PURE__ */ React110.createElement("ul", { className: "lk-list lk-chat-messages", ref: ulRef }, searched.map((user, index) => {
-    return /* @__PURE__ */ React110.createElement("li", { key: index, className: "lk-chat-entry" }, /* @__PURE__ */ React110.createElement("div", { className: "tl-list-user-box" }, /* @__PURE__ */ React110.createElement("span", { className: "lk-message-body" }, user.full_name, " ", user.ext_no ? ` - ${user.ext_no}` : ""), /* @__PURE__ */ React110.createElement("span", { className: "lk-message-body lk-message-text" }, user.designation)), /* @__PURE__ */ React110.createElement("button", { type: "button", onClick: () => handleInvite(user), className: "lk-button lk-chat-form-button tl-invite-button" + (user.invited ? " invited" : "") }, user.invited ? "Invited" : "Invite"));
-  })) : "");
+  )) : /* @__PURE__ */ React112.createElement(React112.Fragment, null), showInviteUser && searched.length > 0 ? /* @__PURE__ */ React112.createElement("ul", { className: "lk-list lk-chat-messages", ref: ulRef }, searched.map((user, index) => {
+    return /* @__PURE__ */ React112.createElement("li", { key: index, className: "lk-chat-entry" }, /* @__PURE__ */ React112.createElement("div", null, /* @__PURE__ */ React112.createElement("span", { className: "lk-message-body" }, user.full_name, " ", user.ext_no ? ` - ${user.ext_no}` : ""), /* @__PURE__ */ React112.createElement("span", { className: "lk-message-body lk-message-text" }, user.designation)), /* @__PURE__ */ React112.createElement("button", { type: "button", onClick: () => handleInvite(user), className: "lk-button lk-chat-form-button" + (user.invited ? " invited" : "") }, user.invited ? "Invited" : "Invite"));
+  })) : "") : /* @__PURE__ */ React112.createElement(React112.Fragment, null));
 }
 
 // src/prefabs/VideoConference.tsx
@@ -4403,15 +4502,15 @@ function VideoConference(_a) {
     "SettingsComponent"
   ]);
   var _a2, _b2;
-  const [widgetState, setWidgetState] = React111.useState({
+  const [widgetState, setWidgetState] = React113.useState({
     showChat: null,
     unreadMessages: 0,
     showSettings: false
   });
-  const lastAutoFocusedScreenShareTrack = React111.useRef(null);
+  const lastAutoFocusedScreenShareTrack = React113.useRef(null);
   const { localParticipant } = useLocalParticipant();
   const p = useEnsureParticipant(localParticipant);
-  const { infoObserver } = React111.useMemo(() => {
+  const { infoObserver } = React113.useMemo(() => {
     return setupParticipantName3(p);
   }, [p]);
   const { metadata } = useObservableState(infoObserver, {
@@ -4419,12 +4518,12 @@ function VideoConference(_a) {
     identity: p.identity,
     metadata: p.metadata
   });
-  const [showShareButton, setShowShareButton] = React111.useState(false);
-  const [showParticipantButton, setShowParticipantButton] = React111.useState(false);
-  const [leaveButton, setLeaveButton] = React111.useState("Leave");
-  const [endForAll, setEndForAll] = React111.useState(false);
+  const [showShareButton, setShowShareButton] = React113.useState(false);
+  const [showParticipantButton, setShowParticipantButton] = React113.useState(false);
+  const [leaveButton, setLeaveButton] = React113.useState("Leave");
+  const [endForAll, setEndForAll] = React113.useState(false);
   const meta = metadata ? JSON.parse(metadata) : {};
-  const [waitingRoomCount, setWaitingRoomCount] = React111.useState(0);
+  const [waitingRoomCount, setWaitingRoomCount] = React113.useState(0);
   const tracks = useTracks(
     [
       { source: Track11.Source.Camera, withPlaceholder: true },
@@ -4450,7 +4549,7 @@ function VideoConference(_a) {
   };
   const focusTrack = (_a2 = usePinnedTracks(layoutContext)) == null ? void 0 : _a2[0];
   const carouselTracks = tracks.filter((track) => !isEqualTrackRef(track, focusTrack));
-  React111.useEffect(() => {
+  React113.useEffect(() => {
     if (meta && meta.host) {
       localStorage.setItem("host", meta.host);
       if (meta.limited) {
@@ -4462,7 +4561,7 @@ function VideoConference(_a) {
       setEndForAll("End Meeting for All");
     }
   }, [meta]);
-  React111.useEffect(() => {
+  React113.useEffect(() => {
     const pmeta = p.metadata ? JSON.parse(p.metadata) : {};
     if (pmeta && pmeta.host) {
       localStorage.setItem("host", meta.host);
@@ -4475,7 +4574,7 @@ function VideoConference(_a) {
       setEndForAll("End Meeting for All");
     }
   }, [p]);
-  React111.useEffect(() => {
+  React113.useEffect(() => {
     var _a3, _b3, _c, _d;
     if (screenShareTracks.some((track) => track.publication.isSubscribed) && lastAutoFocusedScreenShareTrack.current === null) {
       log11.debug("Auto set screen share focus:", { newScreenShareTrack: screenShareTracks[0] });
@@ -4507,7 +4606,7 @@ function VideoConference(_a) {
       (_d = (_c = layoutContext.pin).dispatch) == null ? void 0 : _d.call(_c, { msg: "clear_pin" });
     }
   };
-  React111.useEffect(() => {
+  React113.useEffect(() => {
     var _a3, _b3, _c, _d, _e, _f, _g, _h;
     if (isWhiteboardShared) {
       (_b3 = (_a3 = layoutContext.pin).dispatch) == null ? void 0 : _b3.call(_a3, { msg: "set_pin", trackReference: whiteboardTrack });
@@ -4517,7 +4616,7 @@ function VideoConference(_a) {
       (_h = (_g = layoutContext.whiteboard).dispatch) == null ? void 0 : _h.call(_g, { msg: "hide_whiteboard" });
     }
   }, [isWhiteboardShared]);
-  const [isWhiteboard, setIsWhiteboard] = React111.useState(false);
+  const [isWhiteboard, setIsWhiteboard] = React113.useState(false);
   room.on(RoomEvent2.DataReceived, (payload) => {
     const strData = decoder.decode(payload);
     const str = JSON.parse(strData);
@@ -4528,14 +4627,14 @@ function VideoConference(_a) {
     }
   });
   useWarnAboutMissingStyles();
-  return /* @__PURE__ */ React111.createElement("div", __spreadValues({ className: "lk-video-conference" }, props), isWeb() && /* @__PURE__ */ React111.createElement(
+  return /* @__PURE__ */ React113.createElement("div", __spreadValues({ className: "lk-video-conference" }, props), isWeb() && /* @__PURE__ */ React113.createElement(
     LayoutContextProvider,
     {
       value: layoutContext,
       onWidgetChange: widgetUpdate,
       onWhiteboardChange: whiteboardUpdate
     },
-    /* @__PURE__ */ React111.createElement("div", { className: "lk-video-conference-inner" }, !focusTrack ? /* @__PURE__ */ React111.createElement("div", { className: "lk-grid-layout-wrapper" }, /* @__PURE__ */ React111.createElement(GridLayout, { tracks }, /* @__PURE__ */ React111.createElement(ParticipantTile, null))) : /* @__PURE__ */ React111.createElement("div", { className: "lk-focus-layout-wrapper" }, /* @__PURE__ */ React111.createElement(FocusLayoutContainer, null, /* @__PURE__ */ React111.createElement(CarouselLayout, { tracks: carouselTracks }, /* @__PURE__ */ React111.createElement(ParticipantTile, null)), focusTrack && /* @__PURE__ */ React111.createElement(FocusLayout, { trackRef: focusTrack }))), /* @__PURE__ */ React111.createElement(
+    /* @__PURE__ */ React113.createElement("div", { className: "lk-video-conference-inner" }, !focusTrack ? /* @__PURE__ */ React113.createElement("div", { className: "lk-grid-layout-wrapper" }, /* @__PURE__ */ React113.createElement(GridLayout, { tracks }, /* @__PURE__ */ React113.createElement(ParticipantTile, null))) : /* @__PURE__ */ React113.createElement("div", { className: "lk-focus-layout-wrapper" }, /* @__PURE__ */ React113.createElement(FocusLayoutContainer, null, /* @__PURE__ */ React113.createElement(CarouselLayout, { tracks: carouselTracks }, /* @__PURE__ */ React113.createElement(ParticipantTile, null)), focusTrack && /* @__PURE__ */ React113.createElement(FocusLayout, { trackRef: focusTrack }))), /* @__PURE__ */ React113.createElement(
       ControlBar,
       {
         controls: {
@@ -4551,17 +4650,17 @@ function VideoConference(_a) {
         isWhiteboard
       }
     )),
-    showShareButton ? /* @__PURE__ */ React111.createElement(ShareLink, { style: {
+    showShareButton ? /* @__PURE__ */ React113.createElement(ShareLink, { style: {
       display: widgetState.showChat == "show_invite" ? "block" : "none"
-    } }) : /* @__PURE__ */ React111.createElement(React111.Fragment, null),
-    showParticipantButton ? /* @__PURE__ */ React111.createElement(
+    } }) : /* @__PURE__ */ React113.createElement(React113.Fragment, null),
+    showParticipantButton ? /* @__PURE__ */ React113.createElement(
       Users,
       {
         style: { display: widgetState.showChat == "show_users" ? "block" : "none" },
         onWaitingRoomChange: updateCount
       }
-    ) : /* @__PURE__ */ React111.createElement(React111.Fragment, null),
-    /* @__PURE__ */ React111.createElement(
+    ) : /* @__PURE__ */ React113.createElement(React113.Fragment, null),
+    /* @__PURE__ */ React113.createElement(
       Chat,
       {
         style: { display: widgetState.showChat == "show_chat" ? "flex" : "none" },
@@ -4570,35 +4669,35 @@ function VideoConference(_a) {
         messageDecoder: chatMessageDecoder
       }
     ),
-    SettingsComponent && /* @__PURE__ */ React111.createElement(
+    SettingsComponent && /* @__PURE__ */ React113.createElement(
       "div",
       {
         className: "lk-settings-menu-modal",
         style: { display: widgetState.showSettings ? "block" : "none" }
       },
-      /* @__PURE__ */ React111.createElement(SettingsComponent, null)
+      /* @__PURE__ */ React113.createElement(SettingsComponent, null)
     )
-  ), /* @__PURE__ */ React111.createElement(RoomAudioRenderer, null), /* @__PURE__ */ React111.createElement(ConnectionStateToast, null));
+  ), /* @__PURE__ */ React113.createElement(RoomAudioRenderer, null), /* @__PURE__ */ React113.createElement(ConnectionStateToast, null));
 }
 
 // src/prefabs/AudioConference.tsx
-import * as React112 from "react";
+import * as React114 from "react";
 import { Track as Track12 } from "livekit-client";
 function AudioConference(_a) {
   var props = __objRest(_a, []);
-  const [widgetState, setWidgetState] = React112.useState({
+  const [widgetState, setWidgetState] = React114.useState({
     showChat: null,
     unreadMessages: 0
   });
   const audioTracks = useTracks([Track12.Source.Microphone]);
   useWarnAboutMissingStyles();
-  return /* @__PURE__ */ React112.createElement(LayoutContextProvider, { onWidgetChange: setWidgetState }, /* @__PURE__ */ React112.createElement("div", __spreadValues({ className: "lk-audio-conference" }, props), /* @__PURE__ */ React112.createElement("div", { className: "lk-audio-conference-stage" }, /* @__PURE__ */ React112.createElement(TrackLoop, { tracks: audioTracks }, /* @__PURE__ */ React112.createElement(ParticipantAudioTile, null))), /* @__PURE__ */ React112.createElement(
+  return /* @__PURE__ */ React114.createElement(LayoutContextProvider, { onWidgetChange: setWidgetState }, /* @__PURE__ */ React114.createElement("div", __spreadValues({ className: "lk-audio-conference" }, props), /* @__PURE__ */ React114.createElement("div", { className: "lk-audio-conference-stage" }, /* @__PURE__ */ React114.createElement(TrackLoop, { tracks: audioTracks }, /* @__PURE__ */ React114.createElement(ParticipantAudioTile, null))), /* @__PURE__ */ React114.createElement(
     ControlBar,
     {
       controls: { microphone: true, screenShare: false, camera: false, chat: true },
       waitingRoomCount: 0
     }
-  ), widgetState.showChat == "show_chat" && /* @__PURE__ */ React112.createElement(Chat, null)));
+  ), widgetState.showChat == "show_chat" && /* @__PURE__ */ React114.createElement(Chat, null)));
 }
 export {
   AudioConference,
