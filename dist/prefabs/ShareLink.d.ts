@@ -12,6 +12,9 @@ export type User = {
     ext_no: string;
     invited: boolean;
 };
+export interface ShareLinkProps extends React.HTMLAttributes<HTMLDivElement> {
+    isCallScreen: boolean;
+}
 /**
  * The Chat component adds a basis chat functionality to the LiveKit room. The messages are distributed to all participants
  * in the room. Only users who are in the room at the time of dispatch will receive the message.
@@ -24,5 +27,5 @@ export type User = {
  * ```
  * @public
  */
-export declare function ShareLink({ ...props }: any): React.JSX.Element;
+export declare function ShareLink({ isCallScreen, ...props }: ShareLinkProps): React.JSX.Element;
 //# sourceMappingURL=ShareLink.d.ts.map

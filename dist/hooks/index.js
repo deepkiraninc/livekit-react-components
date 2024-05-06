@@ -1329,7 +1329,12 @@ function useTracks(sources = [
       setParticipants(participants2);
     });
     return () => subscription.unsubscribe();
-  }, [room, JSON.stringify(options.updateOnlyOn), JSON.stringify(sources)]);
+  }, [
+    room,
+    JSON.stringify(options.onlySubscribed),
+    JSON.stringify(options.updateOnlyOn),
+    JSON.stringify(sources)
+  ]);
   const maybeTrackReferences = React41.useMemo(() => {
     if ((0, import_components_core32.isSourcesWithOptions)(sources)) {
       const requirePlaceholder = requiredPlaceholders(sources, participants);
