@@ -3460,7 +3460,7 @@ function MediaDeviceMenu(_a) {
       ref: tooltip,
       style: { visibility: isOpen ? "visible" : "hidden" }
     },
-    kind ? /* @__PURE__ */ React117.createElement(React117.Fragment, null, /* @__PURE__ */ React117.createElement(
+    kind ? /* @__PURE__ */ React117.createElement(React117.Fragment, null, kind === "audioinput" && /* @__PURE__ */ React117.createElement("span", { className: "tl-device-action-type" }, "INPUT"), /* @__PURE__ */ React117.createElement(
       MediaDeviceSelect,
       {
         initialSelection,
@@ -3470,7 +3470,7 @@ function MediaDeviceMenu(_a) {
         track: tracks == null ? void 0 : tracks[kind],
         requestPermissions: needPermissions
       }
-    ), kind === "audioinput" && /* @__PURE__ */ React117.createElement(
+    ), kind === "audioinput" && /* @__PURE__ */ React117.createElement(React117.Fragment, null, /* @__PURE__ */ React117.createElement("span", { className: "tl-device-action-type" }, "OUTPUT"), /* @__PURE__ */ React117.createElement(
       MediaDeviceSelect,
       {
         initialSelection,
@@ -3480,7 +3480,7 @@ function MediaDeviceMenu(_a) {
         track: tracks == null ? void 0 : tracks["audiooutput"],
         requestPermissions: needPermissions
       }
-    )) : /* @__PURE__ */ React117.createElement(React117.Fragment, null, /* @__PURE__ */ React117.createElement("div", { className: "lk-device-menu-heading" }, "Audio inputs"), /* @__PURE__ */ React117.createElement(
+    ))) : /* @__PURE__ */ React117.createElement(React117.Fragment, null, /* @__PURE__ */ React117.createElement("div", { className: "lk-device-menu-heading" }, "Audio inputs"), /* @__PURE__ */ React117.createElement(
       MediaDeviceSelect,
       {
         kind: "audioinput",
