@@ -4257,6 +4257,7 @@ function InviteViaPhone(_a) {
       event.preventDefault();
       if (inputRef.current && inputRef.current.value.trim() !== "") {
         const number = ((_a2 = selectRef.current) == null ? void 0 : _a2.value) + inputRef.current.value;
+        setEmpty();
         if (isCallScreen) {
           const queryParams = new URLSearchParams(window.location.search);
           const token = queryParams.get("token");
@@ -4277,7 +4278,6 @@ function InviteViaPhone(_a) {
           fetch(`/api/invite-call-email-phone`, data).then((res) => __async(this, null, function* () {
             if (res.ok) {
               setShowToast(true);
-              setEmpty();
             } else {
               throw Error("Error fetching server url, check server logs");
             }
@@ -4299,7 +4299,6 @@ function InviteViaPhone(_a) {
           fetch(`/api/invite-phone`, data).then((res) => __async(this, null, function* () {
             if (res.ok) {
               setShowToast(true);
-              setEmpty();
             } else {
               throw Error("Error fetching server url, check server logs");
             }
@@ -4334,6 +4333,7 @@ function InviteViaEmail(_a) {
       event.preventDefault();
       if (inputRef.current && inputRef.current.value.trim() !== "") {
         const email = inputRef.current.value;
+        setEmpty();
         if (isCallScreen) {
           const queryParams = new URLSearchParams(window.location.search);
           const token = queryParams.get("token");
@@ -4354,7 +4354,6 @@ function InviteViaEmail(_a) {
           fetch(`/api/invite-call-email-phone`, data).then((res) => __async(this, null, function* () {
             if (res.ok) {
               setShowToast(true);
-              setEmpty();
             } else {
               throw Error("Error fetching server url, check server logs");
             }
@@ -4377,7 +4376,6 @@ function InviteViaEmail(_a) {
           fetch(`/api/invite-email`, data).then((res) => __async(this, null, function* () {
             if (res.ok) {
               setShowToast(true);
-              setEmpty();
             } else {
               throw Error("Error fetching server url, check server logs");
             }
