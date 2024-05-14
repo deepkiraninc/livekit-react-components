@@ -4245,6 +4245,12 @@ function InviteViaPhone(_a) {
       setCountries(yield res.json());
     }));
   }, []);
+  function setEmpty() {
+    if (inputRef.current && selectRef.current) {
+      inputRef.current.value = "";
+      selectRef.current.value = "";
+    }
+  }
   function handleSubmit(event) {
     return __async(this, null, function* () {
       var _a2;
@@ -4271,6 +4277,7 @@ function InviteViaPhone(_a) {
           fetch(`/api/invite-call-email-phone`, data).then((res) => __async(this, null, function* () {
             if (res.ok) {
               setShowToast(true);
+              setEmpty();
             } else {
               throw Error("Error fetching server url, check server logs");
             }
@@ -4292,6 +4299,7 @@ function InviteViaPhone(_a) {
           fetch(`/api/invite-phone`, data).then((res) => __async(this, null, function* () {
             if (res.ok) {
               setShowToast(true);
+              setEmpty();
             } else {
               throw Error("Error fetching server url, check server logs");
             }
@@ -4307,7 +4315,7 @@ function InviteViaPhone(_a) {
       }, 3e3);
     }
   }, [showToast]);
-  return /* @__PURE__ */ React110.createElement("div", __spreadValues({}, props), showToast ? /* @__PURE__ */ React110.createElement(Toast, { className: "lk-toast-connection-state" }, "Invitation Sent") : /* @__PURE__ */ React110.createElement(React110.Fragment, null), /* @__PURE__ */ React110.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React110.createElement("select", { className: "lk-form-control lk-chat-form-input tl-select", ref: selectRef }, countries.map((country) => /* @__PURE__ */ React110.createElement("option", { value: country.dial_code }, country.name, " (", country.dial_code, ")"))), /* @__PURE__ */ React110.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "tel", ref: inputRef, placeholder: "Enter Mobile Number" }), /* @__PURE__ */ React110.createElement("button", { type: "button", onClick: handleSubmit, className: "lk-button lk-chat-form-button tl-invite-button" }, "Invite")));
+  return /* @__PURE__ */ React110.createElement("div", __spreadValues({}, props), showToast ? /* @__PURE__ */ React110.createElement(Toast, { className: "lk-toast-connection-state" }, "Invitation Sent") : /* @__PURE__ */ React110.createElement(React110.Fragment, null), /* @__PURE__ */ React110.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React110.createElement("select", { className: "lk-form-control lk-chat-form-input tl-select", ref: selectRef }, countries.map((country) => /* @__PURE__ */ React110.createElement("option", { value: country.dial_code }, country.dial_code, " - ", country.name))), /* @__PURE__ */ React110.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "tel", ref: inputRef, placeholder: "Enter Mobile Number" }), /* @__PURE__ */ React110.createElement("button", { type: "button", onClick: handleSubmit, className: "lk-button lk-chat-form-button tl-invite-button" }, "Invite")));
 }
 
 // src/prefabs/InviteViaEmail.tsx
@@ -4316,6 +4324,11 @@ function InviteViaEmail(_a) {
   var _b = _a, { link, room_name, participant, isCallScreen } = _b, props = __objRest(_b, ["link", "room_name", "participant", "isCallScreen"]);
   const inputRef = React111.useRef(null);
   const [showToast, setShowToast] = React111.useState(false);
+  function setEmpty() {
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+  }
   function handleSubmit(event) {
     return __async(this, null, function* () {
       event.preventDefault();
@@ -4341,6 +4354,7 @@ function InviteViaEmail(_a) {
           fetch(`/api/invite-call-email-phone`, data).then((res) => __async(this, null, function* () {
             if (res.ok) {
               setShowToast(true);
+              setEmpty();
             } else {
               throw Error("Error fetching server url, check server logs");
             }
@@ -4363,6 +4377,7 @@ function InviteViaEmail(_a) {
           fetch(`/api/invite-email`, data).then((res) => __async(this, null, function* () {
             if (res.ok) {
               setShowToast(true);
+              setEmpty();
             } else {
               throw Error("Error fetching server url, check server logs");
             }
