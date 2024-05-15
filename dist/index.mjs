@@ -2147,6 +2147,7 @@ var MediaDeviceSelect = /* @__PURE__ */ React77.forwardRef(function MediaDeviceS
     }
   }, [onDeviceListChange, devices]);
   React77.useEffect(() => {
+    console.log({ kind, activeDeviceId });
     if (activeDeviceId && activeDeviceId !== "") {
       onActiveDeviceChange == null ? void 0 : onActiveDeviceChange(activeDeviceId);
     }
@@ -4818,7 +4819,7 @@ function InviteViaPhone(_a) {
       }, 3e3);
     }
   }, [showToast]);
-  return /* @__PURE__ */ React132.createElement("div", __spreadValues({}, props), showToast ? /* @__PURE__ */ React132.createElement(Toast, { className: "lk-toast-connection-state" }, "Invitation Sent") : /* @__PURE__ */ React132.createElement(React132.Fragment, null), /* @__PURE__ */ React132.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React132.createElement("select", { className: "lk-form-control lk-chat-form-input tl-select", ref: selectRef }, countries.map((country) => /* @__PURE__ */ React132.createElement("option", { value: country.dial_code }, country.dial_code, " - ", country.name))), /* @__PURE__ */ React132.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "tel", ref: inputRef, placeholder: "Enter Mobile Number" }), /* @__PURE__ */ React132.createElement("button", { type: "button", onClick: handleSubmit, className: "lk-button lk-chat-form-button tl-invite-button" }, "Invite")));
+  return /* @__PURE__ */ React132.createElement("div", __spreadValues({}, props), showToast ? /* @__PURE__ */ React132.createElement(Toast, { className: "lk-toast-connection-state" }, "Invitation Sent") : /* @__PURE__ */ React132.createElement(React132.Fragment, null), /* @__PURE__ */ React132.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React132.createElement("select", { className: "lk-form-control lk-chat-form-input tl-select", ref: selectRef, value: "+1" }, countries.map((country) => /* @__PURE__ */ React132.createElement("option", { value: country.dial_code }, country.dial_code, " - ", country.name))), /* @__PURE__ */ React132.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "tel", ref: inputRef, placeholder: "Enter Mobile Number" }), /* @__PURE__ */ React132.createElement("button", { type: "button", onClick: handleSubmit, className: "lk-button lk-chat-form-button tl-invite-button" }, "Invite")));
 }
 
 // src/prefabs/InviteViaEmail.tsx
