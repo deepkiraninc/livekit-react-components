@@ -3922,6 +3922,7 @@ function ControlBar(_a) {
   ), /* @__PURE__ */ React106.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React106.createElement(
     MediaDeviceMenu,
     {
+      initialSelection: "default",
       kind: "audioinput",
       onActiveDeviceChange: (_kind, deviceId) => saveAudioInputDeviceId(deviceId != null ? deviceId : "")
     }
