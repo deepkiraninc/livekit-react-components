@@ -4743,6 +4743,7 @@ import * as React132 from "react";
 function InviteViaPhone(_a) {
   var _b = _a, { link, room_name, participant, isCallScreen } = _b, props = __objRest(_b, ["link", "room_name", "participant", "isCallScreen"]);
   const selectRef = React132.useRef(null);
+  const [defaultValue, setDefaultValue] = React132.useState("+1");
   const inputRef = React132.useRef(null);
   const [showToast, setShowToast] = React132.useState(false);
   const [countries, setCountries] = React132.useState([]);
@@ -4755,6 +4756,7 @@ function InviteViaPhone(_a) {
     if (inputRef.current && selectRef.current) {
       inputRef.current.value = "";
       selectRef.current.value = "";
+      setDefaultValue("+1");
     }
   }
   function handleSubmit(event) {
@@ -4820,7 +4822,12 @@ function InviteViaPhone(_a) {
       }, 3e3);
     }
   }, [showToast]);
-  return /* @__PURE__ */ React132.createElement("div", __spreadValues({}, props), showToast ? /* @__PURE__ */ React132.createElement(Toast, { className: "lk-toast-connection-state" }, "Invitation Sent") : /* @__PURE__ */ React132.createElement(React132.Fragment, null), /* @__PURE__ */ React132.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React132.createElement("select", { className: "lk-form-control lk-chat-form-input tl-select", ref: selectRef, value: "+1" }, countries.map((country) => /* @__PURE__ */ React132.createElement("option", { value: country.dial_code }, country.dial_code, " - ", country.name))), /* @__PURE__ */ React132.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "tel", ref: inputRef, placeholder: "Enter Mobile Number" }), /* @__PURE__ */ React132.createElement("button", { type: "button", onClick: handleSubmit, className: "lk-button lk-chat-form-button tl-invite-button" }, "Invite")));
+  function changeValue() {
+    if (selectRef.current) {
+      setDefaultValue(selectRef.current.value);
+    }
+  }
+  return /* @__PURE__ */ React132.createElement("div", __spreadValues({}, props), showToast ? /* @__PURE__ */ React132.createElement(Toast, { className: "lk-toast-connection-state" }, "Invitation Sent") : /* @__PURE__ */ React132.createElement(React132.Fragment, null), /* @__PURE__ */ React132.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React132.createElement("select", { className: "lk-form-control lk-chat-form-input tl-select", ref: selectRef, value: defaultValue, onChange: changeValue }, countries.map((country) => /* @__PURE__ */ React132.createElement("option", { value: country.dial_code }, country.dial_code, " - ", country.name))), /* @__PURE__ */ React132.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "tel", ref: inputRef, placeholder: "Enter Mobile Number" }), /* @__PURE__ */ React132.createElement("button", { type: "button", onClick: handleSubmit, className: "lk-button lk-chat-form-button tl-invite-button" }, "Invite")));
 }
 
 // src/prefabs/InviteViaEmail.tsx
