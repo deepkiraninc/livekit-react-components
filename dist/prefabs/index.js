@@ -3002,6 +3002,11 @@ var ParticipantTile = /* @__PURE__ */ React83.forwardRef(function ParticipantTil
     },
     [trackReference, layoutContext]
   );
+  const [imageUrl, setImageUrl] = React83.useState(null);
+  React83.useEffect(() => {
+    if (trackReference.participant.name)
+      setImageUrl(`https://ui-avatars.com/api/?name=${trackReference.participant.name}&background=111111&color=fff&size=128&rounded=true`);
+  }, [trackReference]);
   return /* @__PURE__ */ React83.createElement("div", __spreadValues({ ref, style: { position: "relative" } }, elementProps), /* @__PURE__ */ React83.createElement(TrackRefContextIfNeeded, { trackRef: trackReference }, /* @__PURE__ */ React83.createElement(ParticipantContextIfNeeded, { participant: trackReference.participant }, children != null ? children : /* @__PURE__ */ React83.createElement(React83.Fragment, null, ((_b2 = trackReference.publication) == null ? void 0 : _b2.trackName) == "whiteboard" ? /* @__PURE__ */ React83.createElement(WhiteboardTrack, null) : (0, import_components_core35.isTrackReference)(trackReference) && (((_c2 = trackReference.publication) == null ? void 0 : _c2.kind) === "video" || trackReference.source === import_livekit_client13.Track.Source.Camera || trackReference.source === import_livekit_client13.Track.Source.ScreenShare) ? /* @__PURE__ */ React83.createElement(
     VideoTrack,
     {
@@ -3015,7 +3020,7 @@ var ParticipantTile = /* @__PURE__ */ React83.forwardRef(function ParticipantTil
       trackRef: trackReference,
       onSubscriptionStatusChanged: handleSubscribe
     }
-  ), /* @__PURE__ */ React83.createElement("div", { className: "lk-participant-placeholder" }, /* @__PURE__ */ React83.createElement(ParticipantPlaceholder_default, null)), /* @__PURE__ */ React83.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React83.createElement("div", { className: "lk-participant-metadata-item" }, trackReference.source === import_livekit_client13.Track.Source.Camera ? /* @__PURE__ */ React83.createElement(React83.Fragment, null, isEncrypted && /* @__PURE__ */ React83.createElement(LockLockedIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React83.createElement(
+  ), /* @__PURE__ */ React83.createElement("div", { className: "lk-participant-placeholder" }, imageUrl ? /* @__PURE__ */ React83.createElement("img", { src: imageUrl, alt: "" }) : /* @__PURE__ */ React83.createElement(ParticipantPlaceholder_default, null)), /* @__PURE__ */ React83.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React83.createElement("div", { className: "lk-participant-metadata-item" }, trackReference.source === import_livekit_client13.Track.Source.Camera ? /* @__PURE__ */ React83.createElement(React83.Fragment, null, isEncrypted && /* @__PURE__ */ React83.createElement(LockLockedIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React83.createElement(
     TrackMutedIndicator,
     {
       trackRef: {
