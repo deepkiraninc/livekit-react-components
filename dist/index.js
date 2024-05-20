@@ -3016,7 +3016,7 @@ var ParticipantTile = /* @__PURE__ */ React98.forwardRef(function ParticipantTil
   const [imageUrl, setImageUrl] = React98.useState(null);
   React98.useEffect(() => {
     if (trackReference.participant.name)
-      setImageUrl(`https://ui-avatars.com/api/?name=${trackReference.participant.name}&background=111111&color=fff&size=128&rounded=true`);
+      setImageUrl(`https://ui-avatars.com/api/?name=${trackReference.participant.name}&background=111111&color=fff&size=156&rounded=true`);
   }, [trackReference]);
   return /* @__PURE__ */ React98.createElement("div", __spreadValues({ ref, style: { position: "relative" } }, elementProps), /* @__PURE__ */ React98.createElement(TrackRefContextIfNeeded, { trackRef: trackReference }, /* @__PURE__ */ React98.createElement(ParticipantContextIfNeeded, { participant: trackReference.participant }, children != null ? children : /* @__PURE__ */ React98.createElement(React98.Fragment, null, ((_b2 = trackReference.publication) == null ? void 0 : _b2.trackName) == "whiteboard" ? /* @__PURE__ */ React98.createElement(WhiteboardTrack, null) : (0, import_components_core44.isTrackReference)(trackReference) && (((_c2 = trackReference.publication) == null ? void 0 : _c2.kind) === "video" || trackReference.source === import_livekit_client14.Track.Source.Camera || trackReference.source === import_livekit_client14.Track.Source.ScreenShare) ? /* @__PURE__ */ React98.createElement(
     VideoTrack,
