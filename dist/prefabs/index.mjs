@@ -2981,6 +2981,11 @@ var ParticipantTile = /* @__PURE__ */ React83.forwardRef(function ParticipantTil
     },
     [trackReference, layoutContext]
   );
+  const [imageUrl, setImageUrl] = React83.useState(null);
+  React83.useEffect(() => {
+    if (trackReference.participant.name)
+      setImageUrl(`https://ui-avatars.com/api/?name=${trackReference.participant.name}&background=111111&color=fff&size=156&rounded=true`);
+  }, [trackReference]);
   return /* @__PURE__ */ React83.createElement("div", __spreadValues({ ref, style: { position: "relative" } }, elementProps), /* @__PURE__ */ React83.createElement(TrackRefContextIfNeeded, { trackRef: trackReference }, /* @__PURE__ */ React83.createElement(ParticipantContextIfNeeded, { participant: trackReference.participant }, children != null ? children : /* @__PURE__ */ React83.createElement(React83.Fragment, null, ((_b2 = trackReference.publication) == null ? void 0 : _b2.trackName) == "whiteboard" ? /* @__PURE__ */ React83.createElement(WhiteboardTrack, null) : isTrackReference3(trackReference) && (((_c = trackReference.publication) == null ? void 0 : _c.kind) === "video" || trackReference.source === Track6.Source.Camera || trackReference.source === Track6.Source.ScreenShare) ? /* @__PURE__ */ React83.createElement(
     VideoTrack,
     {
@@ -2994,7 +2999,7 @@ var ParticipantTile = /* @__PURE__ */ React83.forwardRef(function ParticipantTil
       trackRef: trackReference,
       onSubscriptionStatusChanged: handleSubscribe
     }
-  ), /* @__PURE__ */ React83.createElement("div", { className: "lk-participant-placeholder" }, /* @__PURE__ */ React83.createElement(ParticipantPlaceholder_default, null)), /* @__PURE__ */ React83.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React83.createElement("div", { className: "lk-participant-metadata-item" }, trackReference.source === Track6.Source.Camera ? /* @__PURE__ */ React83.createElement(React83.Fragment, null, isEncrypted && /* @__PURE__ */ React83.createElement(LockLockedIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React83.createElement(
+  ), /* @__PURE__ */ React83.createElement("div", { className: "lk-participant-placeholder" }, imageUrl ? /* @__PURE__ */ React83.createElement("img", { src: imageUrl, alt: "" }) : /* @__PURE__ */ React83.createElement(ParticipantPlaceholder_default, null)), /* @__PURE__ */ React83.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React83.createElement("div", { className: "lk-participant-metadata-item" }, trackReference.source === Track6.Source.Camera ? /* @__PURE__ */ React83.createElement(React83.Fragment, null, isEncrypted && /* @__PURE__ */ React83.createElement(LockLockedIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React83.createElement(
     TrackMutedIndicator,
     {
       trackRef: {
@@ -4323,7 +4328,7 @@ function InviteViaPhone(_a) {
       setDefaultValue(selectRef.current.value);
     }
   }
-  return /* @__PURE__ */ React110.createElement("div", __spreadValues({}, props), showToast ? /* @__PURE__ */ React110.createElement(Toast, { className: "lk-toast-connection-state" }, "Invitation Sent") : /* @__PURE__ */ React110.createElement(React110.Fragment, null), /* @__PURE__ */ React110.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React110.createElement("select", { className: "lk-form-control lk-chat-form-input tl-select", ref: selectRef, value: defaultValue, onChange: changeValue }, countries.map((country) => /* @__PURE__ */ React110.createElement("option", { value: country.dial_code }, country.dial_code, " - ", country.name))), /* @__PURE__ */ React110.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "tel", ref: inputRef, placeholder: "Enter Mobile Number" }), /* @__PURE__ */ React110.createElement("button", { type: "button", onClick: handleSubmit, className: "lk-button lk-chat-form-button tl-invite-button" }, "Invite")));
+  return /* @__PURE__ */ React110.createElement("div", __spreadValues({}, props), showToast ? /* @__PURE__ */ React110.createElement(Toast, { className: "lk-toast-connection-state" }, "Invitation Sent") : /* @__PURE__ */ React110.createElement(React110.Fragment, null), /* @__PURE__ */ React110.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React110.createElement("select", { className: "lk-form-control lk-chat-form-input tl-select", ref: selectRef, value: defaultValue, onChange: changeValue }, countries.map((country) => /* @__PURE__ */ React110.createElement("option", { value: country.dial_code }, country.dial_code, " - ", country.name))), /* @__PURE__ */ React110.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "tel", ref: inputRef, placeholder: "Enter Mobile Number", pattern: "[0-9]+", title: "Enter valid mobile number", maxLength: 10, minLength: 10 }), /* @__PURE__ */ React110.createElement("button", { type: "submit", className: "lk-button lk-chat-form-button tl-invite-button" }, "Invite")));
 }
 
 // src/prefabs/InviteViaEmail.tsx
@@ -4400,7 +4405,7 @@ function InviteViaEmail(_a) {
       }, 3e3);
     }
   }, [showToast]);
-  return /* @__PURE__ */ React111.createElement("div", __spreadValues({}, props), showToast ? /* @__PURE__ */ React111.createElement(Toast, { className: "lk-toast-connection-state" }, "Invitation Sent") : /* @__PURE__ */ React111.createElement(React111.Fragment, null), /* @__PURE__ */ React111.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React111.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "email", ref: inputRef, placeholder: "Enter Email" }), /* @__PURE__ */ React111.createElement("button", { type: "button", onClick: handleSubmit, className: "lk-button lk-chat-form-button tl-invite-button" }, "Invite")));
+  return /* @__PURE__ */ React111.createElement("div", __spreadValues({}, props), showToast ? /* @__PURE__ */ React111.createElement(Toast, { className: "lk-toast-connection-state" }, "Invitation Sent") : /* @__PURE__ */ React111.createElement(React111.Fragment, null), /* @__PURE__ */ React111.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React111.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "email", ref: inputRef, placeholder: "Enter Email" }), /* @__PURE__ */ React111.createElement("button", { type: "submit", className: "lk-button lk-chat-form-button tl-invite-button" }, "Invite")));
 }
 
 // src/prefabs/ShareLink.tsx
@@ -4581,6 +4586,9 @@ function ShareLink(_a) {
       (_a2 = ulRef.current) == null ? void 0 : _a2.scrollTo({ top: ulRef.current.scrollHeight });
     }
   }, [ulRef, users]);
+  React112.useEffect(() => {
+    setSearched(users);
+  }, [inviteVia]);
   return /* @__PURE__ */ React112.createElement("div", __spreadProps(__spreadValues({}, props), { className: "lk-chat lk-sharelink" }), !isCallScreen ? /* @__PURE__ */ React112.createElement("form", { className: "lk-chat-form" }, /* @__PURE__ */ React112.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "text", value: link, readOnly: true }), /* @__PURE__ */ React112.createElement("button", { type: "button", className: "lk-button lk-chat-form-button", onClick: handleCopy }, "Copy")) : /* @__PURE__ */ React112.createElement(React112.Fragment, null), showToast ? /* @__PURE__ */ React112.createElement(Toast, { className: "lk-toast-connection-state" }, "Copied") : /* @__PURE__ */ React112.createElement(React112.Fragment, null), /* @__PURE__ */ React112.createElement("div", { className: "tl-invite-buttons" }, /* @__PURE__ */ React112.createElement("button", { type: "button", className: "lk-button lk-chat-form-button", "aria-pressed": inviteVia === "chat", onClick: () => showInviteVia("chat") }, "TL-Chat"), /* @__PURE__ */ React112.createElement("button", { type: "button", className: "lk-button lk-chat-form-button", "aria-pressed": inviteVia === "phone", onClick: () => showInviteVia("phone") }, "Phone"), /* @__PURE__ */ React112.createElement("button", { type: "button", className: "lk-button lk-chat-form-button", "aria-pressed": inviteVia === "email", onClick: () => showInviteVia("email") }, "Email")), inviteVia === "phone" ? /* @__PURE__ */ React112.createElement(InviteViaPhone, { link, room_name: room.name, participant: participantName, isCallScreen }) : /* @__PURE__ */ React112.createElement(React112.Fragment, null), inviteVia === "email" ? /* @__PURE__ */ React112.createElement(InviteViaEmail, { link, room_name: room.name, participant: participantName, isCallScreen }) : /* @__PURE__ */ React112.createElement(React112.Fragment, null), inviteVia === "chat" ? /* @__PURE__ */ React112.createElement(React112.Fragment, null, showInviteUser ? /* @__PURE__ */ React112.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React112.createElement(
     "input",
     {
