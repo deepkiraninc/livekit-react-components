@@ -8200,12 +8200,14 @@ function FullscreenIndicator({ parentCallback }) {
       const requestMethod = getFullScreenCancelMethod();
       if (requestMethod) {
         requestMethod.call(document);
+        setFullScreen(false);
       }
     } else {
       const contentElement = document.getElementById("__next");
       const requestMethod = getFullScreenRequestMethod(contentElement);
       if (requestMethod) {
         requestMethod.call(contentElement);
+        setFullScreen(true);
       }
     }
     parentCallback();

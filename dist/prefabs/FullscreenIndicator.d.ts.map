@@ -1,1 +1,1 @@
-{"version":3,"file":"FullscreenIndicator.d.ts","sourceRoot":"","sources":["../../src/prefabs/FullscreenIndicator.tsx"],"names":[],"mappings":"AAAA,OAAO,KAAmD,MAAM,OAAO,CAAC;AAExE,MAAM,WAAW,eAAe;IAC5B,cAAc,EAAE,MAAM,IAAI,CAAC;CAC9B;AAED,wBAAgB,mBAAmB,CAAC,EAAE,cAAc,EAAE,EAAE,eAAe,qBAwGtE"}
+{"version":3,"file":"FullscreenIndicator.d.ts","sourceRoot":"","sources":["../../src/prefabs/FullscreenIndicator.tsx"],"names":[],"mappings":"AAAA,OAAO,KAAmD,MAAM,OAAO,CAAC;AAExE,MAAM,WAAW,eAAe;IAC5B,cAAc,EAAE,MAAM,IAAI,CAAC;CAC9B;AAED,wBAAgB,mBAAmB,CAAC,EAAE,cAAc,EAAE,EAAE,eAAe,qBA0GtE"}
