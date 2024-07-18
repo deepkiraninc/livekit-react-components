@@ -4248,7 +4248,7 @@ function FullscreenIndicator({ parentCallback }) {
         requestMethod.call(document);
       }
     } else {
-      const contentElement = document.getElementById("app");
+      const contentElement = document.getElementById("__next");
       const requestMethod = getFullScreenRequestMethod(contentElement);
       if (requestMethod) {
         requestMethod.call(contentElement);
@@ -4256,7 +4256,7 @@ function FullscreenIndicator({ parentCallback }) {
     }
     parentCallback();
   }, [isFullScreen]);
-  return /* @__PURE__ */ React124.createElement("button", { className: "tl-blur lk-button", onClick: toggleFullScreen }, isFullScreen ? "exit" : "enter", " FullScreen");
+  return /* @__PURE__ */ React124.createElement("button", { className: "tl-blur lk-button", onClick: toggleFullScreen }, isFullScreen ? "Exit" : "Enter", " FullScreen");
 }
 
 // src/prefabs/ExtraOptionMenu.tsx
