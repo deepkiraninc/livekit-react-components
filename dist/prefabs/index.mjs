@@ -2710,10 +2710,10 @@ var FocusToggle = /* @__PURE__ */ React75.forwardRef(
 );
 
 // src/components/layout/FocusLayout.tsx
-import * as React84 from "react";
+import * as React85 from "react";
 
 // src/components/participant/ParticipantTile.tsx
-import * as React83 from "react";
+import * as React84 from "react";
 import { Track as Track6 } from "livekit-client";
 import { isTrackReference as isTrackReference3, isTrackReferencePinned as isTrackReferencePinned2 } from "@livekit/components-core";
 
@@ -2941,16 +2941,109 @@ function WhiteboardTrack() {
   return url ? /* @__PURE__ */ React82.createElement("iframe", { src: url, width: "100%", height: "100%" }) : /* @__PURE__ */ React82.createElement(React82.Fragment, null);
 }
 
+// src/prefabs/FullscreenIndicator.tsx
+import React83, { useCallback as useCallback8, useEffect as useEffect22, useRef as useRef10, useState as useState16 } from "react";
+function FullscreenIndicator({ elementId, parentCallback }) {
+  const isEventListenerConnected = useRef10(false);
+  const [isFullScreen, setFullScreen] = useState16(false);
+  const getFullScreenElement = () => {
+    if (document.fullscreenEnabled) {
+      return document.fullscreenElement;
+    } else {
+      return;
+    }
+  };
+  const hasEvent = (contentElement, eventName) => {
+    for (const key in contentElement) {
+      if (eventName === key) {
+        return true;
+      }
+    }
+    return false;
+  };
+  const getFullScreenChangeEvent = (contentElement) => {
+    if (document.fullscreenEnabled && hasEvent(contentElement, "onfullscreenchange")) {
+      return "fullscreenchange";
+    } else if (document.fullscreenEnabled && hasEvent(contentElement, "onwebkitfullscreenchange")) {
+      return "webkitfullscreenchange";
+    } else if (document.fullscreenEnabled && hasEvent(contentElement, "onmozfullscreenchange")) {
+      return "mozfullscreenchange";
+    } else if (document.fullscreenEnabled && hasEvent(contentElement, "onmsfullscreenchange")) {
+      return "msfullscreenchange";
+    } else {
+      return;
+    }
+  };
+  const getFullScreenCancelMethod = () => {
+    if (document.fullscreenEnabled && document.exitFullscreen) {
+      return document.exitFullscreen;
+    } else if (document.fullscreenEnabled && document.exitFullscreen) {
+      return document.exitFullscreen;
+    } else if (document.fullscreenEnabled && document.exitFullscreen) {
+      return document.exitFullscreen;
+    } else {
+      return;
+    }
+  };
+  const getFullScreenRequestMethod = (contentElement) => {
+    if (document.fullscreenEnabled && contentElement.requestFullscreen) {
+      return contentElement.requestFullscreen;
+    } else if (document.fullscreenEnabled && contentElement.webkitRequestFullscreen) {
+      return contentElement.webkitRequestFullscreen;
+    } else if (document.fullscreenEnabled && contentElement.mozRequestFullScreen) {
+      return contentElement.mozRequestFullScreen;
+    } else if (document.fullscreenEnabled && contentElement.msRequestFullscreen) {
+      return contentElement.msRequestFullscreen;
+    } else {
+      return;
+    }
+  };
+  const fullScreenChangeListener = (setFullScreen2) => {
+    const isFullScreenActive = getFullScreenElement() != null;
+    setFullScreen2(isFullScreenActive);
+  };
+  useEffect22(() => {
+    if (!isEventListenerConnected.current) {
+      let contentElement = document.getElementById("app");
+      if (contentElement) {
+        let eventName = getFullScreenChangeEvent(contentElement);
+        if (eventName) {
+          contentElement.addEventListener(eventName, () => fullScreenChangeListener(setFullScreen));
+        }
+        isEventListenerConnected.current = true;
+      }
+    }
+  }, [isEventListenerConnected, setFullScreen]);
+  const toggleFullScreen = useCallback8(() => {
+    if (isFullScreen) {
+      const requestMethod = getFullScreenCancelMethod();
+      if (requestMethod) {
+        requestMethod.call(document);
+        setFullScreen(false);
+      }
+    } else {
+      const contentElement = document.getElementById(elementId);
+      const requestMethod = getFullScreenRequestMethod(contentElement);
+      if (requestMethod) {
+        requestMethod.call(contentElement);
+        setFullScreen(true);
+      }
+    }
+    parentCallback();
+  }, [isFullScreen]);
+  return /* @__PURE__ */ React83.createElement("button", { className: "tl-blur lk-button", onClick: toggleFullScreen }, isFullScreen ? "Exit" : "Enter", " FullScreen");
+}
+
 // src/components/participant/ParticipantTile.tsx
 function ParticipantContextIfNeeded(props) {
   const hasContext = !!useMaybeParticipantContext();
-  return props.participant && !hasContext ? /* @__PURE__ */ React83.createElement(ParticipantContext.Provider, { value: props.participant }, props.children) : /* @__PURE__ */ React83.createElement(React83.Fragment, null, props.children);
+  return props.participant && !hasContext ? /* @__PURE__ */ React84.createElement(ParticipantContext.Provider, { value: props.participant }, props.children) : /* @__PURE__ */ React84.createElement(React84.Fragment, null, props.children);
 }
 function TrackRefContextIfNeeded(props) {
   const hasContext = !!useMaybeTrackRefContext();
-  return props.trackRef && !hasContext ? /* @__PURE__ */ React83.createElement(TrackRefContext.Provider, { value: props.trackRef }, props.children) : /* @__PURE__ */ React83.createElement(React83.Fragment, null, props.children);
+  return props.trackRef && !hasContext ? /* @__PURE__ */ React84.createElement(TrackRefContext.Provider, { value: props.trackRef }, props.children) : /* @__PURE__ */ React84.createElement(React84.Fragment, null, props.children);
 }
-var ParticipantTile = /* @__PURE__ */ React83.forwardRef(function ParticipantTile2(_a, ref) {
+var ParticipantTile = /* @__PURE__ */ React84.forwardRef(function ParticipantTile2(_a, ref) {
   var _b = _a, {
     trackRef,
     children,
@@ -2973,7 +3066,7 @@ var ParticipantTile = /* @__PURE__ */ React83.forwardRef(function ParticipantTil
   const isEncrypted = useIsEncrypted(trackReference.participant);
   const layoutContext = useMaybeLayoutContext();
   const autoManageSubscription = (_a2 = useFeatureContext()) == null ? void 0 : _a2.autoSubscription;
-  const handleSubscribe = React83.useCallback(
+  const handleSubscribe = React84.useCallback(
     (subscribed) => {
       if (trackReference.source && !subscribed && layoutContext && layoutContext.pin.dispatch && isTrackReferencePinned2(trackReference, layoutContext.pin.state)) {
         layoutContext.pin.dispatch({ msg: "clear_pin" });
@@ -2981,25 +3074,26 @@ var ParticipantTile = /* @__PURE__ */ React83.forwardRef(function ParticipantTil
     },
     [trackReference, layoutContext]
   );
-  const [imageUrl, setImageUrl] = React83.useState(null);
-  React83.useEffect(() => {
+  const [imageUrl, setImageUrl] = React84.useState(null);
+  React84.useEffect(() => {
     if (trackReference.participant.name)
       setImageUrl(`https://ui-avatars.com/api/?name=${trackReference.participant.name}&background=111111&color=fff&size=156&rounded=true`);
   }, [trackReference]);
-  return /* @__PURE__ */ React83.createElement("div", __spreadValues({ ref, style: { position: "relative" } }, elementProps), /* @__PURE__ */ React83.createElement(TrackRefContextIfNeeded, { trackRef: trackReference }, /* @__PURE__ */ React83.createElement(ParticipantContextIfNeeded, { participant: trackReference.participant }, children != null ? children : /* @__PURE__ */ React83.createElement(React83.Fragment, null, ((_b2 = trackReference.publication) == null ? void 0 : _b2.trackName) == "whiteboard" ? /* @__PURE__ */ React83.createElement(WhiteboardTrack, null) : isTrackReference3(trackReference) && (((_c = trackReference.publication) == null ? void 0 : _c.kind) === "video" || trackReference.source === Track6.Source.Camera || trackReference.source === Track6.Source.ScreenShare) ? /* @__PURE__ */ React83.createElement(
+  const elementId = `participant_${trackReference.participant.identity}`;
+  return /* @__PURE__ */ React84.createElement("div", __spreadValues({ ref, id: elementId, style: { position: "relative" } }, elementProps), /* @__PURE__ */ React84.createElement(TrackRefContextIfNeeded, { trackRef: trackReference }, /* @__PURE__ */ React84.createElement(ParticipantContextIfNeeded, { participant: trackReference.participant }, children != null ? children : /* @__PURE__ */ React84.createElement(React84.Fragment, null, ((_b2 = trackReference.publication) == null ? void 0 : _b2.trackName) == "whiteboard" ? /* @__PURE__ */ React84.createElement(WhiteboardTrack, null) : isTrackReference3(trackReference) && (((_c = trackReference.publication) == null ? void 0 : _c.kind) === "video" || trackReference.source === Track6.Source.Camera || trackReference.source === Track6.Source.ScreenShare) ? /* @__PURE__ */ React84.createElement(
     VideoTrack,
     {
       trackRef: trackReference,
       onSubscriptionStatusChanged: handleSubscribe,
       manageSubscription: autoManageSubscription
     }
-  ) : isTrackReference3(trackReference) && /* @__PURE__ */ React83.createElement(
+  ) : isTrackReference3(trackReference) && /* @__PURE__ */ React84.createElement(
     AudioTrack,
     {
       trackRef: trackReference,
       onSubscriptionStatusChanged: handleSubscribe
     }
-  ), /* @__PURE__ */ React83.createElement("div", { className: "lk-participant-placeholder" }, imageUrl ? /* @__PURE__ */ React83.createElement("img", { src: imageUrl, alt: "" }) : /* @__PURE__ */ React83.createElement(ParticipantPlaceholder_default, null)), /* @__PURE__ */ React83.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React83.createElement("div", { className: "lk-participant-metadata-item" }, trackReference.source === Track6.Source.Camera ? /* @__PURE__ */ React83.createElement(React83.Fragment, null, isEncrypted && /* @__PURE__ */ React83.createElement(LockLockedIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React83.createElement(
+  ), /* @__PURE__ */ React84.createElement("div", { className: "lk-participant-placeholder" }, imageUrl ? /* @__PURE__ */ React84.createElement("img", { src: imageUrl, alt: "" }) : /* @__PURE__ */ React84.createElement(ParticipantPlaceholder_default, null)), /* @__PURE__ */ React84.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React84.createElement("div", { className: "lk-participant-metadata-item" }, trackReference.source === Track6.Source.Camera ? /* @__PURE__ */ React84.createElement(React84.Fragment, null, isEncrypted && /* @__PURE__ */ React84.createElement(LockLockedIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React84.createElement(
     TrackMutedIndicator,
     {
       trackRef: {
@@ -3008,29 +3102,31 @@ var ParticipantTile = /* @__PURE__ */ React83.forwardRef(function ParticipantTil
       },
       show: "muted"
     }
-  ), /* @__PURE__ */ React83.createElement(ParticipantName, null)) : /* @__PURE__ */ React83.createElement(React83.Fragment, null, /* @__PURE__ */ React83.createElement(ScreenShareIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React83.createElement(ParticipantName, null, "'s screen"))), /* @__PURE__ */ React83.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" }))), ((_d = trackReference.publication) == null ? void 0 : _d.trackName) !== "whiteboard" ? /* @__PURE__ */ React83.createElement(FocusToggle, { trackRef: trackReference }) : /* @__PURE__ */ React83.createElement(React83.Fragment, null))));
+  ), /* @__PURE__ */ React84.createElement(ParticipantName, null)) : /* @__PURE__ */ React84.createElement(React84.Fragment, null, /* @__PURE__ */ React84.createElement(ScreenShareIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React84.createElement(ParticipantName, null, "'s screen"))), /* @__PURE__ */ React84.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" }))), ((_d = trackReference.publication) == null ? void 0 : _d.trackName) !== "whiteboard" ? /* @__PURE__ */ React84.createElement(FocusToggle, { trackRef: trackReference }) : /* @__PURE__ */ React84.createElement(React84.Fragment, null), /* @__PURE__ */ React84.createElement(FullscreenIndicator, { parentCallback: () => {
+    console.log("fullscreen");
+  }, elementId: "__next" }))));
 });
 
 // src/components/layout/FocusLayout.tsx
 function FocusLayoutContainer(props) {
   const elementProps = mergeProps2(props, { className: "lk-focus-layout" });
-  return /* @__PURE__ */ React84.createElement("div", __spreadValues({}, elementProps), props.children);
+  return /* @__PURE__ */ React85.createElement("div", __spreadValues({}, elementProps), props.children);
 }
 function FocusLayout(_a) {
   var _b = _a, { trackRef } = _b, htmlProps = __objRest(_b, ["trackRef"]);
-  return /* @__PURE__ */ React84.createElement(ParticipantTile, __spreadValues({ trackRef }, htmlProps));
+  return /* @__PURE__ */ React85.createElement(ParticipantTile, __spreadValues({ trackRef }, htmlProps));
 }
 
 // src/components/layout/GridLayout.tsx
-import * as React88 from "react";
+import * as React89 from "react";
 
 // src/components/TrackLoop.tsx
-import * as React85 from "react";
+import * as React86 from "react";
 import { getTrackReferenceId as getTrackReferenceId3 } from "@livekit/components-core";
 function TrackLoop(_a) {
   var _b = _a, { tracks } = _b, props = __objRest(_b, ["tracks"]);
-  return /* @__PURE__ */ React85.createElement(React85.Fragment, null, tracks.map((trackReference) => {
-    return /* @__PURE__ */ React85.createElement(
+  return /* @__PURE__ */ React86.createElement(React86.Fragment, null, tracks.map((trackReference) => {
+    return /* @__PURE__ */ React86.createElement(
       TrackRefContext.Provider,
       {
         value: trackReference,
@@ -3042,7 +3138,7 @@ function TrackLoop(_a) {
 }
 
 // src/components/controls/PaginationControl.tsx
-import * as React86 from "react";
+import * as React87 from "react";
 import { createInteractingObservable } from "@livekit/components-core";
 function PaginationControl({
   totalPageCount,
@@ -3051,8 +3147,8 @@ function PaginationControl({
   currentPage,
   pagesContainer: connectedElement
 }) {
-  const [interactive, setInteractive] = React86.useState(false);
-  React86.useEffect(() => {
+  const [interactive, setInteractive] = React87.useState(false);
+  React87.useEffect(() => {
     let subscription;
     if (connectedElement) {
       subscription = createInteractingObservable(connectedElement.current, 2e3).subscribe(
@@ -3065,27 +3161,27 @@ function PaginationControl({
       }
     };
   }, [connectedElement]);
-  return /* @__PURE__ */ React86.createElement("div", { className: "lk-pagination-control", "data-lk-user-interaction": interactive }, /* @__PURE__ */ React86.createElement("button", { className: "lk-button", onClick: prevPage }, /* @__PURE__ */ React86.createElement(Chevron_default, null)), /* @__PURE__ */ React86.createElement("span", { className: "lk-pagination-count" }, `${currentPage} of ${totalPageCount}`), /* @__PURE__ */ React86.createElement("button", { className: "lk-button", onClick: nextPage }, /* @__PURE__ */ React86.createElement(Chevron_default, null)));
+  return /* @__PURE__ */ React87.createElement("div", { className: "lk-pagination-control", "data-lk-user-interaction": interactive }, /* @__PURE__ */ React87.createElement("button", { className: "lk-button", onClick: prevPage }, /* @__PURE__ */ React87.createElement(Chevron_default, null)), /* @__PURE__ */ React87.createElement("span", { className: "lk-pagination-count" }, `${currentPage} of ${totalPageCount}`), /* @__PURE__ */ React87.createElement("button", { className: "lk-button", onClick: nextPage }, /* @__PURE__ */ React87.createElement(Chevron_default, null)));
 }
 
 // src/components/controls/PaginationIndicator.tsx
-import * as React87 from "react";
-var PaginationIndicator = /* @__PURE__ */ React87.forwardRef(function PaginationIndicator2({ totalPageCount, currentPage }, ref) {
+import * as React88 from "react";
+var PaginationIndicator = /* @__PURE__ */ React88.forwardRef(function PaginationIndicator2({ totalPageCount, currentPage }, ref) {
   const bubbles = new Array(totalPageCount).fill("").map((_, index) => {
     if (index + 1 === currentPage) {
-      return /* @__PURE__ */ React87.createElement("span", { "data-lk-active": true, key: index });
+      return /* @__PURE__ */ React88.createElement("span", { "data-lk-active": true, key: index });
     } else {
-      return /* @__PURE__ */ React87.createElement("span", { key: index });
+      return /* @__PURE__ */ React88.createElement("span", { key: index });
     }
   });
-  return /* @__PURE__ */ React87.createElement("div", { ref, className: "lk-pagination-indicator" }, bubbles);
+  return /* @__PURE__ */ React88.createElement("div", { ref, className: "lk-pagination-indicator" }, bubbles);
 });
 
 // src/components/layout/GridLayout.tsx
 function GridLayout(_a) {
   var _b = _a, { tracks } = _b, props = __objRest(_b, ["tracks"]);
-  const gridEl = React88.createRef();
-  const elementProps = React88.useMemo(
+  const gridEl = React89.createRef();
+  const elementProps = React89.useMemo(
     () => mergeProps2(props, { className: "lk-grid-layout" }),
     [props]
   );
@@ -3095,18 +3191,18 @@ function GridLayout(_a) {
     onLeftSwipe: pagination.nextPage,
     onRightSwipe: pagination.prevPage
   });
-  return /* @__PURE__ */ React88.createElement("div", __spreadValues({ ref: gridEl, "data-lk-pagination": pagination.totalPageCount > 1 }, elementProps), /* @__PURE__ */ React88.createElement(TrackLoop, { tracks: pagination.tracks }, props.children), tracks.length > layout.maxTiles && /* @__PURE__ */ React88.createElement(React88.Fragment, null, /* @__PURE__ */ React88.createElement(
+  return /* @__PURE__ */ React89.createElement("div", __spreadValues({ ref: gridEl, "data-lk-pagination": pagination.totalPageCount > 1 }, elementProps), /* @__PURE__ */ React89.createElement(TrackLoop, { tracks: pagination.tracks }, props.children), tracks.length > layout.maxTiles && /* @__PURE__ */ React89.createElement(React89.Fragment, null, /* @__PURE__ */ React89.createElement(
     PaginationIndicator,
     {
       totalPageCount: pagination.totalPageCount,
       currentPage: pagination.currentPage
     }
-  ), /* @__PURE__ */ React88.createElement(PaginationControl, __spreadValues({ pagesContainer: gridEl }, pagination))));
+  ), /* @__PURE__ */ React89.createElement(PaginationControl, __spreadValues({ pagesContainer: gridEl }, pagination))));
 }
 
 // src/components/layout/CarouselLayout.tsx
 import { getScrollBarWidth } from "@livekit/components-core";
-import * as React89 from "react";
+import * as React90 from "react";
 var MIN_HEIGHT = 130;
 var MIN_WIDTH = 140;
 var MIN_VISIBLE_TILES = 1;
@@ -3114,8 +3210,8 @@ var ASPECT_RATIO = 16 / 10;
 var ASPECT_RATIO_INVERT = (1 - ASPECT_RATIO) * -1;
 function CarouselLayout(_a) {
   var _b = _a, { tracks, orientation } = _b, props = __objRest(_b, ["tracks", "orientation"]);
-  const asideEl = React89.useRef(null);
-  const [prevTiles, setPrevTiles] = React89.useState(0);
+  const asideEl = React90.useRef(null);
+  const [prevTiles, setPrevTiles] = React90.useState(0);
   const { width, height } = useSize(asideEl);
   const carouselOrientation = orientation ? orientation : height >= width ? "vertical" : "horizontal";
   const tileSpan = carouselOrientation === "vertical" ? Math.max(width * ASPECT_RATIO_INVERT, MIN_HEIGHT) : Math.max(height * ASPECT_RATIO, MIN_WIDTH);
@@ -3128,18 +3224,18 @@ function CarouselLayout(_a) {
     setPrevTiles(tilesThatFit);
   }
   const sortedTiles = useVisualStableUpdate(tracks, maxVisibleTiles);
-  React89.useLayoutEffect(() => {
+  React90.useLayoutEffect(() => {
     if (asideEl.current) {
       asideEl.current.dataset.lkOrientation = carouselOrientation;
       asideEl.current.style.setProperty("--lk-max-visible-tiles", maxVisibleTiles.toString());
     }
   }, [maxVisibleTiles, carouselOrientation]);
-  return /* @__PURE__ */ React89.createElement("aside", __spreadValues({ key: carouselOrientation, className: "lk-carousel", ref: asideEl }, props), /* @__PURE__ */ React89.createElement(TrackLoop, { tracks: sortedTiles }, props.children));
+  return /* @__PURE__ */ React90.createElement("aside", __spreadValues({ key: carouselOrientation, className: "lk-carousel", ref: asideEl }, props), /* @__PURE__ */ React90.createElement(TrackLoop, { tracks: sortedTiles }, props.children));
 }
 
 // src/components/layout/LayoutContextProvider.tsx
 import { log as log10 } from "@livekit/components-core";
-import * as React90 from "react";
+import * as React91 from "react";
 function LayoutContextProvider({
   value,
   onPinChange,
@@ -3148,29 +3244,29 @@ function LayoutContextProvider({
   children
 }) {
   const layoutContextValue = useEnsureCreateLayoutContext(value);
-  React90.useEffect(() => {
+  React91.useEffect(() => {
     log10.debug("PinState Updated", { state: layoutContextValue.pin.state });
     if (onPinChange && layoutContextValue.pin.state)
       onPinChange(layoutContextValue.pin.state);
   }, [layoutContextValue.pin.state, onPinChange]);
-  React90.useEffect(() => {
+  React91.useEffect(() => {
     log10.debug("Chat Widget Updated", { widgetState: layoutContextValue.widget.state });
     if (onWidgetChange && layoutContextValue.widget.state) {
       onWidgetChange(layoutContextValue.widget.state);
     }
   }, [onWidgetChange, layoutContextValue.widget.state]);
-  React90.useEffect(() => {
+  React91.useEffect(() => {
     log10.debug("Whiteboard Updated", { state: layoutContextValue.whiteboard.state });
     if (onWhiteboardChange && layoutContextValue.whiteboard.state) {
       onWhiteboardChange(layoutContextValue.whiteboard.state);
     }
   }, [layoutContextValue.whiteboard.state]);
-  return /* @__PURE__ */ React90.createElement(LayoutContext.Provider, { value: layoutContextValue }, children);
+  return /* @__PURE__ */ React91.createElement(LayoutContext.Provider, { value: layoutContextValue }, children);
 }
 
 // src/components/participant/AudioVisualizer.tsx
-import * as React91 from "react";
-var AudioVisualizer = /* @__PURE__ */ React91.forwardRef(function AudioVisualizer2(_a, ref) {
+import * as React92 from "react";
+var AudioVisualizer = /* @__PURE__ */ React92.forwardRef(function AudioVisualizer2(_a, ref) {
   var _b = _a, { trackRef } = _b, props = __objRest(_b, ["trackRef"]);
   const svgWidth = 200;
   const svgHeight = 90;
@@ -3180,7 +3276,7 @@ var AudioVisualizer = /* @__PURE__ */ React91.forwardRef(function AudioVisualize
   const barCount = 7;
   const trackReference = useEnsureTrackRef(trackRef);
   const volumes = useMultibandTrackVolume(trackReference, { bands: 7, loPass: 300 });
-  return /* @__PURE__ */ React91.createElement(
+  return /* @__PURE__ */ React92.createElement(
     "svg",
     __spreadProps(__spreadValues({
       ref,
@@ -3190,15 +3286,15 @@ var AudioVisualizer = /* @__PURE__ */ React91.forwardRef(function AudioVisualize
     }, props), {
       className: "lk-audio-visualizer"
     }),
-    /* @__PURE__ */ React91.createElement("rect", { x: "0", y: "0", width: "100%", height: "100%" }),
-    /* @__PURE__ */ React91.createElement(
+    /* @__PURE__ */ React92.createElement("rect", { x: "0", y: "0", width: "100%", height: "100%" }),
+    /* @__PURE__ */ React92.createElement(
       "g",
       {
         style: {
           transform: `translate(${(svgWidth - barCount * (barWidth + barSpacing)) / 2}px, 0)`
         }
       },
-      volumes.map((vol, idx) => /* @__PURE__ */ React91.createElement(
+      volumes.map((vol, idx) => /* @__PURE__ */ React92.createElement(
         "rect",
         {
           key: idx,
@@ -3213,16 +3309,16 @@ var AudioVisualizer = /* @__PURE__ */ React91.forwardRef(function AudioVisualize
 });
 
 // src/components/ParticipantLoop.tsx
-import * as React92 from "react";
+import * as React93 from "react";
 function ParticipantLoop(_a) {
   var _b = _a, { participants } = _b, props = __objRest(_b, ["participants"]);
-  return /* @__PURE__ */ React92.createElement(React92.Fragment, null, participants.map((participant) => /* @__PURE__ */ React92.createElement(ParticipantContext.Provider, { value: participant, key: participant.identity }, cloneSingleChild(props.children))));
+  return /* @__PURE__ */ React93.createElement(React93.Fragment, null, participants.map((participant) => /* @__PURE__ */ React93.createElement(ParticipantContext.Provider, { value: participant, key: participant.identity }, cloneSingleChild(props.children))));
 }
 
 // src/components/RoomAudioRenderer.tsx
 import { getTrackReferenceId as getTrackReferenceId4, isLocal as isLocal2 } from "@livekit/components-core";
 import { Track as Track7 } from "livekit-client";
-import * as React93 from "react";
+import * as React94 from "react";
 function RoomAudioRenderer({ volume, muted }) {
   const tracks = useTracks(
     [Track7.Source.Microphone, Track7.Source.ScreenShareAudio, Track7.Source.Unknown],
@@ -3231,7 +3327,7 @@ function RoomAudioRenderer({ volume, muted }) {
       onlySubscribed: true
     }
   ).filter((ref) => !isLocal2(ref.participant) && ref.publication.kind === Track7.Kind.Audio);
-  return /* @__PURE__ */ React93.createElement("div", { style: { display: "none" } }, tracks.map((trackRef) => /* @__PURE__ */ React93.createElement(
+  return /* @__PURE__ */ React94.createElement("div", { style: { display: "none" } }, tracks.map((trackRef) => /* @__PURE__ */ React94.createElement(
     AudioTrack,
     {
       key: getTrackReferenceId4(trackRef),
@@ -3243,16 +3339,16 @@ function RoomAudioRenderer({ volume, muted }) {
 }
 
 // src/components/Toast.tsx
-import * as React94 from "react";
+import * as React95 from "react";
 function Toast(props) {
-  const htmlProps = React94.useMemo(() => mergeProps2(props, { className: "lk-toast" }), [props]);
-  return /* @__PURE__ */ React94.createElement("div", __spreadValues({}, htmlProps), props.children);
+  const htmlProps = React95.useMemo(() => mergeProps2(props, { className: "lk-toast" }), [props]);
+  return /* @__PURE__ */ React95.createElement("div", __spreadValues({}, htmlProps), props.children);
 }
 
 // src/components/participant/ParticipantAudioTile.tsx
-import * as React95 from "react";
+import * as React96 from "react";
 import { isTrackReference as isTrackReference4 } from "@livekit/components-core";
-var ParticipantAudioTile = /* @__PURE__ */ React95.forwardRef(function ParticipantAudioTile2(_a, ref) {
+var ParticipantAudioTile = /* @__PURE__ */ React96.forwardRef(function ParticipantAudioTile2(_a, ref) {
   var _b = _a, {
     children,
     disableSpeakingIndicator,
@@ -3271,41 +3367,41 @@ var ParticipantAudioTile = /* @__PURE__ */ React95.forwardRef(function Participa
     disableSpeakingIndicator,
     onParticipantClick
   });
-  return /* @__PURE__ */ React95.createElement("div", __spreadValues({ ref, style: { position: "relative" } }, elementProps), /* @__PURE__ */ React95.createElement(TrackRefContext.Provider, { value: trackReference }, children != null ? children : /* @__PURE__ */ React95.createElement(React95.Fragment, null, isTrackReference4(trackReference) && /* @__PURE__ */ React95.createElement(AudioTrack, { trackRef: trackReference }), /* @__PURE__ */ React95.createElement(AudioVisualizer, null), /* @__PURE__ */ React95.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React95.createElement("div", { className: "lk-participant-metadata-item" }, /* @__PURE__ */ React95.createElement(TrackMutedIndicator, { trackRef: trackReference }), /* @__PURE__ */ React95.createElement(ParticipantName, null)), /* @__PURE__ */ React95.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" })))));
+  return /* @__PURE__ */ React96.createElement("div", __spreadValues({ ref, style: { position: "relative" } }, elementProps), /* @__PURE__ */ React96.createElement(TrackRefContext.Provider, { value: trackReference }, children != null ? children : /* @__PURE__ */ React96.createElement(React96.Fragment, null, isTrackReference4(trackReference) && /* @__PURE__ */ React96.createElement(AudioTrack, { trackRef: trackReference }), /* @__PURE__ */ React96.createElement(AudioVisualizer, null), /* @__PURE__ */ React96.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React96.createElement("div", { className: "lk-participant-metadata-item" }, /* @__PURE__ */ React96.createElement(TrackMutedIndicator, { trackRef: trackReference }), /* @__PURE__ */ React96.createElement(ParticipantName, null)), /* @__PURE__ */ React96.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" })))));
 });
 
 // src/components/ConnectionStateToast.tsx
 import { ConnectionState as ConnectionState2 } from "livekit-client";
-import * as React96 from "react";
+import * as React97 from "react";
 function ConnectionStateToast(props) {
-  const [notification, setNotification] = React96.useState(void 0);
+  const [notification, setNotification] = React97.useState(void 0);
   const state = useConnectionState(props.room);
-  React96.useEffect(() => {
+  React97.useEffect(() => {
     switch (state) {
       case ConnectionState2.Reconnecting:
         setNotification(
-          /* @__PURE__ */ React96.createElement(React96.Fragment, null, /* @__PURE__ */ React96.createElement(SpinnerIcon_default, { className: "lk-spinner" }), " Reconnecting")
+          /* @__PURE__ */ React97.createElement(React97.Fragment, null, /* @__PURE__ */ React97.createElement(SpinnerIcon_default, { className: "lk-spinner" }), " Reconnecting")
         );
         break;
       case ConnectionState2.Connecting:
         setNotification(
-          /* @__PURE__ */ React96.createElement(React96.Fragment, null, /* @__PURE__ */ React96.createElement(SpinnerIcon_default, { className: "lk-spinner" }), " Connecting")
+          /* @__PURE__ */ React97.createElement(React97.Fragment, null, /* @__PURE__ */ React97.createElement(SpinnerIcon_default, { className: "lk-spinner" }), " Connecting")
         );
         break;
       case ConnectionState2.Disconnected:
-        setNotification(/* @__PURE__ */ React96.createElement(React96.Fragment, null, "Disconnected"));
+        setNotification(/* @__PURE__ */ React97.createElement(React97.Fragment, null, "Disconnected"));
         break;
       default:
         setNotification(void 0);
         break;
     }
   }, [state]);
-  return notification ? /* @__PURE__ */ React96.createElement(Toast, { className: "lk-toast-connection-state" }, notification) : /* @__PURE__ */ React96.createElement(React96.Fragment, null);
+  return notification ? /* @__PURE__ */ React97.createElement(Toast, { className: "lk-toast-connection-state" }, notification) : /* @__PURE__ */ React97.createElement(React97.Fragment, null);
 }
 
 // src/components/ChatEntry.tsx
 import { tokenize, createDefaultGrammar } from "@livekit/components-core";
-import * as React97 from "react";
+import * as React98 from "react";
 function nl2br(str, is_xhtml) {
   if (typeof str === "undefined" || str === null) {
     return "";
@@ -3317,11 +3413,11 @@ function formatChatMessageLinks(message) {
   return tokenize(message, createDefaultGrammar()).map((tok, i) => {
     if (typeof tok === `string`) {
       const html = nl2br(tok, false);
-      return /* @__PURE__ */ React97.createElement("span", { key: i, dangerouslySetInnerHTML: { __html: html } });
+      return /* @__PURE__ */ React98.createElement("span", { key: i, dangerouslySetInnerHTML: { __html: html } });
     } else {
       const content = tok.content.toString();
       const href = tok.type === `url` ? /^http(s?):\/\//.test(content) ? content : `https://${content}` : `mailto:${content}`;
-      return /* @__PURE__ */ React97.createElement("a", { className: "lk-chat-link", key: i, href, target: "_blank", rel: "noreferrer" }, content);
+      return /* @__PURE__ */ React98.createElement("a", { className: "lk-chat-link", key: i, href, target: "_blank", rel: "noreferrer" }, content);
     }
   });
 }
@@ -3332,7 +3428,7 @@ import * as React107 from "react";
 
 // src/prefabs/HostEndMeetingMenu.tsx
 import { computeMenuPosition as computeMenuPosition2, setupDisconnectButton as setupDisconnectButton2, wasClickOutside as wasClickOutside2 } from "@livekit/components-core";
-import * as React98 from "react";
+import * as React99 from "react";
 function HostEndMeetingMenu(_a) {
   var _b = _a, {
     leave,
@@ -3347,20 +3443,20 @@ function HostEndMeetingMenu(_a) {
     "showIcon",
     "showText"
   ]);
-  const [isOpen, setIsOpen] = React98.useState(false);
-  const [updateRequired, setUpdateRequired] = React98.useState(true);
+  const [isOpen, setIsOpen] = React99.useState(false);
+  const [updateRequired, setUpdateRequired] = React99.useState(true);
   const room = useRoomContext();
-  const button = React98.useRef(null);
-  const leaveButtonRef = React98.useRef(null);
-  const tooltip = React98.useRef(null);
+  const button = React99.useRef(null);
+  const leaveButtonRef = React99.useRef(null);
+  const tooltip = React99.useRef(null);
   const { disconnect } = setupDisconnectButton2(room);
-  const [showDropdown, setShowDropdown] = React98.useState(false);
-  const [value, setValue] = React98.useState("");
+  const [showDropdown, setShowDropdown] = React99.useState(false);
+  const [value, setValue] = React99.useState("");
   const participants = useParticipants();
   const { localParticipant } = useLocalParticipant();
   const remoteParticipants = participants.filter((participant) => participant.identity !== localParticipant.identity);
   const meta = localParticipant.metadata ? JSON.parse(localParticipant.metadata) : {};
-  React98.useLayoutEffect(() => {
+  React99.useLayoutEffect(() => {
     if (button.current && tooltip.current && updateRequired) {
       computeMenuPosition2(button.current, tooltip.current).then(({ x, y }) => {
         if (tooltip.current) {
@@ -3371,7 +3467,7 @@ function HostEndMeetingMenu(_a) {
       setUpdateRequired(false);
     }
   }, [button, tooltip, updateRequired]);
-  const handleClickOutside = React98.useCallback(
+  const handleClickOutside = React99.useCallback(
     (event) => {
       if (!tooltip.current) {
         return;
@@ -3389,7 +3485,7 @@ function HostEndMeetingMenu(_a) {
     },
     [isOpen, tooltip, button]
   );
-  React98.useEffect(() => {
+  React99.useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     window.addEventListener("resize", () => setUpdateRequired(true));
     return () => {
@@ -3447,7 +3543,7 @@ function HostEndMeetingMenu(_a) {
       }));
     });
   }
-  const [hostError, setHostError] = React98.useState(false);
+  const [hostError, setHostError] = React99.useState(false);
   const handleChange = () => {
     if (value !== "") {
       setIsOpen(false);
@@ -3458,7 +3554,7 @@ function HostEndMeetingMenu(_a) {
       setHostError(true);
     }
   };
-  React98.useEffect(() => {
+  React99.useEffect(() => {
     let timer;
     if (hostError) {
       timer = setTimeout(() => {
@@ -3487,7 +3583,7 @@ function HostEndMeetingMenu(_a) {
   const handleChangeValue = (e) => {
     setValue(e.target.value);
   };
-  return /* @__PURE__ */ React98.createElement(React98.Fragment, null, /* @__PURE__ */ React98.createElement(
+  return /* @__PURE__ */ React99.createElement(React99.Fragment, null, /* @__PURE__ */ React99.createElement(
     "button",
     __spreadProps(__spreadValues({
       className: "lk-button lk-button-menu",
@@ -3497,28 +3593,28 @@ function HostEndMeetingMenu(_a) {
       ref: button
     }),
     props.children,
-    showIcon && /* @__PURE__ */ React98.createElement(LeaveIcon_default, null),
+    showIcon && /* @__PURE__ */ React99.createElement(LeaveIcon_default, null),
     showText && "Leave"
-  ), /* @__PURE__ */ React98.createElement(
+  ), /* @__PURE__ */ React99.createElement(
     "div",
     {
       className: "lk-device-menu",
       ref: tooltip,
       style: { visibility: isOpen ? "visible" : "hidden" }
     },
-    /* @__PURE__ */ React98.createElement("ul", { className: "lk-media-device-select lk-list", style: { display: !showDropdown ? "unset" : "none" } }, endForAll && /* @__PURE__ */ React98.createElement("li", null, /* @__PURE__ */ React98.createElement(DisconnectButton, { onClick: endMeeting }, endForAll)), leave && /* @__PURE__ */ React98.createElement("li", null, /* @__PURE__ */ React98.createElement("button", { ref: leaveButtonRef, className: "lk-disconnect-button", onClick: handleLeave }, "Leave Meeting"))),
-    showDropdown && /* @__PURE__ */ React98.createElement("div", { className: "assign-menu" }, hostError && /* @__PURE__ */ React98.createElement("span", { className: "text-invalid" }, "Must have to select participant"), /* @__PURE__ */ React98.createElement("select", { value, onChange: handleChangeValue }, /* @__PURE__ */ React98.createElement("option", { value: "" }, "Select meeting host"), remoteParticipants.map((participant) => /* @__PURE__ */ React98.createElement("option", { value: participant.identity, key: participant.identity }, participant == null ? void 0 : participant.name))), /* @__PURE__ */ React98.createElement("div", { className: "button-container" }, /* @__PURE__ */ React98.createElement("button", { className: "lk-button tl-cancel", onClick: handleCancel }, "Cancel"), /* @__PURE__ */ React98.createElement("button", { className: "lk-button tl-ok", onClick: handleChange }, "Ok"))),
-    /* @__PURE__ */ React98.createElement("div", { className: "arrow" }, /* @__PURE__ */ React98.createElement("div", { className: "arrow-shape" }))
+    /* @__PURE__ */ React99.createElement("ul", { className: "lk-media-device-select lk-list", style: { display: !showDropdown ? "unset" : "none" } }, endForAll && /* @__PURE__ */ React99.createElement("li", null, /* @__PURE__ */ React99.createElement(DisconnectButton, { onClick: endMeeting }, endForAll)), leave && /* @__PURE__ */ React99.createElement("li", null, /* @__PURE__ */ React99.createElement("button", { ref: leaveButtonRef, className: "lk-disconnect-button", onClick: handleLeave }, "Leave Meeting"))),
+    showDropdown && /* @__PURE__ */ React99.createElement("div", { className: "assign-menu" }, hostError && /* @__PURE__ */ React99.createElement("span", { className: "text-invalid" }, "Must have to select participant"), /* @__PURE__ */ React99.createElement("select", { value, onChange: handleChangeValue }, /* @__PURE__ */ React99.createElement("option", { value: "" }, "Select meeting host"), remoteParticipants.map((participant) => /* @__PURE__ */ React99.createElement("option", { value: participant.identity, key: participant.identity }, participant == null ? void 0 : participant.name))), /* @__PURE__ */ React99.createElement("div", { className: "button-container" }, /* @__PURE__ */ React99.createElement("button", { className: "lk-button tl-cancel", onClick: handleCancel }, "Cancel"), /* @__PURE__ */ React99.createElement("button", { className: "lk-button tl-ok", onClick: handleChange }, "Ok"))),
+    /* @__PURE__ */ React99.createElement("div", { className: "arrow" }, /* @__PURE__ */ React99.createElement("div", { className: "arrow-shape" }))
   ));
 }
 
 // src/components/controls/UserToggle.tsx
-import * as React99 from "react";
+import * as React100 from "react";
 import { setupUserToggle } from "@livekit/components-core";
 function useToggleUserLink({ props }) {
   const { dispatch, state } = useLayoutContext().widget;
-  const { className } = React99.useMemo(() => setupUserToggle(), []);
-  const mergedProps = React99.useMemo(
+  const { className } = React100.useMemo(() => setupUserToggle(), []);
+  const mergedProps = React100.useMemo(
     () => mergeProps2(props, {
       className,
       onClick: () => {
@@ -3533,7 +3629,7 @@ function useToggleUserLink({ props }) {
 }
 function UserToggle(props) {
   const { mergedProps } = useToggleUserLink({ props });
-  return /* @__PURE__ */ React99.createElement("button", __spreadValues({}, mergedProps), props.children);
+  return /* @__PURE__ */ React100.createElement("button", __spreadValues({}, mergedProps), props.children);
 }
 
 // src/prefabs/ControlBar.tsx
@@ -3545,7 +3641,7 @@ import * as React103 from "react";
 
 // src/prefabs/BlurIndicater.tsx
 import { BackgroundBlur } from "@livekit/track-processors";
-import React100 from "react";
+import React101 from "react";
 function BlurIndicater({ source, parentCallback }) {
   const state = {
     defaultDevices: /* @__PURE__ */ new Map(),
@@ -3553,10 +3649,10 @@ function BlurIndicater({ source, parentCallback }) {
     blur: BackgroundBlur(10, { delegate: "GPU" })
   };
   const room = useRoomContext();
-  const [isBlur, setIsBlur] = React100.useState(false);
-  const [isCameraEnabled, setIsCameraEnabled] = React100.useState(false);
+  const [isBlur, setIsBlur] = React101.useState(false);
+  const [isCameraEnabled, setIsCameraEnabled] = React101.useState(false);
   const track = room == null ? void 0 : room.localParticipant.getTrackPublication(source);
-  React100.useEffect(() => {
+  React101.useEffect(() => {
     if (track == null ? void 0 : track.isMuted) {
       setIsCameraEnabled(false);
     } else {
@@ -3582,14 +3678,14 @@ function BlurIndicater({ source, parentCallback }) {
       parentCallback();
     }
   });
-  return /* @__PURE__ */ React100.createElement("button", { className: "tl-blur lk-button", onClick: toggleBlur, disabled: isCameraEnabled }, isBlur ? "Remove Blur" : "Blur Background");
+  return /* @__PURE__ */ React101.createElement("button", { className: "tl-blur lk-button", onClick: toggleBlur, disabled: isCameraEnabled }, isBlur ? "Remove Blur" : "Blur Background");
 }
 
 // src/prefabs/ExtraOptionMenu.tsx
 import { Track as Track8 } from "livekit-client";
 
 // src/prefabs/WhiteboardIndicater.tsx
-import React101 from "react";
+import React102 from "react";
 function WhiteboardIndicater({
   shareScreenTracks,
   parentCallback
@@ -3599,9 +3695,9 @@ function WhiteboardIndicater({
   const participant = room.localParticipant;
   const encoder = new TextEncoder();
   const { isWhiteboardHost, isWhiteboardShared } = useWhiteboard();
-  const [disableWhiteboard, setDisableWhiteboard] = React101.useState(false);
-  const [title, setTitle] = React101.useState("Whiteboard");
-  React101.useEffect(() => {
+  const [disableWhiteboard, setDisableWhiteboard] = React102.useState(false);
+  const [title, setTitle] = React102.useState("Whiteboard");
+  React102.useEffect(() => {
     if (shareScreenTracks !== 0) {
       setDisableWhiteboard(true);
       setTitle("Whiteboard");
@@ -3661,100 +3757,7 @@ function WhiteboardIndicater({
       }
     }));
   };
-  return /* @__PURE__ */ React101.createElement("button", { disabled: disableWhiteboard, className: "tl-blur lk-button", onClick: toggleWhiteboard }, title);
-}
-
-// src/prefabs/FullscreenIndicator.tsx
-import React102, { useCallback as useCallback10, useEffect as useEffect27, useRef as useRef12, useState as useState21 } from "react";
-function FullscreenIndicator({ parentCallback }) {
-  const isEventListenerConnected = useRef12(false);
-  const [isFullScreen, setFullScreen] = useState21(false);
-  const getFullScreenElement = () => {
-    if (document.fullscreenEnabled) {
-      return document.fullscreenElement;
-    } else {
-      return;
-    }
-  };
-  const hasEvent = (contentElement, eventName) => {
-    for (const key in contentElement) {
-      if (eventName === key) {
-        return true;
-      }
-    }
-    return false;
-  };
-  const getFullScreenChangeEvent = (contentElement) => {
-    if (document.fullscreenEnabled && hasEvent(contentElement, "onfullscreenchange")) {
-      return "fullscreenchange";
-    } else if (document.fullscreenEnabled && hasEvent(contentElement, "onwebkitfullscreenchange")) {
-      return "webkitfullscreenchange";
-    } else if (document.fullscreenEnabled && hasEvent(contentElement, "onmozfullscreenchange")) {
-      return "mozfullscreenchange";
-    } else if (document.fullscreenEnabled && hasEvent(contentElement, "onmsfullscreenchange")) {
-      return "msfullscreenchange";
-    } else {
-      return;
-    }
-  };
-  const getFullScreenCancelMethod = () => {
-    if (document.fullscreenEnabled && document.exitFullscreen) {
-      return document.exitFullscreen;
-    } else if (document.fullscreenEnabled && document.exitFullscreen) {
-      return document.exitFullscreen;
-    } else if (document.fullscreenEnabled && document.exitFullscreen) {
-      return document.exitFullscreen;
-    } else {
-      return;
-    }
-  };
-  const getFullScreenRequestMethod = (contentElement) => {
-    if (document.fullscreenEnabled && contentElement.requestFullscreen) {
-      return contentElement.requestFullscreen;
-    } else if (document.fullscreenEnabled && contentElement.webkitRequestFullscreen) {
-      return contentElement.webkitRequestFullscreen;
-    } else if (document.fullscreenEnabled && contentElement.mozRequestFullScreen) {
-      return contentElement.mozRequestFullScreen;
-    } else if (document.fullscreenEnabled && contentElement.msRequestFullscreen) {
-      return contentElement.msRequestFullscreen;
-    } else {
-      return;
-    }
-  };
-  const fullScreenChangeListener = (setFullScreen2) => {
-    const isFullScreenActive = getFullScreenElement() != null;
-    setFullScreen2(isFullScreenActive);
-  };
-  useEffect27(() => {
-    if (!isEventListenerConnected.current) {
-      let contentElement = document.getElementById("app");
-      if (contentElement) {
-        let eventName = getFullScreenChangeEvent(contentElement);
-        if (eventName) {
-          contentElement.addEventListener(eventName, () => fullScreenChangeListener(setFullScreen));
-        }
-        isEventListenerConnected.current = true;
-      }
-    }
-  }, [isEventListenerConnected, setFullScreen]);
-  const toggleFullScreen = useCallback10(() => {
-    if (isFullScreen) {
-      const requestMethod = getFullScreenCancelMethod();
-      if (requestMethod) {
-        requestMethod.call(document);
-        setFullScreen(false);
-      }
-    } else {
-      const contentElement = document.getElementById("__next");
-      const requestMethod = getFullScreenRequestMethod(contentElement);
-      if (requestMethod) {
-        requestMethod.call(contentElement);
-        setFullScreen(true);
-      }
-    }
-    parentCallback();
-  }, [isFullScreen]);
-  return /* @__PURE__ */ React102.createElement("button", { className: "tl-blur lk-button", onClick: toggleFullScreen }, isFullScreen ? "Exit" : "Enter", " FullScreen");
+  return /* @__PURE__ */ React102.createElement("button", { disabled: disableWhiteboard, className: "tl-blur lk-button", onClick: toggleWhiteboard }, title);
 }
 
 // src/prefabs/ExtraOptionMenu.tsx
@@ -3828,7 +3831,7 @@ function ExtraOptionMenu(_a) {
       ref: tooltip,
       style: { visibility: isOpen ? "visible" : "hidden" }
     },
-    /* @__PURE__ */ React103.createElement("ul", { className: "lk-media-device-select lk-list", style: { display: !showDropdown ? "unset" : "none" } }, /* @__PURE__ */ React103.createElement("li", null, /* @__PURE__ */ React103.createElement(FullscreenIndicator, { parentCallback: changeState })), /* @__PURE__ */ React103.createElement("li", null, /* @__PURE__ */ React103.createElement(WhiteboardIndicater, { shareScreenTracks, parentCallback: changeState })), blurEnabled && /* @__PURE__ */ React103.createElement("li", null, /* @__PURE__ */ React103.createElement(BlurIndicater, { source: Track8.Source.Camera, parentCallback: changeState }))),
+    /* @__PURE__ */ React103.createElement("ul", { className: "lk-media-device-select lk-list", style: { display: !showDropdown ? "unset" : "none" } }, /* @__PURE__ */ React103.createElement("li", null, /* @__PURE__ */ React103.createElement(FullscreenIndicator, { parentCallback: changeState, elementId: "__next" })), /* @__PURE__ */ React103.createElement("li", null, /* @__PURE__ */ React103.createElement(WhiteboardIndicater, { shareScreenTracks, parentCallback: changeState })), blurEnabled && /* @__PURE__ */ React103.createElement("li", null, /* @__PURE__ */ React103.createElement(BlurIndicater, { source: Track8.Source.Camera, parentCallback: changeState }))),
     /* @__PURE__ */ React103.createElement("div", { className: "arrow" }, /* @__PURE__ */ React103.createElement("div", { className: "arrow-shape" }))
   ));
 }
