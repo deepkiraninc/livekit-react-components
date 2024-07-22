@@ -2708,10 +2708,14 @@ var FocusToggle = /* @__PURE__ */ React75.forwardRef(
     React75.useEffect(() => {
       if (inFocus) {
         var element = document.getElementsByClassName("lk-focus-layout")[0];
-        element.classList.add("lk-focus-layout-extended");
+        if (element) {
+          element.classList.add("lk-focus-layout-extended");
+        }
       } else {
         var element = document.getElementsByClassName("lk-focus-layout")[0];
-        element.classList.remove("lk-focus-layout-extended");
+        if (element) {
+          element.classList.remove("lk-focus-layout-extended");
+        }
       }
     }, [inFocus, document]);
     return /* @__PURE__ */ React75.createElement(LayoutContext.Consumer, null, (layoutContext) => layoutContext !== void 0 && /* @__PURE__ */ React75.createElement("button", __spreadValues({ ref }, mergedProps), props.children ? props.children : inFocus ? /* @__PURE__ */ React75.createElement(UnfocusToggleIcon_default, null) : /* @__PURE__ */ React75.createElement(FocusToggleIcon_default, null)));
