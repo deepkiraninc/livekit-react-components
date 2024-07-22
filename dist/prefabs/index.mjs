@@ -2713,7 +2713,7 @@ var FocusToggle = /* @__PURE__ */ React75.forwardRef(
         var element = document.getElementsByClassName("lk-focus-layout")[0];
         element.classList.remove("lk-focus-layout-extended");
       }
-    }, [inFocus]);
+    }, [inFocus, document]);
     return /* @__PURE__ */ React75.createElement(LayoutContext.Consumer, null, (layoutContext) => layoutContext !== void 0 && /* @__PURE__ */ React75.createElement("button", __spreadValues({ ref }, mergedProps), props.children ? props.children : inFocus ? /* @__PURE__ */ React75.createElement(UnfocusToggleIcon_default, null) : /* @__PURE__ */ React75.createElement(FocusToggleIcon_default, null)));
   }
 );
