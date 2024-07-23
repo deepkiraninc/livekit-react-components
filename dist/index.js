@@ -99,6 +99,7 @@ __export(src_exports, {
   ConnectionStateToast: () => ConnectionStateToast,
   ControlBar: () => ControlBar,
   DisconnectButton: () => DisconnectButton,
+  ExtendScreen: () => ExtendScreen,
   FocusLayout: () => FocusLayout,
   FocusLayoutContainer: () => FocusLayoutContainer,
   FocusToggle: () => FocusToggle,
@@ -2238,7 +2239,21 @@ var FocusToggle = /* @__PURE__ */ React76.forwardRef(
       trackRef: trackRef != null ? trackRef : trackRefFromContext,
       props
     });
-    React76.useEffect(() => {
+    return /* @__PURE__ */ React76.createElement(LayoutContext.Consumer, null, (layoutContext) => layoutContext !== void 0 && /* @__PURE__ */ React76.createElement("button", __spreadValues({ ref }, mergedProps), props.children ? props.children : inFocus ? /* @__PURE__ */ React76.createElement(UnfocusToggleIcon_default, null) : /* @__PURE__ */ React76.createElement(FocusToggleIcon_default, null)));
+  }
+);
+
+// src/components/controls/ExtendScreen.tsx
+var React77 = __toESM(require("react"));
+var ExtendScreen = /* @__PURE__ */ React77.forwardRef(
+  function FocusToggle3(_a2, ref) {
+    var _b = _a2, { trackRef } = _b, props = __objRest(_b, ["trackRef"]);
+    const trackRefFromContext = useMaybeTrackRefContext();
+    const { mergedProps, inFocus } = useFocusToggle({
+      trackRef: trackRef != null ? trackRef : trackRefFromContext,
+      props
+    });
+    React77.useEffect(() => {
       if (inFocus) {
         var element = document.getElementsByClassName("lk-focus-layout")[0];
         if (element) {
@@ -2251,14 +2266,14 @@ var FocusToggle = /* @__PURE__ */ React76.forwardRef(
         }
       }
     }, [inFocus, document]);
-    return /* @__PURE__ */ React76.createElement(LayoutContext.Consumer, null, (layoutContext) => layoutContext !== void 0 && /* @__PURE__ */ React76.createElement("button", __spreadValues({ ref }, mergedProps), props.children ? props.children : inFocus ? /* @__PURE__ */ React76.createElement(UnfocusToggleIcon_default, null) : /* @__PURE__ */ React76.createElement(FocusToggleIcon_default, null)));
+    return /* @__PURE__ */ React77.createElement(LayoutContext.Consumer, null, (layoutContext) => layoutContext !== void 0 && /* @__PURE__ */ React77.createElement("button", __spreadValues({ ref }, mergedProps), props.children ? props.children : inFocus ? /* @__PURE__ */ React77.createElement(UnfocusToggleIcon_default, null) : /* @__PURE__ */ React77.createElement(FocusToggleIcon_default, null)));
   }
 );
 
 // src/components/controls/MediaDeviceSelect.tsx
-var React77 = __toESM(require("react"));
+var React78 = __toESM(require("react"));
 var import_livekit_client10 = require("livekit-client");
-var MediaDeviceSelect = /* @__PURE__ */ React77.forwardRef(function MediaDeviceSelect2(_a2, ref) {
+var MediaDeviceSelect = /* @__PURE__ */ React78.forwardRef(function MediaDeviceSelect2(_a2, ref) {
   var _b = _a2, {
     kind,
     initialSelection,
@@ -2281,7 +2296,7 @@ var MediaDeviceSelect = /* @__PURE__ */ React77.forwardRef(function MediaDeviceS
     "onError"
   ]);
   const room = useMaybeRoomContext();
-  const handleError = React77.useCallback(
+  const handleError = React78.useCallback(
     (e2) => {
       if (room) {
         room.emit(import_livekit_client10.RoomEvent.MediaDevicesError, e2);
@@ -2297,17 +2312,17 @@ var MediaDeviceSelect = /* @__PURE__ */ React77.forwardRef(function MediaDeviceS
     requestPermissions,
     onError: handleError
   });
-  React77.useEffect(() => {
+  React78.useEffect(() => {
     if (initialSelection !== void 0) {
       setActiveMediaDevice(initialSelection);
     }
   }, [setActiveMediaDevice]);
-  React77.useEffect(() => {
+  React78.useEffect(() => {
     if (typeof onDeviceListChange === "function") {
       onDeviceListChange(devices);
     }
   }, [onDeviceListChange, devices]);
-  React77.useEffect(() => {
+  React78.useEffect(() => {
     console.log({ kind, activeDeviceId });
     if (activeDeviceId && activeDeviceId !== "") {
       onActiveDeviceChange == null ? void 0 : onActiveDeviceChange(activeDeviceId);
@@ -2324,14 +2339,14 @@ var MediaDeviceSelect = /* @__PURE__ */ React77.forwardRef(function MediaDeviceS
       }
     }
   });
-  const mergedProps = React77.useMemo(
+  const mergedProps = React78.useMemo(
     () => mergeProps2(props, { className }, { className: "lk-list" }),
     [className, props]
   );
   function isActive(deviceId, activeDeviceId2, index) {
     return deviceId === activeDeviceId2 || index === 0 && activeDeviceId2 === "default";
   }
-  return /* @__PURE__ */ React77.createElement("ul", __spreadValues({ ref }, mergedProps), devices.map((device, index) => /* @__PURE__ */ React77.createElement(
+  return /* @__PURE__ */ React78.createElement("ul", __spreadValues({ ref }, mergedProps), devices.map((device, index) => /* @__PURE__ */ React78.createElement(
     "li",
     {
       key: device.deviceId,
@@ -2340,29 +2355,29 @@ var MediaDeviceSelect = /* @__PURE__ */ React77.forwardRef(function MediaDeviceS
       "aria-selected": isActive(device.deviceId, activeDeviceId, index),
       role: "option"
     },
-    /* @__PURE__ */ React77.createElement("button", { className: "lk-button", onClick: () => handleActiveDeviceChange(device.deviceId) }, device.label)
+    /* @__PURE__ */ React78.createElement("button", { className: "lk-button", onClick: () => handleActiveDeviceChange(device.deviceId) }, device.label)
   )));
 });
 
 // src/components/controls/StartAudio.tsx
-var React78 = __toESM(require("react"));
-var StartAudio = /* @__PURE__ */ React78.forwardRef(function StartAudio2(_a2, ref) {
+var React79 = __toESM(require("react"));
+var StartAudio = /* @__PURE__ */ React79.forwardRef(function StartAudio2(_a2, ref) {
   var _b = _a2, { label = "Allow Audio" } = _b, props = __objRest(_b, ["label"]);
   const room = useRoomContext();
   const { mergedProps } = useStartAudio({ room, props });
-  return /* @__PURE__ */ React78.createElement("button", __spreadValues({ ref }, mergedProps), label);
+  return /* @__PURE__ */ React79.createElement("button", __spreadValues({ ref }, mergedProps), label);
 });
 
 // src/components/controls/TrackToggle.tsx
-var React89 = __toESM(require("react"));
+var React90 = __toESM(require("react"));
 
 // src/assets/icons/util.tsx
-var React88 = __toESM(require("react"));
+var React89 = __toESM(require("react"));
 var import_livekit_client11 = require("livekit-client");
 
 // src/assets/icons/tl/CameraDisabledIcon.tsx
-var React79 = __toESM(require("react"));
-var SvgCameraDisabledIcon2 = (props) => /* @__PURE__ */ React79.createElement(
+var React80 = __toESM(require("react"));
+var SvgCameraDisabledIcon2 = (props) => /* @__PURE__ */ React80.createElement(
   "svg",
   __spreadValues({
     width: 18,
@@ -2371,7 +2386,7 @@ var SvgCameraDisabledIcon2 = (props) => /* @__PURE__ */ React79.createElement(
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
   }, props),
-  /* @__PURE__ */ React79.createElement(
+  /* @__PURE__ */ React80.createElement(
     "path",
     {
       d: "M14.6155 6.64973C14.6155 6.64973 14.6409 5.84659 14.6155 5.58451C14.4718 3.85986 13.3474 3.26807 11.1409 3.26807H5.80627C3.13476 3.26807 2.24707 4.15575 2.24707 6.82727V13.9457C2.24707 15.0109 2.56833 16.0846 3.40529 16.7694L3.9379 17.1498",
@@ -2381,7 +2396,7 @@ var SvgCameraDisabledIcon2 = (props) => /* @__PURE__ */ React79.createElement(
       strokeLinejoin: "round"
     }
   ),
-  /* @__PURE__ */ React79.createElement(
+  /* @__PURE__ */ React80.createElement(
     "path",
     {
       d: "M14.7084 9.49878V13.9457C14.7084 16.6172 13.8207 17.5049 11.1492 17.5049H6.69385",
@@ -2391,7 +2406,7 @@ var SvgCameraDisabledIcon2 = (props) => /* @__PURE__ */ React79.createElement(
       strokeLinejoin: "round"
     }
   ),
-  /* @__PURE__ */ React79.createElement(
+  /* @__PURE__ */ React80.createElement(
     "path",
     {
       d: "M19.1554 5.93958V13.6075C19.1554 15.0194 18.2085 15.5097 17.0588 14.6981L14.7085 13.0495",
@@ -2401,7 +2416,7 @@ var SvgCameraDisabledIcon2 = (props) => /* @__PURE__ */ React79.createElement(
       strokeLinejoin: "round"
     }
   ),
-  /* @__PURE__ */ React79.createElement(
+  /* @__PURE__ */ React80.createElement(
     "path",
     {
       d: "M19.172 2.0929L2.26367 19.0012",
@@ -2415,8 +2430,8 @@ var SvgCameraDisabledIcon2 = (props) => /* @__PURE__ */ React79.createElement(
 var CameraDisabledIcon_default2 = SvgCameraDisabledIcon2;
 
 // src/assets/icons/tl/CameraIcon.tsx
-var React80 = __toESM(require("react"));
-var SvgCameraIcon2 = (props) => /* @__PURE__ */ React80.createElement(
+var React81 = __toESM(require("react"));
+var SvgCameraIcon2 = (props) => /* @__PURE__ */ React81.createElement(
   "svg",
   __spreadValues({
     width: 18,
@@ -2425,7 +2440,7 @@ var SvgCameraIcon2 = (props) => /* @__PURE__ */ React80.createElement(
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
   }, props),
-  /* @__PURE__ */ React80.createElement(
+  /* @__PURE__ */ React81.createElement(
     "path",
     {
       d: "M10.9042 17.5049H5.56116C2.88964 17.5049 2.00195 15.7295 2.00195 13.9457V6.82727C2.00195 4.15575 2.88964 3.26807 5.56116 3.26807H10.9042C13.5757 3.26807 14.4634 4.15575 14.4634 6.82727V13.9457C14.4634 16.6172 13.5673 17.5049 10.9042 17.5049Z",
@@ -2435,7 +2450,7 @@ var SvgCameraIcon2 = (props) => /* @__PURE__ */ React80.createElement(
       strokeLinejoin: "round"
     }
   ),
-  /* @__PURE__ */ React80.createElement(
+  /* @__PURE__ */ React81.createElement(
     "path",
     {
       d: "M16.8136 14.6981L14.4634 13.0495V7.71495L16.8136 6.06638C17.9634 5.26324 18.9103 5.75358 18.9103 7.16543V13.6075C18.9103 15.0193 17.9634 15.5097 16.8136 14.6981Z",
@@ -2445,7 +2460,7 @@ var SvgCameraIcon2 = (props) => /* @__PURE__ */ React80.createElement(
       strokeLinejoin: "round"
     }
   ),
-  /* @__PURE__ */ React80.createElement(
+  /* @__PURE__ */ React81.createElement(
     "path",
     {
       d: "M10.0333 9.54101C10.7336 9.54101 11.3014 8.97325 11.3014 8.27289C11.3014 7.57252 10.7336 7.00476 10.0333 7.00476C9.3329 7.00476 8.76514 7.57252 8.76514 8.27289C8.76514 8.97325 9.3329 9.54101 10.0333 9.54101Z",
@@ -2459,8 +2474,8 @@ var SvgCameraIcon2 = (props) => /* @__PURE__ */ React80.createElement(
 var CameraIcon_default2 = SvgCameraIcon2;
 
 // src/assets/icons/tl/MicDisabledIcon.tsx
-var React81 = __toESM(require("react"));
-var SvgMicDisabledIcon2 = (props) => /* @__PURE__ */ React81.createElement(
+var React82 = __toESM(require("react"));
+var SvgMicDisabledIcon2 = (props) => /* @__PURE__ */ React82.createElement(
   "svg",
   __spreadValues({
     width: 18,
@@ -2469,7 +2484,7 @@ var SvgMicDisabledIcon2 = (props) => /* @__PURE__ */ React81.createElement(
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
   }, props),
-  /* @__PURE__ */ React81.createElement(
+  /* @__PURE__ */ React82.createElement(
     "path",
     {
       d: "M14.222 5.74004V5.48647C14.222 3.61847 12.709 2.10547 10.841 2.10547C8.97296 2.10547 7.45996 3.61847 7.45996 5.48647V9.71272",
@@ -2479,7 +2494,7 @@ var SvgMicDisabledIcon2 = (props) => /* @__PURE__ */ React81.createElement(
       strokeLinejoin: "round"
     }
   ),
-  /* @__PURE__ */ React81.createElement(
+  /* @__PURE__ */ React82.createElement(
     "path",
     {
       d: "M8.33936 12.4091C8.95639 13.0937 9.85235 13.5163 10.8413 13.5163C12.7093 13.5163 14.2223 12.0033 14.2223 10.1353V9.71271",
@@ -2489,7 +2504,7 @@ var SvgMicDisabledIcon2 = (props) => /* @__PURE__ */ React81.createElement(
       strokeLinejoin: "round"
     }
   ),
-  /* @__PURE__ */ React81.createElement(
+  /* @__PURE__ */ React82.createElement(
     "path",
     {
       d: "M6.42871 14.7419C7.5867 15.8154 9.13351 16.4747 10.8409 16.4747C14.4079 16.4747 17.3071 13.5755 17.3071 10.0085V8.57159",
@@ -2499,7 +2514,7 @@ var SvgMicDisabledIcon2 = (props) => /* @__PURE__ */ React81.createElement(
       strokeLinejoin: "round"
     }
   ),
-  /* @__PURE__ */ React81.createElement(
+  /* @__PURE__ */ React82.createElement(
     "path",
     {
       d: "M4.375 8.57159V10.0085C4.375 10.9045 4.5525 11.7497 4.88215 12.5274",
@@ -2509,7 +2524,7 @@ var SvgMicDisabledIcon2 = (props) => /* @__PURE__ */ React81.createElement(
       strokeLinejoin: "round"
     }
   ),
-  /* @__PURE__ */ React81.createElement(
+  /* @__PURE__ */ React82.createElement(
     "path",
     {
       d: "M17.6624 2.81549L4.02002 16.4663",
@@ -2519,7 +2534,7 @@ var SvgMicDisabledIcon2 = (props) => /* @__PURE__ */ React81.createElement(
       strokeLinejoin: "round"
     }
   ),
-  /* @__PURE__ */ React81.createElement(
+  /* @__PURE__ */ React82.createElement(
     "path",
     {
       d: "M9.99561 2.95068V5.48643",
@@ -2529,7 +2544,7 @@ var SvgMicDisabledIcon2 = (props) => /* @__PURE__ */ React81.createElement(
       strokeLinejoin: "round"
     }
   ),
-  /* @__PURE__ */ React81.createElement(
+  /* @__PURE__ */ React82.createElement(
     "path",
     {
       d: "M10.8408 16.4747V19.0105",
@@ -2543,8 +2558,8 @@ var SvgMicDisabledIcon2 = (props) => /* @__PURE__ */ React81.createElement(
 var MicDisabledIcon_default2 = SvgMicDisabledIcon2;
 
 // src/assets/icons/tl/MicIcon.tsx
-var React82 = __toESM(require("react"));
-var SvgMicIcon2 = (props) => /* @__PURE__ */ React82.createElement(
+var React83 = __toESM(require("react"));
+var SvgMicIcon2 = (props) => /* @__PURE__ */ React83.createElement(
   "svg",
   __spreadValues({
     width: 18,
@@ -2553,7 +2568,7 @@ var SvgMicIcon2 = (props) => /* @__PURE__ */ React82.createElement(
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
   }, props),
-  /* @__PURE__ */ React82.createElement(
+  /* @__PURE__ */ React83.createElement(
     "path",
     {
       d: "M10.9049 13.3448C12.7729 13.3448 14.2859 11.8318 14.2859 9.96384V5.31496C14.2859 3.44696 12.7729 1.93396 10.9049 1.93396C9.03692 1.93396 7.52393 3.44696 7.52393 5.31496V9.96384C7.52393 11.8318 9.03692 13.3448 10.9049 13.3448Z",
@@ -2563,7 +2578,7 @@ var SvgMicIcon2 = (props) => /* @__PURE__ */ React82.createElement(
       strokeLinejoin: "round"
     }
   ),
-  /* @__PURE__ */ React82.createElement(
+  /* @__PURE__ */ React83.createElement(
     "path",
     {
       d: "M4.43896 8.40009V9.83701C4.43896 13.404 7.33817 16.3032 10.9051 16.3032C14.4721 16.3032 17.3713 13.404 17.3713 9.83701V8.40009",
@@ -2573,7 +2588,7 @@ var SvgMicIcon2 = (props) => /* @__PURE__ */ React82.createElement(
       strokeLinejoin: "round"
     }
   ),
-  /* @__PURE__ */ React82.createElement(
+  /* @__PURE__ */ React83.createElement(
     "path",
     {
       d: "M9.73047 5.67844C10.4912 5.39951 11.3195 5.39951 12.0803 5.67844",
@@ -2583,7 +2598,7 @@ var SvgMicIcon2 = (props) => /* @__PURE__ */ React82.createElement(
       strokeLinejoin: "round"
     }
   ),
-  /* @__PURE__ */ React82.createElement(
+  /* @__PURE__ */ React83.createElement(
     "path",
     {
       d: "M10.229 7.47034C10.677 7.35201 11.1419 7.35201 11.5899 7.47034",
@@ -2593,7 +2608,7 @@ var SvgMicIcon2 = (props) => /* @__PURE__ */ React82.createElement(
       strokeLinejoin: "round"
     }
   ),
-  /* @__PURE__ */ React82.createElement(
+  /* @__PURE__ */ React83.createElement(
     "path",
     {
       d: "M10.9048 16.3032V18.839",
@@ -2607,8 +2622,8 @@ var SvgMicIcon2 = (props) => /* @__PURE__ */ React82.createElement(
 var MicIcon_default2 = SvgMicIcon2;
 
 // src/assets/icons/tl/SendMessage.tsx
-var React83 = __toESM(require("react"));
-var SvgSendMessage = (props) => /* @__PURE__ */ React83.createElement(
+var React84 = __toESM(require("react"));
+var SvgSendMessage = (props) => /* @__PURE__ */ React84.createElement(
   "svg",
   __spreadValues({
     xmlns: "http://www.w3.org/2000/svg",
@@ -2617,13 +2632,13 @@ var SvgSendMessage = (props) => /* @__PURE__ */ React83.createElement(
     viewBox: "0 0 18 18",
     fill: "none"
   }, props),
-  /* @__PURE__ */ React83.createElement("path", { d: "M1.74805 17.0391L16.373 9.91406L1.74805 2.78906L1.74805 8.33072L12.2246 9.91406L1.74805 11.4974L1.74805 17.0391Z", fill: "#191A1E" })
+  /* @__PURE__ */ React84.createElement("path", { d: "M1.74805 17.0391L16.373 9.91406L1.74805 2.78906L1.74805 8.33072L12.2246 9.91406L1.74805 11.4974L1.74805 17.0391Z", fill: "#191A1E" })
 );
 var SendMessage_default = SvgSendMessage;
 
 // src/assets/icons/tl/ApproveIcon.tsx
-var React84 = __toESM(require("react"));
-var SvgApproveIcon = (props) => /* @__PURE__ */ React84.createElement(
+var React85 = __toESM(require("react"));
+var SvgApproveIcon = (props) => /* @__PURE__ */ React85.createElement(
   "svg",
   __spreadValues({
     width: "15",
@@ -2632,7 +2647,7 @@ var SvgApproveIcon = (props) => /* @__PURE__ */ React84.createElement(
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
   }, props),
-  /* @__PURE__ */ React84.createElement(
+  /* @__PURE__ */ React85.createElement(
     "path",
     {
       d: "M6.44587 12.3181C6.35059 12.3854 6.21756 12.3816 6.13768 12.2966C5.87427 12.0164 5.62193 11.7435 5.3696 11.4706C3.87981 9.87788 2.38394 8.27905 0.900223 6.68022C0.225256 5.95072 0.316468 4.8747 1.09481 4.30933C1.73937 3.83516 2.60284 3.91419 3.18052 4.52211C4.17777 5.57381 5.16286 6.63767 6.14794 7.69545C6.18071 7.73039 6.21348 7.76612 6.24709 7.80263C6.35423 7.919 6.5347 7.92887 6.64657 7.81703V7.81703C8.25798 6.30939 9.86939 4.80175 11.4869 3.30019C12.399 2.4491 13.305 1.60409 14.2232 0.765159C15.1293 -0.0676915 16.5461 0.357852 16.8258 1.54938C16.9717 2.1573 16.7832 2.68011 16.3211 3.11173C15.0928 4.25462 13.8705 5.39751 12.6483 6.5404C11.4565 7.65289 10.2646 8.76539 9.0728 9.87788C8.20696 10.689 7.33509 11.4881 6.4692 12.2991C6.46178 12.3061 6.45416 12.3123 6.44587 12.3181V12.3181Z",
@@ -2643,8 +2658,8 @@ var SvgApproveIcon = (props) => /* @__PURE__ */ React84.createElement(
 var ApproveIcon_default = SvgApproveIcon;
 
 // src/assets/icons/tl/RejectIcon.tsx
-var React85 = __toESM(require("react"));
-var SvgRejectIcon = (props) => /* @__PURE__ */ React85.createElement(
+var React86 = __toESM(require("react"));
+var SvgRejectIcon = (props) => /* @__PURE__ */ React86.createElement(
   "svg",
   __spreadValues({
     width: "15",
@@ -2653,7 +2668,7 @@ var SvgRejectIcon = (props) => /* @__PURE__ */ React85.createElement(
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
   }, props),
-  /* @__PURE__ */ React85.createElement(
+  /* @__PURE__ */ React86.createElement(
     "path",
     {
       d: "M6.70508 8.22715C6.03352 8.9047 5.39471 9.54143 4.74772 10.1863C4.16624 10.7659 3.59295 11.3455 3.01147 11.9169C2.61836 12.3006 2.15154 12.4231 1.62739 12.2271C1.136 12.0475 0.849362 11.672 0.775653 11.1578C0.710135 10.7006 0.8985 10.3251 1.2179 10.0067C2.33991 8.88837 3.46191 7.77001 4.58392 6.65165C4.66582 6.57001 4.76409 6.51287 4.87875 6.43124C4.7559 6.30063 4.6822 6.21899 4.60849 6.14553C3.47829 5.01084 2.33991 3.88431 1.20971 2.74962C0.677375 2.21085 0.620047 1.49248 1.0623 0.953708C1.57826 0.325139 2.43819 0.292486 3.05242 0.896565C4.18262 2.01493 5.31281 3.14146 6.43482 4.27614C6.51672 4.35778 6.57404 4.45574 6.66413 4.57002C6.78698 4.45574 6.86888 4.38227 6.94259 4.3088C8.08097 3.17411 9.21117 2.03942 10.3496 0.912892C10.931 0.333302 11.7336 0.325139 12.2578 0.863913C12.7655 1.3782 12.7655 2.16187 12.2414 2.7088C11.6845 3.28839 11.103 3.85166 10.5297 4.42308C9.88273 5.06798 9.22755 5.72104 8.55598 6.39042C8.64607 6.48838 8.71978 6.56185 8.79349 6.64348C9.92368 7.77001 11.0457 8.89654 12.1759 10.0231C12.5199 10.3659 12.7082 10.7659 12.6099 11.2639C12.5117 11.7537 12.2168 12.0884 11.75 12.2516C11.2668 12.4231 10.8164 12.3169 10.4396 11.9741C10.0711 11.6312 9.72713 11.272 9.37496 10.921C8.49046 10.0231 7.61415 9.14143 6.70508 8.22715Z",
@@ -2664,8 +2679,8 @@ var SvgRejectIcon = (props) => /* @__PURE__ */ React85.createElement(
 var RejectIcon_default = SvgRejectIcon;
 
 // src/assets/icons/tl/InviteIcon.tsx
-var React86 = __toESM(require("react"));
-var SvgInviteIcon = (props) => /* @__PURE__ */ React86.createElement("svg", __spreadValues({ xmlns: "http://www.w3.org/2000/svg", width: 25, height: 20, fill: "none" }, props), /* @__PURE__ */ React86.createElement(
+var React87 = __toESM(require("react"));
+var SvgInviteIcon = (props) => /* @__PURE__ */ React87.createElement("svg", __spreadValues({ xmlns: "http://www.w3.org/2000/svg", width: 25, height: 20, fill: "none" }, props), /* @__PURE__ */ React87.createElement(
   "path",
   {
     d: "M20.33 3.66996C20.1408 3.48213 19.9035 3.35008 19.6442 3.28833C19.3849 3.22659 19.1135 3.23753 18.86 3.31996L4.23 8.19996C3.95867 8.28593 3.71891 8.45039 3.54099 8.67255C3.36307 8.89471 3.25498 9.16462 3.23037 9.44818C3.20576 9.73174 3.26573 10.0162 3.40271 10.2657C3.5397 10.5152 3.74754 10.7185 4 10.85L10.07 13.85L13.07 19.94C13.1906 20.1783 13.3751 20.3785 13.6029 20.518C13.8307 20.6575 14.0929 20.7309 14.36 20.73H14.46C14.7461 20.7089 15.0192 20.6023 15.2439 20.4239C15.4686 20.2456 15.6345 20.0038 15.72 19.73L20.67 5.13996C20.7584 4.88789 20.7734 4.6159 20.7132 4.35565C20.653 4.09541 20.5201 3.85762 20.33 3.66996ZM4.85 9.57996L17.62 5.31996L10.53 12.41L4.85 9.57996ZM14.43 19.15L11.59 13.47L18.68 6.37996L14.43 19.15Z",
@@ -2675,8 +2690,8 @@ var SvgInviteIcon = (props) => /* @__PURE__ */ React86.createElement("svg", __sp
 var InviteIcon_default = SvgInviteIcon;
 
 // src/assets/icons/tl/UsersIcon.tsx
-var React87 = __toESM(require("react"));
-var SvgUserIcon = (props) => /* @__PURE__ */ React87.createElement("svg", __spreadValues({ xmlns: "http://www.w3.org/2000/svg", width: 20, height: 20, fill: "none" }, props), /* @__PURE__ */ React87.createElement(
+var React88 = __toESM(require("react"));
+var SvgUserIcon = (props) => /* @__PURE__ */ React88.createElement("svg", __spreadValues({ xmlns: "http://www.w3.org/2000/svg", width: 20, height: 20, fill: "none" }, props), /* @__PURE__ */ React88.createElement(
   "path",
   {
     id: "Vector",
@@ -2694,11 +2709,11 @@ var UsersIcon_default = SvgUserIcon;
 function getSourceIcon(source, enabled) {
   switch (source) {
     case import_livekit_client11.Track.Source.Microphone:
-      return enabled ? /* @__PURE__ */ React88.createElement(MicIcon_default2, null) : /* @__PURE__ */ React88.createElement(MicDisabledIcon_default2, null);
+      return enabled ? /* @__PURE__ */ React89.createElement(MicIcon_default2, null) : /* @__PURE__ */ React89.createElement(MicDisabledIcon_default2, null);
     case import_livekit_client11.Track.Source.Camera:
-      return enabled ? /* @__PURE__ */ React88.createElement(CameraIcon_default2, null) : /* @__PURE__ */ React88.createElement(CameraDisabledIcon_default2, null);
+      return enabled ? /* @__PURE__ */ React89.createElement(CameraIcon_default2, null) : /* @__PURE__ */ React89.createElement(CameraDisabledIcon_default2, null);
     case import_livekit_client11.Track.Source.ScreenShare:
-      return enabled ? /* @__PURE__ */ React88.createElement(ScreenShareStopIcon_default, null) : /* @__PURE__ */ React88.createElement(ScreenShareIcon_default, null);
+      return enabled ? /* @__PURE__ */ React89.createElement(ScreenShareStopIcon_default, null) : /* @__PURE__ */ React89.createElement(ScreenShareIcon_default, null);
     default:
       return void 0;
   }
@@ -2706,49 +2721,49 @@ function getSourceIcon(source, enabled) {
 function getConnectionQualityIcon(quality) {
   switch (quality) {
     case import_livekit_client11.ConnectionQuality.Excellent:
-      return /* @__PURE__ */ React88.createElement(QualityExcellentIcon_default, null);
+      return /* @__PURE__ */ React89.createElement(QualityExcellentIcon_default, null);
     case import_livekit_client11.ConnectionQuality.Good:
-      return /* @__PURE__ */ React88.createElement(QualityGoodIcon_default, null);
+      return /* @__PURE__ */ React89.createElement(QualityGoodIcon_default, null);
     case import_livekit_client11.ConnectionQuality.Poor:
-      return /* @__PURE__ */ React88.createElement(QualityPoorIcon_default, null);
+      return /* @__PURE__ */ React89.createElement(QualityPoorIcon_default, null);
     default:
-      return /* @__PURE__ */ React88.createElement(QualityUnknownIcon_default, null);
+      return /* @__PURE__ */ React89.createElement(QualityUnknownIcon_default, null);
   }
 }
 
 // src/components/controls/TrackToggle.tsx
-var TrackToggle = /* @__PURE__ */ React89.forwardRef(function TrackToggle2(_a2, ref) {
+var TrackToggle = /* @__PURE__ */ React90.forwardRef(function TrackToggle2(_a2, ref) {
   var _b = _a2, { showIcon } = _b, props = __objRest(_b, ["showIcon"]);
   const { buttonProps, enabled } = useTrackToggle(props);
-  return /* @__PURE__ */ React89.createElement("button", __spreadValues({ ref }, buttonProps), (showIcon != null ? showIcon : true) && getSourceIcon(props.source, enabled), props.children);
+  return /* @__PURE__ */ React90.createElement("button", __spreadValues({ ref }, buttonProps), (showIcon != null ? showIcon : true) && getSourceIcon(props.source, enabled), props.children);
 });
 
 // src/components/layout/FocusLayout.tsx
-var React99 = __toESM(require("react"));
+var React100 = __toESM(require("react"));
 
 // src/components/participant/ParticipantTile.tsx
-var React98 = __toESM(require("react"));
+var React99 = __toESM(require("react"));
 var import_livekit_client14 = require("livekit-client");
 var import_components_core44 = require("@livekit/components-core");
 
 // src/components/participant/ConnectionQualityIndicator.tsx
-var React90 = __toESM(require("react"));
-var ConnectionQualityIndicator = /* @__PURE__ */ React90.forwardRef(function ConnectionQualityIndicator2(props, ref) {
+var React91 = __toESM(require("react"));
+var ConnectionQualityIndicator = /* @__PURE__ */ React91.forwardRef(function ConnectionQualityIndicator2(props, ref) {
   var _a2;
   const { className, quality } = useConnectionQualityIndicator(props);
-  const elementProps = React90.useMemo(() => {
+  const elementProps = React91.useMemo(() => {
     return __spreadProps(__spreadValues({}, mergeProps2(props, { className })), { "data-lk-quality": quality });
   }, [quality, props, className]);
-  return /* @__PURE__ */ React90.createElement("div", __spreadValues({ ref }, elementProps), (_a2 = props.children) != null ? _a2 : getConnectionQualityIcon(quality));
+  return /* @__PURE__ */ React91.createElement("div", __spreadValues({ ref }, elementProps), (_a2 = props.children) != null ? _a2 : getConnectionQualityIcon(quality));
 });
 
 // src/components/participant/ParticipantName.tsx
 var import_components_core40 = require("@livekit/components-core");
-var React91 = __toESM(require("react"));
-var ParticipantName = /* @__PURE__ */ React91.forwardRef(function ParticipantName2(_a2, ref) {
+var React92 = __toESM(require("react"));
+var ParticipantName = /* @__PURE__ */ React92.forwardRef(function ParticipantName2(_a2, ref) {
   var _b = _a2, { participant } = _b, props = __objRest(_b, ["participant"]);
   const p2 = useEnsureParticipant(participant);
-  const { className, infoObserver } = React91.useMemo(() => {
+  const { className, infoObserver } = React92.useMemo(() => {
     return (0, import_components_core40.setupParticipantName)(p2);
   }, [p2]);
   const { identity, name } = useObservableState(infoObserver, {
@@ -2756,20 +2771,20 @@ var ParticipantName = /* @__PURE__ */ React91.forwardRef(function ParticipantNam
     identity: p2.identity,
     metadata: p2.metadata
   });
-  const mergedProps = React91.useMemo(() => {
+  const mergedProps = React92.useMemo(() => {
     return mergeProps2(props, { className, "data-lk-participant-name": name });
   }, [props, className, name]);
-  return /* @__PURE__ */ React91.createElement("span", __spreadValues({ ref }, mergedProps), name !== "" ? name : identity, props.children);
+  return /* @__PURE__ */ React92.createElement("span", __spreadValues({ ref }, mergedProps), name !== "" ? name : identity, props.children);
 });
 
 // src/components/participant/TrackMutedIndicator.tsx
-var React92 = __toESM(require("react"));
-var TrackMutedIndicator = /* @__PURE__ */ React92.forwardRef(function TrackMutedIndicator2(_a2, ref) {
+var React93 = __toESM(require("react"));
+var TrackMutedIndicator = /* @__PURE__ */ React93.forwardRef(function TrackMutedIndicator2(_a2, ref) {
   var _b = _a2, { trackRef, show = "always" } = _b, props = __objRest(_b, ["trackRef", "show"]);
   var _a3;
   const { className, isMuted } = useTrackMutedIndicator(trackRef);
   const showIndicator = show === "always" || show === "muted" && isMuted || show === "unmuted" && !isMuted;
-  const htmlProps = React92.useMemo(
+  const htmlProps = React93.useMemo(
     () => mergeProps2(props, {
       className
     }),
@@ -2778,12 +2793,12 @@ var TrackMutedIndicator = /* @__PURE__ */ React92.forwardRef(function TrackMuted
   if (!showIndicator) {
     return null;
   }
-  return /* @__PURE__ */ React92.createElement("div", __spreadProps(__spreadValues({ ref }, htmlProps), { "data-lk-muted": isMuted }), (_a3 = props.children) != null ? _a3 : getSourceIcon(trackRef.source, !isMuted));
+  return /* @__PURE__ */ React93.createElement("div", __spreadProps(__spreadValues({ ref }, htmlProps), { "data-lk-muted": isMuted }), (_a3 = props.children) != null ? _a3 : getSourceIcon(trackRef.source, !isMuted));
 });
 
 // src/assets/images/ParticipantPlaceholder.tsx
-var React93 = __toESM(require("react"));
-var SvgParticipantPlaceholder = (props) => /* @__PURE__ */ React93.createElement(
+var React94 = __toESM(require("react"));
+var SvgParticipantPlaceholder = (props) => /* @__PURE__ */ React94.createElement(
   "svg",
   __spreadValues({
     width: 320,
@@ -2793,7 +2808,7 @@ var SvgParticipantPlaceholder = (props) => /* @__PURE__ */ React93.createElement
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
   }, props),
-  /* @__PURE__ */ React93.createElement(
+  /* @__PURE__ */ React94.createElement(
     "path",
     {
       d: "M160 180C204.182 180 240 144.183 240 100C240 55.8172 204.182 20 160 20C115.817 20 79.9997 55.8172 79.9997 100C79.9997 144.183 115.817 180 160 180Z",
@@ -2801,7 +2816,7 @@ var SvgParticipantPlaceholder = (props) => /* @__PURE__ */ React93.createElement
       fillOpacity: 0.25
     }
   ),
-  /* @__PURE__ */ React93.createElement(
+  /* @__PURE__ */ React94.createElement(
     "path",
     {
       d: "M97.6542 194.614C103.267 191.818 109.841 192.481 115.519 195.141C129.025 201.466 144.1 205 159.999 205C175.899 205 190.973 201.466 204.48 195.141C210.158 192.481 216.732 191.818 222.345 194.614C262.703 214.719 291.985 253.736 298.591 300.062C300.15 310.997 291.045 320 280 320H39.9997C28.954 320 19.8495 310.997 21.4087 300.062C28.014 253.736 57.2966 214.72 97.6542 194.614Z",
@@ -2814,28 +2829,28 @@ var ParticipantPlaceholder_default = SvgParticipantPlaceholder;
 
 // src/components/participant/VideoTrack.tsx
 var import_livekit_client12 = require("livekit-client");
-var React95 = __toESM(require("react"));
+var React96 = __toESM(require("react"));
 
 // src/hooks/useMediaTrackBySourceOrName.ts
 var import_components_core41 = require("@livekit/components-core");
 var import_components_core42 = require("@livekit/components-core");
-var React94 = __toESM(require("react"));
+var React95 = __toESM(require("react"));
 function useMediaTrackBySourceOrName(observerOptions, options = {}) {
   var _a2;
-  const [publication, setPublication] = React94.useState((0, import_components_core42.getTrackByIdentifier)(observerOptions));
-  const [isMuted, setMuted] = React94.useState(publication == null ? void 0 : publication.isMuted);
-  const [isSubscribed, setSubscribed] = React94.useState(publication == null ? void 0 : publication.isSubscribed);
-  const [track, setTrack] = React94.useState(publication == null ? void 0 : publication.track);
-  const [orientation, setOrientation] = React94.useState("landscape");
-  const previousElement = React94.useRef();
-  const { className, trackObserver } = React94.useMemo(() => {
+  const [publication, setPublication] = React95.useState((0, import_components_core42.getTrackByIdentifier)(observerOptions));
+  const [isMuted, setMuted] = React95.useState(publication == null ? void 0 : publication.isMuted);
+  const [isSubscribed, setSubscribed] = React95.useState(publication == null ? void 0 : publication.isSubscribed);
+  const [track, setTrack] = React95.useState(publication == null ? void 0 : publication.track);
+  const [orientation, setOrientation] = React95.useState("landscape");
+  const previousElement = React95.useRef();
+  const { className, trackObserver } = React95.useMemo(() => {
     return (0, import_components_core42.setupMediaTrack)(observerOptions);
   }, [
     (_a2 = observerOptions.participant.sid) != null ? _a2 : observerOptions.participant.identity,
     observerOptions.source,
     (0, import_components_core41.isTrackReference)(observerOptions) && observerOptions.publication.trackSid
   ]);
-  React94.useEffect(() => {
+  React95.useEffect(() => {
     const subscription = trackObserver.subscribe((publication2) => {
       import_components_core42.log.debug("update track", publication2);
       setPublication(publication2);
@@ -2845,7 +2860,7 @@ function useMediaTrackBySourceOrName(observerOptions, options = {}) {
     });
     return () => subscription == null ? void 0 : subscription.unsubscribe();
   }, [trackObserver]);
-  React94.useEffect(() => {
+  React95.useEffect(() => {
     var _a3, _b;
     if (track) {
       if (previousElement.current) {
@@ -2862,7 +2877,7 @@ function useMediaTrackBySourceOrName(observerOptions, options = {}) {
       }
     };
   }, [track, options.element]);
-  React94.useEffect(() => {
+  React95.useEffect(() => {
     var _a3, _b;
     if (typeof ((_a3 = publication == null ? void 0 : publication.dimensions) == null ? void 0 : _a3.width) === "number" && typeof ((_b = publication == null ? void 0 : publication.dimensions) == null ? void 0 : _b.height) === "number") {
       const orientation_ = publication.dimensions.width > publication.dimensions.height ? "landscape" : "portrait";
@@ -2884,7 +2899,7 @@ function useMediaTrackBySourceOrName(observerOptions, options = {}) {
 
 // src/components/participant/VideoTrack.tsx
 var useHooks = __toESM(require("usehooks-ts"));
-var VideoTrack = /* @__PURE__ */ React95.forwardRef(
+var VideoTrack = /* @__PURE__ */ React96.forwardRef(
   function VideoTrack2(_a2, ref) {
     var _b = _a2, {
       onTrackClick,
@@ -2900,16 +2915,16 @@ var VideoTrack = /* @__PURE__ */ React95.forwardRef(
       "manageSubscription"
     ]);
     const trackReference = useEnsureTrackRef(trackRef);
-    const mediaEl = React95.useRef(null);
-    React95.useImperativeHandle(ref, () => mediaEl.current);
+    const mediaEl = React96.useRef(null);
+    React96.useImperativeHandle(ref, () => mediaEl.current);
     const intersectionEntry = useHooks.useIntersectionObserver(mediaEl, {});
     const debouncedIntersectionEntry = useHooks.useDebounce(intersectionEntry, 3e3);
-    React95.useEffect(() => {
+    React96.useEffect(() => {
       if (manageSubscription && trackReference.publication instanceof import_livekit_client12.RemoteTrackPublication && (debouncedIntersectionEntry == null ? void 0 : debouncedIntersectionEntry.isIntersecting) === false && (intersectionEntry == null ? void 0 : intersectionEntry.isIntersecting) === false) {
         trackReference.publication.setSubscribed(false);
       }
     }, [debouncedIntersectionEntry, trackReference, manageSubscription]);
-    React95.useEffect(() => {
+    React96.useEffect(() => {
       if (manageSubscription && trackReference.publication instanceof import_livekit_client12.RemoteTrackPublication && (intersectionEntry == null ? void 0 : intersectionEntry.isIntersecting) === true) {
         trackReference.publication.setSubscribed(true);
       }
@@ -2922,27 +2937,27 @@ var VideoTrack = /* @__PURE__ */ React95.forwardRef(
       element: mediaEl,
       props
     });
-    React95.useEffect(() => {
+    React96.useEffect(() => {
       onSubscriptionStatusChanged == null ? void 0 : onSubscriptionStatusChanged(!!isSubscribed);
     }, [isSubscribed, onSubscriptionStatusChanged]);
     const clickHandler = (evt) => {
       onClick == null ? void 0 : onClick(evt);
       onTrackClick == null ? void 0 : onTrackClick({ participant: trackReference == null ? void 0 : trackReference.participant, track: pub });
     };
-    return /* @__PURE__ */ React95.createElement("video", __spreadProps(__spreadValues({ ref: mediaEl }, elementProps), { muted: true, onClick: clickHandler }));
+    return /* @__PURE__ */ React96.createElement("video", __spreadProps(__spreadValues({ ref: mediaEl }, elementProps), { muted: true, onClick: clickHandler }));
   }
 );
 
 // src/components/participant/AudioTrack.tsx
-var React96 = __toESM(require("react"));
+var React97 = __toESM(require("react"));
 var import_components_core43 = require("@livekit/components-core");
 var import_livekit_client13 = require("livekit-client");
-var AudioTrack = /* @__PURE__ */ React96.forwardRef(
+var AudioTrack = /* @__PURE__ */ React97.forwardRef(
   function AudioTrack2(_a2, ref) {
     var _b = _a2, { trackRef, onSubscriptionStatusChanged, volume, muted } = _b, props = __objRest(_b, ["trackRef", "onSubscriptionStatusChanged", "volume", "muted"]);
     const trackReference = useEnsureTrackRef(trackRef);
-    const mediaEl = React96.useRef(null);
-    React96.useImperativeHandle(ref, () => mediaEl.current);
+    const mediaEl = React97.useRef(null);
+    React97.useImperativeHandle(ref, () => mediaEl.current);
     const {
       elementProps,
       isSubscribed,
@@ -2952,10 +2967,10 @@ var AudioTrack = /* @__PURE__ */ React96.forwardRef(
       element: mediaEl,
       props
     });
-    React96.useEffect(() => {
+    React97.useEffect(() => {
       onSubscriptionStatusChanged == null ? void 0 : onSubscriptionStatusChanged(!!isSubscribed);
     }, [isSubscribed, onSubscriptionStatusChanged]);
-    React96.useEffect(() => {
+    React97.useEffect(() => {
       if (track === void 0 || volume === void 0) {
         return;
       }
@@ -2965,7 +2980,7 @@ var AudioTrack = /* @__PURE__ */ React96.forwardRef(
         import_components_core43.log.warn("Volume can only be set on remote audio tracks.");
       }
     }, [volume, track]);
-    React96.useEffect(() => {
+    React97.useEffect(() => {
       if (pub === void 0 || muted === void 0) {
         return;
       }
@@ -2975,27 +2990,27 @@ var AudioTrack = /* @__PURE__ */ React96.forwardRef(
         import_components_core43.log.warn("Can only call setEnabled on remote track publications.");
       }
     }, [muted, pub, track]);
-    return /* @__PURE__ */ React96.createElement("audio", __spreadValues({ ref: mediaEl }, elementProps));
+    return /* @__PURE__ */ React97.createElement("audio", __spreadValues({ ref: mediaEl }, elementProps));
   }
 );
 
 // src/prefabs/WhiteboardTrack.tsx
-var React97 = __toESM(require("react"));
+var React98 = __toESM(require("react"));
 function WhiteboardTrack() {
   const { url } = useWhiteboard();
-  return url ? /* @__PURE__ */ React97.createElement("iframe", { src: url, width: "100%", height: "100%" }) : /* @__PURE__ */ React97.createElement(React97.Fragment, null);
+  return url ? /* @__PURE__ */ React98.createElement("iframe", { src: url, width: "100%", height: "100%" }) : /* @__PURE__ */ React98.createElement(React98.Fragment, null);
 }
 
 // src/components/participant/ParticipantTile.tsx
 function ParticipantContextIfNeeded(props) {
   const hasContext = !!useMaybeParticipantContext();
-  return props.participant && !hasContext ? /* @__PURE__ */ React98.createElement(ParticipantContext.Provider, { value: props.participant }, props.children) : /* @__PURE__ */ React98.createElement(React98.Fragment, null, props.children);
+  return props.participant && !hasContext ? /* @__PURE__ */ React99.createElement(ParticipantContext.Provider, { value: props.participant }, props.children) : /* @__PURE__ */ React99.createElement(React99.Fragment, null, props.children);
 }
 function TrackRefContextIfNeeded(props) {
   const hasContext = !!useMaybeTrackRefContext();
-  return props.trackRef && !hasContext ? /* @__PURE__ */ React98.createElement(TrackRefContext.Provider, { value: props.trackRef }, props.children) : /* @__PURE__ */ React98.createElement(React98.Fragment, null, props.children);
+  return props.trackRef && !hasContext ? /* @__PURE__ */ React99.createElement(TrackRefContext.Provider, { value: props.trackRef }, props.children) : /* @__PURE__ */ React99.createElement(React99.Fragment, null, props.children);
 }
-var ParticipantTile = /* @__PURE__ */ React98.forwardRef(function ParticipantTile2(_a2, ref) {
+var ParticipantTile = /* @__PURE__ */ React99.forwardRef(function ParticipantTile2(_a2, ref) {
   var _b = _a2, {
     trackRef,
     children,
@@ -3018,7 +3033,7 @@ var ParticipantTile = /* @__PURE__ */ React98.forwardRef(function ParticipantTil
   const isEncrypted = useIsEncrypted(trackReference.participant);
   const layoutContext = useMaybeLayoutContext();
   const autoManageSubscription = (_a3 = useFeatureContext()) == null ? void 0 : _a3.autoSubscription;
-  const handleSubscribe = React98.useCallback(
+  const handleSubscribe = React99.useCallback(
     (subscribed) => {
       if (trackReference.source && !subscribed && layoutContext && layoutContext.pin.dispatch && (0, import_components_core44.isTrackReferencePinned)(trackReference, layoutContext.pin.state)) {
         layoutContext.pin.dispatch({ msg: "clear_pin" });
@@ -3026,26 +3041,26 @@ var ParticipantTile = /* @__PURE__ */ React98.forwardRef(function ParticipantTil
     },
     [trackReference, layoutContext]
   );
-  const [imageUrl, setImageUrl] = React98.useState(null);
-  React98.useEffect(() => {
+  const [imageUrl, setImageUrl] = React99.useState(null);
+  React99.useEffect(() => {
     if (trackReference.participant.name)
       setImageUrl(`https://ui-avatars.com/api/?name=${trackReference.participant.name}&background=111111&color=fff&size=156&rounded=true`);
   }, [trackReference]);
   const elementId = `participant_${trackReference.participant.identity}`;
-  return /* @__PURE__ */ React98.createElement("div", __spreadValues({ ref, id: elementId, style: { position: "relative" } }, elementProps), /* @__PURE__ */ React98.createElement(TrackRefContextIfNeeded, { trackRef: trackReference }, /* @__PURE__ */ React98.createElement(ParticipantContextIfNeeded, { participant: trackReference.participant }, children != null ? children : /* @__PURE__ */ React98.createElement(React98.Fragment, null, ((_b2 = trackReference.publication) == null ? void 0 : _b2.trackName) == "whiteboard" ? /* @__PURE__ */ React98.createElement(WhiteboardTrack, null) : (0, import_components_core44.isTrackReference)(trackReference) && (((_c2 = trackReference.publication) == null ? void 0 : _c2.kind) === "video" || trackReference.source === import_livekit_client14.Track.Source.Camera || trackReference.source === import_livekit_client14.Track.Source.ScreenShare) ? /* @__PURE__ */ React98.createElement(
+  return /* @__PURE__ */ React99.createElement("div", __spreadValues({ ref, id: elementId, style: { position: "relative" } }, elementProps), /* @__PURE__ */ React99.createElement(TrackRefContextIfNeeded, { trackRef: trackReference }, /* @__PURE__ */ React99.createElement(ParticipantContextIfNeeded, { participant: trackReference.participant }, children != null ? children : /* @__PURE__ */ React99.createElement(React99.Fragment, null, ((_b2 = trackReference.publication) == null ? void 0 : _b2.trackName) == "whiteboard" ? /* @__PURE__ */ React99.createElement(WhiteboardTrack, null) : (0, import_components_core44.isTrackReference)(trackReference) && (((_c2 = trackReference.publication) == null ? void 0 : _c2.kind) === "video" || trackReference.source === import_livekit_client14.Track.Source.Camera || trackReference.source === import_livekit_client14.Track.Source.ScreenShare) ? /* @__PURE__ */ React99.createElement(
     VideoTrack,
     {
       trackRef: trackReference,
       onSubscriptionStatusChanged: handleSubscribe,
       manageSubscription: autoManageSubscription
     }
-  ) : (0, import_components_core44.isTrackReference)(trackReference) && /* @__PURE__ */ React98.createElement(
+  ) : (0, import_components_core44.isTrackReference)(trackReference) && /* @__PURE__ */ React99.createElement(
     AudioTrack,
     {
       trackRef: trackReference,
       onSubscriptionStatusChanged: handleSubscribe
     }
-  ), /* @__PURE__ */ React98.createElement("div", { className: "lk-participant-placeholder" }, imageUrl ? /* @__PURE__ */ React98.createElement("img", { src: imageUrl, alt: "" }) : /* @__PURE__ */ React98.createElement(ParticipantPlaceholder_default, null)), /* @__PURE__ */ React98.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React98.createElement("div", { className: "lk-participant-metadata-item" }, trackReference.source === import_livekit_client14.Track.Source.Camera ? /* @__PURE__ */ React98.createElement(React98.Fragment, null, isEncrypted && /* @__PURE__ */ React98.createElement(LockLockedIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React98.createElement(
+  ), /* @__PURE__ */ React99.createElement("div", { className: "lk-participant-placeholder" }, imageUrl ? /* @__PURE__ */ React99.createElement("img", { src: imageUrl, alt: "" }) : /* @__PURE__ */ React99.createElement(ParticipantPlaceholder_default, null)), /* @__PURE__ */ React99.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React99.createElement("div", { className: "lk-participant-metadata-item" }, trackReference.source === import_livekit_client14.Track.Source.Camera ? /* @__PURE__ */ React99.createElement(React99.Fragment, null, isEncrypted && /* @__PURE__ */ React99.createElement(LockLockedIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React99.createElement(
     TrackMutedIndicator,
     {
       trackRef: {
@@ -3054,29 +3069,29 @@ var ParticipantTile = /* @__PURE__ */ React98.forwardRef(function ParticipantTil
       },
       show: "muted"
     }
-  ), /* @__PURE__ */ React98.createElement(ParticipantName, null)) : /* @__PURE__ */ React98.createElement(React98.Fragment, null, /* @__PURE__ */ React98.createElement(ScreenShareIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React98.createElement(ParticipantName, null, "'s screen"))), /* @__PURE__ */ React98.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" }))), ((_d = trackReference.publication) == null ? void 0 : _d.trackName) !== "whiteboard" ? /* @__PURE__ */ React98.createElement(FocusToggle, { trackRef: trackReference }) : /* @__PURE__ */ React98.createElement(React98.Fragment, null))));
+  ), /* @__PURE__ */ React99.createElement(ParticipantName, null)) : /* @__PURE__ */ React99.createElement(React99.Fragment, null, /* @__PURE__ */ React99.createElement(ScreenShareIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React99.createElement(ParticipantName, null, "'s screen"))), /* @__PURE__ */ React99.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" }))), ((_d = trackReference.publication) == null ? void 0 : _d.trackName) !== "whiteboard" ? /* @__PURE__ */ React99.createElement(FocusToggle, { trackRef: trackReference }) : /* @__PURE__ */ React99.createElement(React99.Fragment, null), /* @__PURE__ */ React99.createElement(ExtendScreen, null))));
 });
 
 // src/components/layout/FocusLayout.tsx
 function FocusLayoutContainer(props) {
   const elementProps = mergeProps2(props, { className: "lk-focus-layout" });
-  return /* @__PURE__ */ React99.createElement("div", __spreadValues({}, elementProps), props.children);
+  return /* @__PURE__ */ React100.createElement("div", __spreadValues({}, elementProps), props.children);
 }
 function FocusLayout(_a2) {
   var _b = _a2, { trackRef } = _b, htmlProps = __objRest(_b, ["trackRef"]);
-  return /* @__PURE__ */ React99.createElement(ParticipantTile, __spreadValues({ trackRef }, htmlProps));
+  return /* @__PURE__ */ React100.createElement(ParticipantTile, __spreadValues({ trackRef }, htmlProps));
 }
 
 // src/components/layout/GridLayout.tsx
-var React103 = __toESM(require("react"));
+var React104 = __toESM(require("react"));
 
 // src/components/TrackLoop.tsx
-var React100 = __toESM(require("react"));
+var React101 = __toESM(require("react"));
 var import_components_core45 = require("@livekit/components-core");
 function TrackLoop(_a2) {
   var _b = _a2, { tracks } = _b, props = __objRest(_b, ["tracks"]);
-  return /* @__PURE__ */ React100.createElement(React100.Fragment, null, tracks.map((trackReference) => {
-    return /* @__PURE__ */ React100.createElement(
+  return /* @__PURE__ */ React101.createElement(React101.Fragment, null, tracks.map((trackReference) => {
+    return /* @__PURE__ */ React101.createElement(
       TrackRefContext.Provider,
       {
         value: trackReference,
@@ -3088,7 +3103,7 @@ function TrackLoop(_a2) {
 }
 
 // src/components/controls/PaginationControl.tsx
-var React101 = __toESM(require("react"));
+var React102 = __toESM(require("react"));
 var import_components_core46 = require("@livekit/components-core");
 function PaginationControl({
   totalPageCount,
@@ -3097,8 +3112,8 @@ function PaginationControl({
   currentPage,
   pagesContainer: connectedElement
 }) {
-  const [interactive, setInteractive] = React101.useState(false);
-  React101.useEffect(() => {
+  const [interactive, setInteractive] = React102.useState(false);
+  React102.useEffect(() => {
     let subscription;
     if (connectedElement) {
       subscription = (0, import_components_core46.createInteractingObservable)(connectedElement.current, 2e3).subscribe(
@@ -3111,27 +3126,27 @@ function PaginationControl({
       }
     };
   }, [connectedElement]);
-  return /* @__PURE__ */ React101.createElement("div", { className: "lk-pagination-control", "data-lk-user-interaction": interactive }, /* @__PURE__ */ React101.createElement("button", { className: "lk-button", onClick: prevPage }, /* @__PURE__ */ React101.createElement(Chevron_default, null)), /* @__PURE__ */ React101.createElement("span", { className: "lk-pagination-count" }, `${currentPage} of ${totalPageCount}`), /* @__PURE__ */ React101.createElement("button", { className: "lk-button", onClick: nextPage }, /* @__PURE__ */ React101.createElement(Chevron_default, null)));
+  return /* @__PURE__ */ React102.createElement("div", { className: "lk-pagination-control", "data-lk-user-interaction": interactive }, /* @__PURE__ */ React102.createElement("button", { className: "lk-button", onClick: prevPage }, /* @__PURE__ */ React102.createElement(Chevron_default, null)), /* @__PURE__ */ React102.createElement("span", { className: "lk-pagination-count" }, `${currentPage} of ${totalPageCount}`), /* @__PURE__ */ React102.createElement("button", { className: "lk-button", onClick: nextPage }, /* @__PURE__ */ React102.createElement(Chevron_default, null)));
 }
 
 // src/components/controls/PaginationIndicator.tsx
-var React102 = __toESM(require("react"));
-var PaginationIndicator = /* @__PURE__ */ React102.forwardRef(function PaginationIndicator2({ totalPageCount, currentPage }, ref) {
+var React103 = __toESM(require("react"));
+var PaginationIndicator = /* @__PURE__ */ React103.forwardRef(function PaginationIndicator2({ totalPageCount, currentPage }, ref) {
   const bubbles = new Array(totalPageCount).fill("").map((_2, index) => {
     if (index + 1 === currentPage) {
-      return /* @__PURE__ */ React102.createElement("span", { "data-lk-active": true, key: index });
+      return /* @__PURE__ */ React103.createElement("span", { "data-lk-active": true, key: index });
     } else {
-      return /* @__PURE__ */ React102.createElement("span", { key: index });
+      return /* @__PURE__ */ React103.createElement("span", { key: index });
     }
   });
-  return /* @__PURE__ */ React102.createElement("div", { ref, className: "lk-pagination-indicator" }, bubbles);
+  return /* @__PURE__ */ React103.createElement("div", { ref, className: "lk-pagination-indicator" }, bubbles);
 });
 
 // src/components/layout/GridLayout.tsx
 function GridLayout(_a2) {
   var _b = _a2, { tracks } = _b, props = __objRest(_b, ["tracks"]);
-  const gridEl = React103.createRef();
-  const elementProps = React103.useMemo(
+  const gridEl = React104.createRef();
+  const elementProps = React104.useMemo(
     () => mergeProps2(props, { className: "lk-grid-layout" }),
     [props]
   );
@@ -3141,18 +3156,18 @@ function GridLayout(_a2) {
     onLeftSwipe: pagination.nextPage,
     onRightSwipe: pagination.prevPage
   });
-  return /* @__PURE__ */ React103.createElement("div", __spreadValues({ ref: gridEl, "data-lk-pagination": pagination.totalPageCount > 1 }, elementProps), /* @__PURE__ */ React103.createElement(TrackLoop, { tracks: pagination.tracks }, props.children), tracks.length > layout.maxTiles && /* @__PURE__ */ React103.createElement(React103.Fragment, null, /* @__PURE__ */ React103.createElement(
+  return /* @__PURE__ */ React104.createElement("div", __spreadValues({ ref: gridEl, "data-lk-pagination": pagination.totalPageCount > 1 }, elementProps), /* @__PURE__ */ React104.createElement(TrackLoop, { tracks: pagination.tracks }, props.children), tracks.length > layout.maxTiles && /* @__PURE__ */ React104.createElement(React104.Fragment, null, /* @__PURE__ */ React104.createElement(
     PaginationIndicator,
     {
       totalPageCount: pagination.totalPageCount,
       currentPage: pagination.currentPage
     }
-  ), /* @__PURE__ */ React103.createElement(PaginationControl, __spreadValues({ pagesContainer: gridEl }, pagination))));
+  ), /* @__PURE__ */ React104.createElement(PaginationControl, __spreadValues({ pagesContainer: gridEl }, pagination))));
 }
 
 // src/components/layout/CarouselLayout.tsx
 var import_components_core47 = require("@livekit/components-core");
-var React104 = __toESM(require("react"));
+var React105 = __toESM(require("react"));
 var MIN_HEIGHT = 130;
 var MIN_WIDTH = 140;
 var MIN_VISIBLE_TILES = 1;
@@ -3160,8 +3175,8 @@ var ASPECT_RATIO = 16 / 10;
 var ASPECT_RATIO_INVERT = (1 - ASPECT_RATIO) * -1;
 function CarouselLayout(_a2) {
   var _b = _a2, { tracks, orientation } = _b, props = __objRest(_b, ["tracks", "orientation"]);
-  const asideEl = React104.useRef(null);
-  const [prevTiles, setPrevTiles] = React104.useState(0);
+  const asideEl = React105.useRef(null);
+  const [prevTiles, setPrevTiles] = React105.useState(0);
   const { width, height } = useSize(asideEl);
   const carouselOrientation = orientation ? orientation : height >= width ? "vertical" : "horizontal";
   const tileSpan = carouselOrientation === "vertical" ? Math.max(width * ASPECT_RATIO_INVERT, MIN_HEIGHT) : Math.max(height * ASPECT_RATIO, MIN_WIDTH);
@@ -3174,18 +3189,18 @@ function CarouselLayout(_a2) {
     setPrevTiles(tilesThatFit);
   }
   const sortedTiles = useVisualStableUpdate(tracks, maxVisibleTiles);
-  React104.useLayoutEffect(() => {
+  React105.useLayoutEffect(() => {
     if (asideEl.current) {
       asideEl.current.dataset.lkOrientation = carouselOrientation;
       asideEl.current.style.setProperty("--lk-max-visible-tiles", maxVisibleTiles.toString());
     }
   }, [maxVisibleTiles, carouselOrientation]);
-  return /* @__PURE__ */ React104.createElement("aside", __spreadValues({ key: carouselOrientation, className: "lk-carousel", ref: asideEl }, props), /* @__PURE__ */ React104.createElement(TrackLoop, { tracks: sortedTiles }, props.children));
+  return /* @__PURE__ */ React105.createElement("aside", __spreadValues({ key: carouselOrientation, className: "lk-carousel", ref: asideEl }, props), /* @__PURE__ */ React105.createElement(TrackLoop, { tracks: sortedTiles }, props.children));
 }
 
 // src/components/layout/LayoutContextProvider.tsx
 var import_components_core48 = require("@livekit/components-core");
-var React105 = __toESM(require("react"));
+var React106 = __toESM(require("react"));
 function LayoutContextProvider({
   value,
   onPinChange,
@@ -3194,36 +3209,36 @@ function LayoutContextProvider({
   children
 }) {
   const layoutContextValue = useEnsureCreateLayoutContext(value);
-  React105.useEffect(() => {
+  React106.useEffect(() => {
     import_components_core48.log.debug("PinState Updated", { state: layoutContextValue.pin.state });
     if (onPinChange && layoutContextValue.pin.state)
       onPinChange(layoutContextValue.pin.state);
   }, [layoutContextValue.pin.state, onPinChange]);
-  React105.useEffect(() => {
+  React106.useEffect(() => {
     import_components_core48.log.debug("Chat Widget Updated", { widgetState: layoutContextValue.widget.state });
     if (onWidgetChange && layoutContextValue.widget.state) {
       onWidgetChange(layoutContextValue.widget.state);
     }
   }, [onWidgetChange, layoutContextValue.widget.state]);
-  React105.useEffect(() => {
+  React106.useEffect(() => {
     import_components_core48.log.debug("Whiteboard Updated", { state: layoutContextValue.whiteboard.state });
     if (onWhiteboardChange && layoutContextValue.whiteboard.state) {
       onWhiteboardChange(layoutContextValue.whiteboard.state);
     }
   }, [layoutContextValue.whiteboard.state]);
-  return /* @__PURE__ */ React105.createElement(LayoutContext.Provider, { value: layoutContextValue }, children);
+  return /* @__PURE__ */ React106.createElement(LayoutContext.Provider, { value: layoutContextValue }, children);
 }
 
 // src/components/LiveKitRoom.tsx
-var React106 = __toESM(require("react"));
-var LiveKitRoom = /* @__PURE__ */ React106.forwardRef(function LiveKitRoom2(props, ref) {
+var React107 = __toESM(require("react"));
+var LiveKitRoom = /* @__PURE__ */ React107.forwardRef(function LiveKitRoom2(props, ref) {
   const { room, htmlProps } = useLiveKitRoom(props);
-  return /* @__PURE__ */ React106.createElement("div", __spreadValues({ ref }, htmlProps), room && /* @__PURE__ */ React106.createElement(RoomContext.Provider, { value: room }, /* @__PURE__ */ React106.createElement(LKFeatureContext.Provider, { value: props.featureFlags }, props.children)));
+  return /* @__PURE__ */ React107.createElement("div", __spreadValues({ ref }, htmlProps), room && /* @__PURE__ */ React107.createElement(RoomContext.Provider, { value: room }, /* @__PURE__ */ React107.createElement(LKFeatureContext.Provider, { value: props.featureFlags }, props.children)));
 });
 
 // src/components/participant/AudioVisualizer.tsx
-var React107 = __toESM(require("react"));
-var AudioVisualizer = /* @__PURE__ */ React107.forwardRef(function AudioVisualizer2(_a2, ref) {
+var React108 = __toESM(require("react"));
+var AudioVisualizer = /* @__PURE__ */ React108.forwardRef(function AudioVisualizer2(_a2, ref) {
   var _b = _a2, { trackRef } = _b, props = __objRest(_b, ["trackRef"]);
   const svgWidth = 200;
   const svgHeight = 90;
@@ -3233,7 +3248,7 @@ var AudioVisualizer = /* @__PURE__ */ React107.forwardRef(function AudioVisualiz
   const barCount = 7;
   const trackReference = useEnsureTrackRef(trackRef);
   const volumes = useMultibandTrackVolume(trackReference, { bands: 7, loPass: 300 });
-  return /* @__PURE__ */ React107.createElement(
+  return /* @__PURE__ */ React108.createElement(
     "svg",
     __spreadProps(__spreadValues({
       ref,
@@ -3243,15 +3258,15 @@ var AudioVisualizer = /* @__PURE__ */ React107.forwardRef(function AudioVisualiz
     }, props), {
       className: "lk-audio-visualizer"
     }),
-    /* @__PURE__ */ React107.createElement("rect", { x: "0", y: "0", width: "100%", height: "100%" }),
-    /* @__PURE__ */ React107.createElement(
+    /* @__PURE__ */ React108.createElement("rect", { x: "0", y: "0", width: "100%", height: "100%" }),
+    /* @__PURE__ */ React108.createElement(
       "g",
       {
         style: {
           transform: `translate(${(svgWidth - barCount * (barWidth + barSpacing)) / 2}px, 0)`
         }
       },
-      volumes.map((vol, idx) => /* @__PURE__ */ React107.createElement(
+      volumes.map((vol, idx) => /* @__PURE__ */ React108.createElement(
         "rect",
         {
           key: idx,
@@ -3266,16 +3281,16 @@ var AudioVisualizer = /* @__PURE__ */ React107.forwardRef(function AudioVisualiz
 });
 
 // src/components/ParticipantLoop.tsx
-var React108 = __toESM(require("react"));
+var React109 = __toESM(require("react"));
 function ParticipantLoop(_a2) {
   var _b = _a2, { participants } = _b, props = __objRest(_b, ["participants"]);
-  return /* @__PURE__ */ React108.createElement(React108.Fragment, null, participants.map((participant) => /* @__PURE__ */ React108.createElement(ParticipantContext.Provider, { value: participant, key: participant.identity }, cloneSingleChild(props.children))));
+  return /* @__PURE__ */ React109.createElement(React109.Fragment, null, participants.map((participant) => /* @__PURE__ */ React109.createElement(ParticipantContext.Provider, { value: participant, key: participant.identity }, cloneSingleChild(props.children))));
 }
 
 // src/components/RoomAudioRenderer.tsx
 var import_components_core49 = require("@livekit/components-core");
 var import_livekit_client15 = require("livekit-client");
-var React109 = __toESM(require("react"));
+var React110 = __toESM(require("react"));
 function RoomAudioRenderer({ volume, muted }) {
   const tracks = useTracks(
     [import_livekit_client15.Track.Source.Microphone, import_livekit_client15.Track.Source.ScreenShareAudio, import_livekit_client15.Track.Source.Unknown],
@@ -3284,7 +3299,7 @@ function RoomAudioRenderer({ volume, muted }) {
       onlySubscribed: true
     }
   ).filter((ref) => !(0, import_components_core49.isLocal)(ref.participant) && ref.publication.kind === import_livekit_client15.Track.Kind.Audio);
-  return /* @__PURE__ */ React109.createElement("div", { style: { display: "none" } }, tracks.map((trackRef) => /* @__PURE__ */ React109.createElement(
+  return /* @__PURE__ */ React110.createElement("div", { style: { display: "none" } }, tracks.map((trackRef) => /* @__PURE__ */ React110.createElement(
     AudioTrack,
     {
       key: (0, import_components_core49.getTrackReferenceId)(trackRef),
@@ -3296,26 +3311,26 @@ function RoomAudioRenderer({ volume, muted }) {
 }
 
 // src/components/RoomName.tsx
-var React110 = __toESM(require("react"));
-var RoomName = /* @__PURE__ */ React110.forwardRef(
+var React111 = __toESM(require("react"));
+var RoomName = /* @__PURE__ */ React111.forwardRef(
   function RoomName2(_a2, ref) {
     var _b = _a2, { childrenPosition = "before", children } = _b, htmlAttributes = __objRest(_b, ["childrenPosition", "children"]);
     const { name } = useRoomInfo();
-    return /* @__PURE__ */ React110.createElement("span", __spreadValues({ ref }, htmlAttributes), childrenPosition === "before" && children, name, childrenPosition === "after" && children);
+    return /* @__PURE__ */ React111.createElement("span", __spreadValues({ ref }, htmlAttributes), childrenPosition === "before" && children, name, childrenPosition === "after" && children);
   }
 );
 
 // src/components/Toast.tsx
-var React111 = __toESM(require("react"));
+var React112 = __toESM(require("react"));
 function Toast(props) {
-  const htmlProps = React111.useMemo(() => mergeProps2(props, { className: "lk-toast" }), [props]);
-  return /* @__PURE__ */ React111.createElement("div", __spreadValues({}, htmlProps), props.children);
+  const htmlProps = React112.useMemo(() => mergeProps2(props, { className: "lk-toast" }), [props]);
+  return /* @__PURE__ */ React112.createElement("div", __spreadValues({}, htmlProps), props.children);
 }
 
 // src/components/participant/ParticipantAudioTile.tsx
-var React112 = __toESM(require("react"));
+var React113 = __toESM(require("react"));
 var import_components_core50 = require("@livekit/components-core");
-var ParticipantAudioTile = /* @__PURE__ */ React112.forwardRef(function ParticipantAudioTile2(_a2, ref) {
+var ParticipantAudioTile = /* @__PURE__ */ React113.forwardRef(function ParticipantAudioTile2(_a2, ref) {
   var _b = _a2, {
     children,
     disableSpeakingIndicator,
@@ -3334,52 +3349,52 @@ var ParticipantAudioTile = /* @__PURE__ */ React112.forwardRef(function Particip
     disableSpeakingIndicator,
     onParticipantClick
   });
-  return /* @__PURE__ */ React112.createElement("div", __spreadValues({ ref, style: { position: "relative" } }, elementProps), /* @__PURE__ */ React112.createElement(TrackRefContext.Provider, { value: trackReference }, children != null ? children : /* @__PURE__ */ React112.createElement(React112.Fragment, null, (0, import_components_core50.isTrackReference)(trackReference) && /* @__PURE__ */ React112.createElement(AudioTrack, { trackRef: trackReference }), /* @__PURE__ */ React112.createElement(AudioVisualizer, null), /* @__PURE__ */ React112.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React112.createElement("div", { className: "lk-participant-metadata-item" }, /* @__PURE__ */ React112.createElement(TrackMutedIndicator, { trackRef: trackReference }), /* @__PURE__ */ React112.createElement(ParticipantName, null)), /* @__PURE__ */ React112.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" })))));
+  return /* @__PURE__ */ React113.createElement("div", __spreadValues({ ref, style: { position: "relative" } }, elementProps), /* @__PURE__ */ React113.createElement(TrackRefContext.Provider, { value: trackReference }, children != null ? children : /* @__PURE__ */ React113.createElement(React113.Fragment, null, (0, import_components_core50.isTrackReference)(trackReference) && /* @__PURE__ */ React113.createElement(AudioTrack, { trackRef: trackReference }), /* @__PURE__ */ React113.createElement(AudioVisualizer, null), /* @__PURE__ */ React113.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React113.createElement("div", { className: "lk-participant-metadata-item" }, /* @__PURE__ */ React113.createElement(TrackMutedIndicator, { trackRef: trackReference }), /* @__PURE__ */ React113.createElement(ParticipantName, null)), /* @__PURE__ */ React113.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" })))));
 });
 
 // src/components/ConnectionStateToast.tsx
 var import_livekit_client16 = require("livekit-client");
-var React113 = __toESM(require("react"));
+var React114 = __toESM(require("react"));
 function ConnectionStateToast(props) {
-  const [notification, setNotification] = React113.useState(void 0);
+  const [notification, setNotification] = React114.useState(void 0);
   const state = useConnectionState(props.room);
-  React113.useEffect(() => {
+  React114.useEffect(() => {
     switch (state) {
       case import_livekit_client16.ConnectionState.Reconnecting:
         setNotification(
-          /* @__PURE__ */ React113.createElement(React113.Fragment, null, /* @__PURE__ */ React113.createElement(SpinnerIcon_default, { className: "lk-spinner" }), " Reconnecting")
+          /* @__PURE__ */ React114.createElement(React114.Fragment, null, /* @__PURE__ */ React114.createElement(SpinnerIcon_default, { className: "lk-spinner" }), " Reconnecting")
         );
         break;
       case import_livekit_client16.ConnectionState.Connecting:
         setNotification(
-          /* @__PURE__ */ React113.createElement(React113.Fragment, null, /* @__PURE__ */ React113.createElement(SpinnerIcon_default, { className: "lk-spinner" }), " Connecting")
+          /* @__PURE__ */ React114.createElement(React114.Fragment, null, /* @__PURE__ */ React114.createElement(SpinnerIcon_default, { className: "lk-spinner" }), " Connecting")
         );
         break;
       case import_livekit_client16.ConnectionState.Disconnected:
-        setNotification(/* @__PURE__ */ React113.createElement(React113.Fragment, null, "Disconnected"));
+        setNotification(/* @__PURE__ */ React114.createElement(React114.Fragment, null, "Disconnected"));
         break;
       default:
         setNotification(void 0);
         break;
     }
   }, [state]);
-  return notification ? /* @__PURE__ */ React113.createElement(Toast, { className: "lk-toast-connection-state" }, notification) : /* @__PURE__ */ React113.createElement(React113.Fragment, null);
+  return notification ? /* @__PURE__ */ React114.createElement(Toast, { className: "lk-toast-connection-state" }, notification) : /* @__PURE__ */ React114.createElement(React114.Fragment, null);
 }
 
 // src/components/ChatEntry.tsx
 var import_components_core51 = require("@livekit/components-core");
-var React114 = __toESM(require("react"));
-var ChatEntry = /* @__PURE__ */ React114.forwardRef(
+var React115 = __toESM(require("react"));
+var ChatEntry = /* @__PURE__ */ React115.forwardRef(
   function ChatEntry2(_a2, ref) {
     var _b = _a2, { entry, hideName = false, hideTimestamp = false, messageFormatter } = _b, props = __objRest(_b, ["entry", "hideName", "hideTimestamp", "messageFormatter"]);
     var _a3, _b2, _c2, _d;
-    const formattedMessage = React114.useMemo(() => {
+    const formattedMessage = React115.useMemo(() => {
       return messageFormatter ? messageFormatter(entry.message) : entry.message;
     }, [entry.message, messageFormatter]);
     const hasBeenEdited = !!entry.editTimestamp;
     const time = new Date(entry.timestamp);
     const locale = navigator ? navigator.language : "en-US";
-    return /* @__PURE__ */ React114.createElement(
+    return /* @__PURE__ */ React115.createElement(
       "li",
       __spreadValues({
         ref,
@@ -3387,8 +3402,8 @@ var ChatEntry = /* @__PURE__ */ React114.forwardRef(
         title: time.toLocaleTimeString(locale, { timeStyle: "full" }),
         "data-lk-message-origin": ((_a3 = entry.from) == null ? void 0 : _a3.isLocal) ? "local" : "remote"
       }, props),
-      (!hideTimestamp || !hideName || hasBeenEdited) && /* @__PURE__ */ React114.createElement("span", { className: "lk-meta-data" }, !hideName && /* @__PURE__ */ React114.createElement("strong", { className: "lk-participant-name" }, (_d = (_b2 = entry.from) == null ? void 0 : _b2.name) != null ? _d : (_c2 = entry.from) == null ? void 0 : _c2.identity), (!hideTimestamp || hasBeenEdited) && /* @__PURE__ */ React114.createElement("span", { className: "lk-timestamp" }, hasBeenEdited && "edited ", time.toLocaleTimeString(locale, { timeStyle: "short" }))),
-      /* @__PURE__ */ React114.createElement("span", { className: "lk-message-body" }, formattedMessage)
+      (!hideTimestamp || !hideName || hasBeenEdited) && /* @__PURE__ */ React115.createElement("span", { className: "lk-meta-data" }, !hideName && /* @__PURE__ */ React115.createElement("strong", { className: "lk-participant-name" }, (_d = (_b2 = entry.from) == null ? void 0 : _b2.name) != null ? _d : (_c2 = entry.from) == null ? void 0 : _c2.identity), (!hideTimestamp || hasBeenEdited) && /* @__PURE__ */ React115.createElement("span", { className: "lk-timestamp" }, hasBeenEdited && "edited ", time.toLocaleTimeString(locale, { timeStyle: "short" }))),
+      /* @__PURE__ */ React115.createElement("span", { className: "lk-message-body" }, formattedMessage)
     );
   }
 );
@@ -3403,20 +3418,20 @@ function formatChatMessageLinks(message) {
   return (0, import_components_core51.tokenize)(message, (0, import_components_core51.createDefaultGrammar)()).map((tok, i2) => {
     if (typeof tok === `string`) {
       const html = nl2br(tok, false);
-      return /* @__PURE__ */ React114.createElement("span", { key: i2, dangerouslySetInnerHTML: { __html: html } });
+      return /* @__PURE__ */ React115.createElement("span", { key: i2, dangerouslySetInnerHTML: { __html: html } });
     } else {
       const content = tok.content.toString();
       const href = tok.type === `url` ? /^http(s?):\/\//.test(content) ? content : `https://${content}` : `mailto:${content}`;
-      return /* @__PURE__ */ React114.createElement("a", { className: "lk-chat-link", key: i2, href, target: "_blank", rel: "noreferrer" }, content);
+      return /* @__PURE__ */ React115.createElement("a", { className: "lk-chat-link", key: i2, href, target: "_blank", rel: "noreferrer" }, content);
     }
   });
 }
 
 // src/prefabs/Chat.tsx
-var React116 = __toESM(require("react"));
+var React117 = __toESM(require("react"));
 
 // src/prefabs/UserChat.tsx
-var React115 = __toESM(require("react"));
+var React116 = __toESM(require("react"));
 function UserChat(_a2) {
   var _b = _a2, {
     entry,
@@ -3430,34 +3445,34 @@ function UserChat(_a2) {
     "messageFormatter"
   ]);
   var _a3, _b2, _c2, _d, _e2;
-  const formattedMessage = React115.useMemo(() => {
+  const formattedMessage = React116.useMemo(() => {
     return messageFormatter ? messageFormatter(entry.message) : entry.message;
   }, [entry.message, messageFormatter]);
   const time = new Date(entry.timestamp);
   const locale = navigator ? navigator.language : "en-US";
-  return /* @__PURE__ */ React115.createElement(
+  return /* @__PURE__ */ React116.createElement(
     "li",
     __spreadValues({
       className: "tl-chat-entry",
       title: time.toLocaleTimeString(locale, { timeStyle: "full" }),
       "data-lk-message-origin": ((_a3 = entry.from) == null ? void 0 : _a3.isLocal) ? "local" : "remote"
     }, props),
-    /* @__PURE__ */ React115.createElement("div", { className: "chat_box" }, !((_b2 = entry.from) == null ? void 0 : _b2.isLocal) ? /* @__PURE__ */ React115.createElement("span", { className: "lk-meta-data" }, /* @__PURE__ */ React115.createElement("strong", { className: "lk-participant-name tl-participant-name" }, (_e2 = (_c2 = entry.from) == null ? void 0 : _c2.name) != null ? _e2 : (_d = entry.from) == null ? void 0 : _d.identity)) : /* @__PURE__ */ React115.createElement(React115.Fragment, null), /* @__PURE__ */ React115.createElement("span", { className: "lk-message-body" }, formattedMessage))
+    /* @__PURE__ */ React116.createElement("div", { className: "chat_box" }, !((_b2 = entry.from) == null ? void 0 : _b2.isLocal) ? /* @__PURE__ */ React116.createElement("span", { className: "lk-meta-data" }, /* @__PURE__ */ React116.createElement("strong", { className: "lk-participant-name tl-participant-name" }, (_e2 = (_c2 = entry.from) == null ? void 0 : _c2.name) != null ? _e2 : (_d = entry.from) == null ? void 0 : _d.identity)) : /* @__PURE__ */ React116.createElement(React116.Fragment, null), /* @__PURE__ */ React116.createElement("span", { className: "lk-message-body" }, formattedMessage))
   );
 }
 
 // src/prefabs/Chat.tsx
 function Chat(_a2) {
   var _b = _a2, { messageFormatter, messageDecoder, messageEncoder, channelTopic } = _b, props = __objRest(_b, ["messageFormatter", "messageDecoder", "messageEncoder", "channelTopic"]);
-  const inputRef = React116.useRef(null);
-  const chatForm = React116.useRef(null);
-  const ulRef = React116.useRef(null);
-  const chatOptions = React116.useMemo(() => {
+  const inputRef = React117.useRef(null);
+  const chatForm = React117.useRef(null);
+  const ulRef = React117.useRef(null);
+  const chatOptions = React117.useMemo(() => {
     return { messageDecoder, messageEncoder, channelTopic };
   }, [messageDecoder, messageEncoder, channelTopic]);
   const { send, chatMessages, isSending } = useChat(chatOptions);
   const layoutContext = useMaybeLayoutContext();
-  const lastReadMsgAt = React116.useRef(0);
+  const lastReadMsgAt = React117.useRef(0);
   function handleSubmit(event) {
     return __async(this, null, function* () {
       event.preventDefault();
@@ -3478,13 +3493,13 @@ function Chat(_a2) {
       }
     });
   }
-  React116.useEffect(() => {
+  React117.useEffect(() => {
     var _a3;
     if (ulRef) {
       (_a3 = ulRef.current) == null ? void 0 : _a3.scrollTo({ top: ulRef.current.scrollHeight });
     }
   }, [ulRef, chatMessages]);
-  React116.useEffect(() => {
+  React117.useEffect(() => {
     var _a3, _b2, _c2;
     if (!layoutContext || chatMessages.length === 0) {
       return;
@@ -3500,7 +3515,7 @@ function Chat(_a2) {
       (_c2 = widget.dispatch) == null ? void 0 : _c2.call(widget, { msg: "unread_msg", count: unreadMessageCount });
     }
   }, [chatMessages, layoutContext == null ? void 0 : layoutContext.widget]);
-  return /* @__PURE__ */ React116.createElement("div", __spreadProps(__spreadValues({}, props), { className: "lk-chat tl-chat" }), /* @__PURE__ */ React116.createElement("ul", { className: "tl-list lk-chat-messages", ref: ulRef }, props.children ? chatMessages.map(
+  return /* @__PURE__ */ React117.createElement("div", __spreadProps(__spreadValues({}, props), { className: "lk-chat tl-chat" }), /* @__PURE__ */ React117.createElement("ul", { className: "tl-list lk-chat-messages", ref: ulRef }, props.children ? chatMessages.map(
     (msg, idx) => cloneSingleChild(props.children, {
       entry: msg,
       key: idx,
@@ -3509,7 +3524,7 @@ function Chat(_a2) {
   ) : chatMessages.map((msg, idx, allMsg) => {
     const hideName = idx >= 1 && allMsg[idx - 1].from === msg.from;
     const hideTimestamp = idx >= 1 && msg.timestamp - allMsg[idx - 1].timestamp < 6e4;
-    return /* @__PURE__ */ React116.createElement(
+    return /* @__PURE__ */ React117.createElement(
       UserChat,
       {
         key: idx,
@@ -3519,7 +3534,7 @@ function Chat(_a2) {
         messageFormatter
       }
     );
-  })), /* @__PURE__ */ React116.createElement("form", { className: "lk-chat-form", ref: chatForm, onSubmit: handleSubmit }, /* @__PURE__ */ React116.createElement(
+  })), /* @__PURE__ */ React117.createElement("form", { className: "lk-chat-form", ref: chatForm, onSubmit: handleSubmit }, /* @__PURE__ */ React117.createElement(
     "textarea",
     {
       className: "lk-form-control lk-chat-form-input overflow-hidden",
@@ -3530,16 +3545,16 @@ function Chat(_a2) {
       onInput: (ev) => ev.stopPropagation(),
       onKeyUp: (ev) => ev.stopPropagation()
     }
-  ), /* @__PURE__ */ React116.createElement("button", { type: "submit", className: "lk-button lk-chat-form-button tl-submit", disabled: isSending }, /* @__PURE__ */ React116.createElement(SendMessage_default, null))));
+  ), /* @__PURE__ */ React117.createElement("button", { type: "submit", className: "lk-button lk-chat-form-button tl-submit", disabled: isSending }, /* @__PURE__ */ React117.createElement(SendMessage_default, null))));
 }
 
 // src/prefabs/PreJoin.tsx
 var import_livekit_client17 = require("livekit-client");
-var React119 = __toESM(require("react"));
+var React120 = __toESM(require("react"));
 
 // src/prefabs/MediaDeviceMenu.tsx
 var import_components_core52 = require("@livekit/components-core");
-var React117 = __toESM(require("react"));
+var React118 = __toESM(require("react"));
 var import_components_core53 = require("@livekit/components-core");
 function MediaDeviceMenu(_a2) {
   var _b = _a2, {
@@ -3555,23 +3570,23 @@ function MediaDeviceMenu(_a2) {
     "tracks",
     "requestPermissions"
   ]);
-  const [isOpen, setIsOpen] = React117.useState(false);
-  const [devices, setDevices] = React117.useState([]);
-  const [updateRequired, setUpdateRequired] = React117.useState(true);
-  const [needPermissions, setNeedPermissions] = React117.useState(requestPermissions);
+  const [isOpen, setIsOpen] = React118.useState(false);
+  const [devices, setDevices] = React118.useState([]);
+  const [updateRequired, setUpdateRequired] = React118.useState(true);
+  const [needPermissions, setNeedPermissions] = React118.useState(requestPermissions);
   const handleActiveDeviceChange = (kind2, deviceId) => {
     import_components_core53.log.debug("handle device change");
     setIsOpen(false);
     onActiveDeviceChange == null ? void 0 : onActiveDeviceChange(kind2, deviceId);
   };
-  const button = React117.useRef(null);
-  const tooltip = React117.useRef(null);
-  React117.useLayoutEffect(() => {
+  const button = React118.useRef(null);
+  const tooltip = React118.useRef(null);
+  React118.useLayoutEffect(() => {
     if (isOpen) {
       setNeedPermissions(true);
     }
   }, [isOpen]);
-  React117.useLayoutEffect(() => {
+  React118.useLayoutEffect(() => {
     if (button.current && tooltip.current && (devices || updateRequired)) {
       (0, import_components_core52.computeMenuPosition)(button.current, tooltip.current).then(({ x: x2, y: y2 }) => {
         if (tooltip.current) {
@@ -3581,7 +3596,7 @@ function MediaDeviceMenu(_a2) {
     }
     setUpdateRequired(false);
   }, [button, tooltip, devices, updateRequired]);
-  const handleClickOutside = React117.useCallback(
+  const handleClickOutside = React118.useCallback(
     (event) => {
       if (!tooltip.current) {
         return;
@@ -3595,7 +3610,7 @@ function MediaDeviceMenu(_a2) {
     },
     [isOpen, tooltip, button]
   );
-  React117.useEffect(() => {
+  React118.useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     window.addEventListener("resize", () => setUpdateRequired(true));
     return () => {
@@ -3603,7 +3618,7 @@ function MediaDeviceMenu(_a2) {
       window.removeEventListener("resize", () => setUpdateRequired(true));
     };
   }, [handleClickOutside, setUpdateRequired]);
-  return /* @__PURE__ */ React117.createElement(React117.Fragment, null, /* @__PURE__ */ React117.createElement(
+  return /* @__PURE__ */ React118.createElement(React118.Fragment, null, /* @__PURE__ */ React118.createElement(
     "button",
     __spreadProps(__spreadValues({
       className: "lk-button lk-button-menu",
@@ -3613,14 +3628,14 @@ function MediaDeviceMenu(_a2) {
       ref: button
     }),
     props.children
-  ), !props.disabled && /* @__PURE__ */ React117.createElement(
+  ), !props.disabled && /* @__PURE__ */ React118.createElement(
     "div",
     {
       className: "lk-device-menu",
       ref: tooltip,
       style: { visibility: isOpen ? "visible" : "hidden" }
     },
-    kind ? /* @__PURE__ */ React117.createElement(React117.Fragment, null, kind === "audioinput" && /* @__PURE__ */ React117.createElement("span", { className: "tl-device-action-type" }, "INPUT"), /* @__PURE__ */ React117.createElement(
+    kind ? /* @__PURE__ */ React118.createElement(React118.Fragment, null, kind === "audioinput" && /* @__PURE__ */ React118.createElement("span", { className: "tl-device-action-type" }, "INPUT"), /* @__PURE__ */ React118.createElement(
       MediaDeviceSelect,
       {
         initialSelection,
@@ -3630,7 +3645,7 @@ function MediaDeviceMenu(_a2) {
         track: tracks == null ? void 0 : tracks[kind],
         requestPermissions: needPermissions
       }
-    ), kind === "audioinput" && /* @__PURE__ */ React117.createElement(React117.Fragment, null, /* @__PURE__ */ React117.createElement("span", { className: "tl-device-action-type" }, "OUTPUT"), /* @__PURE__ */ React117.createElement(
+    ), kind === "audioinput" && /* @__PURE__ */ React118.createElement(React118.Fragment, null, /* @__PURE__ */ React118.createElement("span", { className: "tl-device-action-type" }, "OUTPUT"), /* @__PURE__ */ React118.createElement(
       MediaDeviceSelect,
       {
         initialSelection,
@@ -3640,7 +3655,7 @@ function MediaDeviceMenu(_a2) {
         track: tracks == null ? void 0 : tracks["audiooutput"],
         requestPermissions: needPermissions
       }
-    ))) : /* @__PURE__ */ React117.createElement(React117.Fragment, null, /* @__PURE__ */ React117.createElement("div", { className: "lk-device-menu-heading" }, "Audio inputs"), /* @__PURE__ */ React117.createElement(
+    ))) : /* @__PURE__ */ React118.createElement(React118.Fragment, null, /* @__PURE__ */ React118.createElement("div", { className: "lk-device-menu-heading" }, "Audio inputs"), /* @__PURE__ */ React118.createElement(
       MediaDeviceSelect,
       {
         kind: "audioinput",
@@ -3649,7 +3664,7 @@ function MediaDeviceMenu(_a2) {
         track: tracks == null ? void 0 : tracks.audioinput,
         requestPermissions: needPermissions
       }
-    ), /* @__PURE__ */ React117.createElement("div", { className: "lk-device-menu-heading" }, "Video inputs"), /* @__PURE__ */ React117.createElement(
+    ), /* @__PURE__ */ React118.createElement("div", { className: "lk-device-menu-heading" }, "Video inputs"), /* @__PURE__ */ React118.createElement(
       MediaDeviceSelect,
       {
         kind: "videoinput",
@@ -3666,9 +3681,9 @@ function MediaDeviceMenu(_a2) {
 var import_components_core54 = require("@livekit/components-core");
 
 // src/hooks/useWarnAboutMissingStyles.ts
-var React118 = __toESM(require("react"));
+var React119 = __toESM(require("react"));
 function useWarnAboutMissingStyles() {
-  React118.useEffect(() => {
+  React119.useEffect(() => {
     warnAboutMissingStyles();
   }, []);
 }
@@ -3682,9 +3697,9 @@ var defaultUserChoices = {
   username: ""
 };
 function usePreviewTracks(options, onError) {
-  const [tracks, setTracks] = React119.useState();
-  const trackLock = React119.useMemo(() => new import_livekit_client17.Mutex(), []);
-  React119.useEffect(() => {
+  const [tracks, setTracks] = React120.useState();
+  const trackLock = React120.useMemo(() => new import_livekit_client17.Mutex(), []);
+  React120.useEffect(() => {
     let needsCleanup = false;
     let localTracks = [];
     trackLock.lock().then((unlock) => __async(this, null, function* () {
@@ -3717,15 +3732,15 @@ function usePreviewTracks(options, onError) {
   return tracks;
 }
 function usePreviewDevice(enabled, deviceId, kind) {
-  const [deviceError, setDeviceError] = React119.useState(null);
-  const [isCreatingTrack, setIsCreatingTrack] = React119.useState(false);
+  const [deviceError, setDeviceError] = React120.useState(null);
+  const [isCreatingTrack, setIsCreatingTrack] = React120.useState(false);
   const devices = useMediaDevices({ kind });
-  const [selectedDevice, setSelectedDevice] = React119.useState(
+  const [selectedDevice, setSelectedDevice] = React120.useState(
     void 0
   );
-  const [localTrack, setLocalTrack] = React119.useState();
-  const [localDeviceId, setLocalDeviceId] = React119.useState(deviceId);
-  React119.useEffect(() => {
+  const [localTrack, setLocalTrack] = React120.useState();
+  const [localDeviceId, setLocalDeviceId] = React120.useState(deviceId);
+  React120.useEffect(() => {
     setLocalDeviceId(deviceId);
   }, [deviceId]);
   const createTrack = (deviceId2, kind2) => __async(this, null, function* () {
@@ -3750,8 +3765,8 @@ function usePreviewDevice(enabled, deviceId, kind) {
     yield track.setDeviceId(id);
     prevDeviceId.current = id;
   });
-  const prevDeviceId = React119.useRef(localDeviceId);
-  React119.useEffect(() => {
+  const prevDeviceId = React120.useRef(localDeviceId);
+  React120.useEffect(() => {
     if (enabled && !localTrack && !deviceError && !isCreatingTrack) {
       import_components_core54.log.debug("creating track", kind);
       setIsCreatingTrack(true);
@@ -3760,7 +3775,7 @@ function usePreviewDevice(enabled, deviceId, kind) {
       });
     }
   }, [enabled, localTrack, deviceError, isCreatingTrack]);
-  React119.useEffect(() => {
+  React120.useEffect(() => {
     if (!localTrack) {
       return;
     }
@@ -3775,7 +3790,7 @@ function usePreviewDevice(enabled, deviceId, kind) {
       localTrack.unmute();
     }
   }, [localTrack, selectedDevice, enabled, kind]);
-  React119.useEffect(() => {
+  React120.useEffect(() => {
     return () => {
       if (localTrack) {
         import_components_core54.log.debug(`stopping local ${kind} track`);
@@ -3784,7 +3799,7 @@ function usePreviewDevice(enabled, deviceId, kind) {
       }
     };
   }, []);
-  React119.useEffect(() => {
+  React120.useEffect(() => {
     setSelectedDevice(devices == null ? void 0 : devices.find((dev) => dev.deviceId === localDeviceId));
   }, [localDeviceId, devices]);
   return {
@@ -3817,7 +3832,7 @@ function PreJoin(_a2) {
     "userLabel",
     "persistUserChoices"
   ]);
-  const [userChoices, setUserChoices] = React119.useState(defaultUserChoices);
+  const [userChoices, setUserChoices] = React120.useState(defaultUserChoices);
   const partialDefaults = __spreadValues(__spreadValues(__spreadValues(__spreadValues(__spreadValues({}, defaults.audioDeviceId !== void 0 && { audioDeviceId: defaults.audioDeviceId }), defaults.videoDeviceId !== void 0 && { videoDeviceId: defaults.videoDeviceId }), defaults.audioEnabled !== void 0 && { audioEnabled: defaults.audioEnabled }), defaults.videoEnabled !== void 0 && { videoEnabled: defaults.videoEnabled }), defaults.username !== void 0 && { username: defaults.username });
   const {
     userChoices: initialUserChoices,
@@ -3831,28 +3846,28 @@ function PreJoin(_a2) {
     preventSave: !persistUserChoices,
     preventLoad: !persistUserChoices
   });
-  const [audioEnabled, setAudioEnabled] = React119.useState(initialUserChoices.audioEnabled);
-  const [videoEnabled, setVideoEnabled] = React119.useState(initialUserChoices.videoEnabled);
-  const [audioDeviceId, setAudioDeviceId] = React119.useState(
+  const [audioEnabled, setAudioEnabled] = React120.useState(initialUserChoices.audioEnabled);
+  const [videoEnabled, setVideoEnabled] = React120.useState(initialUserChoices.videoEnabled);
+  const [audioDeviceId, setAudioDeviceId] = React120.useState(
     initialUserChoices.audioDeviceId
   );
-  const [videoDeviceId, setVideoDeviceId] = React119.useState(
+  const [videoDeviceId, setVideoDeviceId] = React120.useState(
     initialUserChoices.videoDeviceId
   );
-  const [username, setUsername] = React119.useState(initialUserChoices.username);
-  React119.useEffect(() => {
+  const [username, setUsername] = React120.useState(initialUserChoices.username);
+  React120.useEffect(() => {
     saveAudioInputEnabled(audioEnabled);
   }, [audioEnabled, saveAudioInputEnabled]);
-  React119.useEffect(() => {
+  React120.useEffect(() => {
     saveVideoInputEnabled(videoEnabled);
   }, [videoEnabled, saveVideoInputEnabled]);
-  React119.useEffect(() => {
+  React120.useEffect(() => {
     saveAudioInputDeviceId(audioDeviceId);
   }, [audioDeviceId, saveAudioInputDeviceId]);
-  React119.useEffect(() => {
+  React120.useEffect(() => {
     saveVideoInputDeviceId(videoDeviceId);
   }, [videoDeviceId, saveVideoInputDeviceId]);
-  React119.useEffect(() => {
+  React120.useEffect(() => {
     saveUsername(username);
   }, [username, saveUsername]);
   const tracks = usePreviewTracks(
@@ -3862,12 +3877,12 @@ function PreJoin(_a2) {
     },
     onError
   );
-  const videoEl = React119.useRef(null);
-  const videoTrack = React119.useMemo(
+  const videoEl = React120.useRef(null);
+  const videoTrack = React120.useMemo(
     () => tracks == null ? void 0 : tracks.filter((track) => track.kind === import_livekit_client17.Track.Kind.Video)[0],
     [tracks]
   );
-  const facingMode = React119.useMemo(() => {
+  const facingMode = React120.useMemo(() => {
     if (videoTrack) {
       const { facingMode: facingMode2 } = (0, import_livekit_client17.facingModeFromLocalTrack)(videoTrack);
       return facingMode2;
@@ -3875,11 +3890,11 @@ function PreJoin(_a2) {
       return "undefined";
     }
   }, [videoTrack]);
-  const audioTrack = React119.useMemo(
+  const audioTrack = React120.useMemo(
     () => tracks == null ? void 0 : tracks.filter((track) => track.kind === import_livekit_client17.Track.Kind.Audio)[0],
     [tracks]
   );
-  React119.useEffect(() => {
+  React120.useEffect(() => {
     if (videoEl.current && videoTrack) {
       videoTrack.unmute();
       videoTrack.attach(videoEl.current);
@@ -3888,8 +3903,8 @@ function PreJoin(_a2) {
       videoTrack == null ? void 0 : videoTrack.detach();
     };
   }, [videoTrack]);
-  const [isValid, setIsValid] = React119.useState();
-  const handleValidation = React119.useCallback(
+  const [isValid, setIsValid] = React120.useState();
+  const handleValidation = React120.useCallback(
     (values) => {
       if (typeof onValidate === "function") {
         return onValidate(values);
@@ -3899,7 +3914,7 @@ function PreJoin(_a2) {
     },
     [onValidate]
   );
-  React119.useEffect(() => {
+  React120.useEffect(() => {
     const newUserChoices = {
       username,
       videoEnabled,
@@ -3921,7 +3936,7 @@ function PreJoin(_a2) {
     }
   }
   useWarnAboutMissingStyles();
-  return /* @__PURE__ */ React119.createElement("div", __spreadValues({ className: "lk-prejoin" }, htmlProps), /* @__PURE__ */ React119.createElement("div", { className: "lk-video-container" }, videoTrack && /* @__PURE__ */ React119.createElement("video", { ref: videoEl, width: "1280", height: "720", "data-lk-facing-mode": facingMode }), (!videoTrack || !videoEnabled) && /* @__PURE__ */ React119.createElement("div", { className: "lk-camera-off-note" }, /* @__PURE__ */ React119.createElement(ParticipantPlaceholder_default, null))), /* @__PURE__ */ React119.createElement("div", { className: "lk-button-group-container" }, /* @__PURE__ */ React119.createElement("div", { className: "lk-button-group audio" }, /* @__PURE__ */ React119.createElement(
+  return /* @__PURE__ */ React120.createElement("div", __spreadValues({ className: "lk-prejoin" }, htmlProps), /* @__PURE__ */ React120.createElement("div", { className: "lk-video-container" }, videoTrack && /* @__PURE__ */ React120.createElement("video", { ref: videoEl, width: "1280", height: "720", "data-lk-facing-mode": facingMode }), (!videoTrack || !videoEnabled) && /* @__PURE__ */ React120.createElement("div", { className: "lk-camera-off-note" }, /* @__PURE__ */ React120.createElement(ParticipantPlaceholder_default, null))), /* @__PURE__ */ React120.createElement("div", { className: "lk-button-group-container" }, /* @__PURE__ */ React120.createElement("div", { className: "lk-button-group audio" }, /* @__PURE__ */ React120.createElement(
     TrackToggle,
     {
       initialState: audioEnabled,
@@ -3929,7 +3944,7 @@ function PreJoin(_a2) {
       onChange: (enabled) => setAudioEnabled(enabled)
     },
     micLabel
-  ), /* @__PURE__ */ React119.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React119.createElement(
+  ), /* @__PURE__ */ React120.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React120.createElement(
     MediaDeviceMenu,
     {
       initialSelection: audioDeviceId,
@@ -3938,7 +3953,7 @@ function PreJoin(_a2) {
       tracks: { audioinput: audioTrack },
       onActiveDeviceChange: (_2, id) => setAudioDeviceId(id)
     }
-  ))), /* @__PURE__ */ React119.createElement("div", { className: "lk-button-group video" }, /* @__PURE__ */ React119.createElement(
+  ))), /* @__PURE__ */ React120.createElement("div", { className: "lk-button-group video" }, /* @__PURE__ */ React120.createElement(
     TrackToggle,
     {
       initialState: videoEnabled,
@@ -3946,7 +3961,7 @@ function PreJoin(_a2) {
       onChange: (enabled) => setVideoEnabled(enabled)
     },
     camLabel
-  ), /* @__PURE__ */ React119.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React119.createElement(
+  ), /* @__PURE__ */ React120.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React120.createElement(
     MediaDeviceMenu,
     {
       initialSelection: videoDeviceId,
@@ -3955,7 +3970,7 @@ function PreJoin(_a2) {
       tracks: { videoinput: videoTrack },
       onActiveDeviceChange: (_2, id) => setVideoDeviceId(id)
     }
-  )))), /* @__PURE__ */ React119.createElement("form", { className: "lk-username-container" }, /* @__PURE__ */ React119.createElement(
+  )))), /* @__PURE__ */ React120.createElement("form", { className: "lk-username-container" }, /* @__PURE__ */ React120.createElement(
     "input",
     {
       className: "lk-form-control",
@@ -3967,7 +3982,7 @@ function PreJoin(_a2) {
       onChange: (inputEl) => setUsername(inputEl.target.value),
       autoComplete: "off"
     }
-  ), /* @__PURE__ */ React119.createElement(
+  ), /* @__PURE__ */ React120.createElement(
     "button",
     {
       className: "lk-button lk-join-button",
@@ -3976,21 +3991,21 @@ function PreJoin(_a2) {
       disabled: !isValid
     },
     joinLabel
-  )), debug && /* @__PURE__ */ React119.createElement(React119.Fragment, null, /* @__PURE__ */ React119.createElement("strong", null, "User Choices:"), /* @__PURE__ */ React119.createElement("ul", { className: "lk-list", style: { overflow: "hidden", maxWidth: "15rem" } }, /* @__PURE__ */ React119.createElement("li", null, "Username: ", `${userChoices.username}`), /* @__PURE__ */ React119.createElement("li", null, "Video Enabled: ", `${userChoices.videoEnabled}`), /* @__PURE__ */ React119.createElement("li", null, "Audio Enabled: ", `${userChoices.audioEnabled}`), /* @__PURE__ */ React119.createElement("li", null, "Video Device: ", `${userChoices.videoDeviceId}`), /* @__PURE__ */ React119.createElement("li", null, "Audio Device: ", `${userChoices.audioDeviceId}`))));
+  )), debug && /* @__PURE__ */ React120.createElement(React120.Fragment, null, /* @__PURE__ */ React120.createElement("strong", null, "User Choices:"), /* @__PURE__ */ React120.createElement("ul", { className: "lk-list", style: { overflow: "hidden", maxWidth: "15rem" } }, /* @__PURE__ */ React120.createElement("li", null, "Username: ", `${userChoices.username}`), /* @__PURE__ */ React120.createElement("li", null, "Video Enabled: ", `${userChoices.videoEnabled}`), /* @__PURE__ */ React120.createElement("li", null, "Audio Enabled: ", `${userChoices.audioEnabled}`), /* @__PURE__ */ React120.createElement("li", null, "Video Device: ", `${userChoices.videoDeviceId}`), /* @__PURE__ */ React120.createElement("li", null, "Audio Device: ", `${userChoices.audioDeviceId}`))));
 }
 
 // src/prefabs/VideoConference.tsx
 var import_components_core60 = require("@livekit/components-core");
 var import_livekit_client21 = require("livekit-client");
-var React136 = __toESM(require("react"));
+var React137 = __toESM(require("react"));
 
 // src/prefabs/ControlBar.tsx
 var import_livekit_client19 = require("livekit-client");
-var React129 = __toESM(require("react"));
+var React130 = __toESM(require("react"));
 
 // src/prefabs/HostEndMeetingMenu.tsx
 var import_components_core55 = require("@livekit/components-core");
-var React120 = __toESM(require("react"));
+var React121 = __toESM(require("react"));
 function HostEndMeetingMenu(_a2) {
   var _b = _a2, {
     leave,
@@ -4005,20 +4020,20 @@ function HostEndMeetingMenu(_a2) {
     "showIcon",
     "showText"
   ]);
-  const [isOpen, setIsOpen] = React120.useState(false);
-  const [updateRequired, setUpdateRequired] = React120.useState(true);
+  const [isOpen, setIsOpen] = React121.useState(false);
+  const [updateRequired, setUpdateRequired] = React121.useState(true);
   const room = useRoomContext();
-  const button = React120.useRef(null);
-  const leaveButtonRef = React120.useRef(null);
-  const tooltip = React120.useRef(null);
+  const button = React121.useRef(null);
+  const leaveButtonRef = React121.useRef(null);
+  const tooltip = React121.useRef(null);
   const { disconnect } = (0, import_components_core55.setupDisconnectButton)(room);
-  const [showDropdown, setShowDropdown] = React120.useState(false);
-  const [value, setValue] = React120.useState("");
+  const [showDropdown, setShowDropdown] = React121.useState(false);
+  const [value, setValue] = React121.useState("");
   const participants = useParticipants();
   const { localParticipant } = useLocalParticipant();
   const remoteParticipants = participants.filter((participant) => participant.identity !== localParticipant.identity);
   const meta = localParticipant.metadata ? JSON.parse(localParticipant.metadata) : {};
-  React120.useLayoutEffect(() => {
+  React121.useLayoutEffect(() => {
     if (button.current && tooltip.current && updateRequired) {
       (0, import_components_core55.computeMenuPosition)(button.current, tooltip.current).then(({ x: x2, y: y2 }) => {
         if (tooltip.current) {
@@ -4029,7 +4044,7 @@ function HostEndMeetingMenu(_a2) {
       setUpdateRequired(false);
     }
   }, [button, tooltip, updateRequired]);
-  const handleClickOutside = React120.useCallback(
+  const handleClickOutside = React121.useCallback(
     (event) => {
       if (!tooltip.current) {
         return;
@@ -4047,7 +4062,7 @@ function HostEndMeetingMenu(_a2) {
     },
     [isOpen, tooltip, button]
   );
-  React120.useEffect(() => {
+  React121.useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     window.addEventListener("resize", () => setUpdateRequired(true));
     return () => {
@@ -4105,7 +4120,7 @@ function HostEndMeetingMenu(_a2) {
       }));
     });
   }
-  const [hostError, setHostError] = React120.useState(false);
+  const [hostError, setHostError] = React121.useState(false);
   const handleChange = () => {
     if (value !== "") {
       setIsOpen(false);
@@ -4116,7 +4131,7 @@ function HostEndMeetingMenu(_a2) {
       setHostError(true);
     }
   };
-  React120.useEffect(() => {
+  React121.useEffect(() => {
     let timer;
     if (hostError) {
       timer = setTimeout(() => {
@@ -4145,7 +4160,7 @@ function HostEndMeetingMenu(_a2) {
   const handleChangeValue = (e2) => {
     setValue(e2.target.value);
   };
-  return /* @__PURE__ */ React120.createElement(React120.Fragment, null, /* @__PURE__ */ React120.createElement(
+  return /* @__PURE__ */ React121.createElement(React121.Fragment, null, /* @__PURE__ */ React121.createElement(
     "button",
     __spreadProps(__spreadValues({
       className: "lk-button lk-button-menu",
@@ -4155,28 +4170,28 @@ function HostEndMeetingMenu(_a2) {
       ref: button
     }),
     props.children,
-    showIcon && /* @__PURE__ */ React120.createElement(LeaveIcon_default, null),
+    showIcon && /* @__PURE__ */ React121.createElement(LeaveIcon_default, null),
     showText && "Leave"
-  ), /* @__PURE__ */ React120.createElement(
+  ), /* @__PURE__ */ React121.createElement(
     "div",
     {
       className: "lk-device-menu",
       ref: tooltip,
       style: { visibility: isOpen ? "visible" : "hidden" }
     },
-    /* @__PURE__ */ React120.createElement("ul", { className: "lk-media-device-select lk-list", style: { display: !showDropdown ? "unset" : "none" } }, endForAll && /* @__PURE__ */ React120.createElement("li", null, /* @__PURE__ */ React120.createElement(DisconnectButton, { onClick: endMeeting }, endForAll)), leave && /* @__PURE__ */ React120.createElement("li", null, /* @__PURE__ */ React120.createElement("button", { ref: leaveButtonRef, className: "lk-disconnect-button", onClick: handleLeave }, "Leave Meeting"))),
-    showDropdown && /* @__PURE__ */ React120.createElement("div", { className: "assign-menu" }, hostError && /* @__PURE__ */ React120.createElement("span", { className: "text-invalid" }, "Must have to select participant"), /* @__PURE__ */ React120.createElement("select", { value, onChange: handleChangeValue }, /* @__PURE__ */ React120.createElement("option", { value: "" }, "Select meeting host"), remoteParticipants.map((participant) => /* @__PURE__ */ React120.createElement("option", { value: participant.identity, key: participant.identity }, participant == null ? void 0 : participant.name))), /* @__PURE__ */ React120.createElement("div", { className: "button-container" }, /* @__PURE__ */ React120.createElement("button", { className: "lk-button tl-cancel", onClick: handleCancel }, "Cancel"), /* @__PURE__ */ React120.createElement("button", { className: "lk-button tl-ok", onClick: handleChange }, "Ok"))),
-    /* @__PURE__ */ React120.createElement("div", { className: "arrow" }, /* @__PURE__ */ React120.createElement("div", { className: "arrow-shape" }))
+    /* @__PURE__ */ React121.createElement("ul", { className: "lk-media-device-select lk-list", style: { display: !showDropdown ? "unset" : "none" } }, endForAll && /* @__PURE__ */ React121.createElement("li", null, /* @__PURE__ */ React121.createElement(DisconnectButton, { onClick: endMeeting }, endForAll)), leave && /* @__PURE__ */ React121.createElement("li", null, /* @__PURE__ */ React121.createElement("button", { ref: leaveButtonRef, className: "lk-disconnect-button", onClick: handleLeave }, "Leave Meeting"))),
+    showDropdown && /* @__PURE__ */ React121.createElement("div", { className: "assign-menu" }, hostError && /* @__PURE__ */ React121.createElement("span", { className: "text-invalid" }, "Must have to select participant"), /* @__PURE__ */ React121.createElement("select", { value, onChange: handleChangeValue }, /* @__PURE__ */ React121.createElement("option", { value: "" }, "Select meeting host"), remoteParticipants.map((participant) => /* @__PURE__ */ React121.createElement("option", { value: participant.identity, key: participant.identity }, participant == null ? void 0 : participant.name))), /* @__PURE__ */ React121.createElement("div", { className: "button-container" }, /* @__PURE__ */ React121.createElement("button", { className: "lk-button tl-cancel", onClick: handleCancel }, "Cancel"), /* @__PURE__ */ React121.createElement("button", { className: "lk-button tl-ok", onClick: handleChange }, "Ok"))),
+    /* @__PURE__ */ React121.createElement("div", { className: "arrow" }, /* @__PURE__ */ React121.createElement("div", { className: "arrow-shape" }))
   ));
 }
 
 // src/components/controls/UserToggle.tsx
-var React121 = __toESM(require("react"));
+var React122 = __toESM(require("react"));
 var import_components_core56 = require("@livekit/components-core");
 function useToggleUserLink({ props }) {
   const { dispatch, state } = useLayoutContext().widget;
-  const { className } = React121.useMemo(() => (0, import_components_core56.setupUserToggle)(), []);
-  const mergedProps = React121.useMemo(
+  const { className } = React122.useMemo(() => (0, import_components_core56.setupUserToggle)(), []);
+  const mergedProps = React122.useMemo(
     () => mergeProps2(props, {
       className,
       onClick: () => {
@@ -4191,7 +4206,7 @@ function useToggleUserLink({ props }) {
 }
 function UserToggle(props) {
   const { mergedProps } = useToggleUserLink({ props });
-  return /* @__PURE__ */ React121.createElement("button", __spreadValues({}, mergedProps), props.children);
+  return /* @__PURE__ */ React122.createElement("button", __spreadValues({}, mergedProps), props.children);
 }
 
 // src/prefabs/ControlBar.tsx
@@ -4199,7 +4214,7 @@ var import_components_core58 = require("@livekit/components-core");
 
 // src/prefabs/ExtraOptionMenu.tsx
 var import_components_core57 = require("@livekit/components-core");
-var React125 = __toESM(require("react"));
+var React126 = __toESM(require("react"));
 
 // ../../node_modules/.pnpm/@mediapipe+tasks-vision@0.10.9/node_modules/@mediapipe/tasks-vision/vision_bundle.mjs
 var t = "undefined" != typeof self ? self : {};
@@ -8861,13 +8876,13 @@ function ExtraOptionMenu(_a2) {
     "blurEnabled",
     "shareScreenTracks"
   ]);
-  const [isOpen, setIsOpen] = React125.useState(false);
-  const [updateRequired, setUpdateRequired] = React125.useState(true);
-  const button = React125.useRef(null);
-  const blurButtonRef = React125.useRef(null);
-  const tooltip = React125.useRef(null);
-  const [showDropdown, setShowDropdown] = React125.useState(false);
-  React125.useLayoutEffect(() => {
+  const [isOpen, setIsOpen] = React126.useState(false);
+  const [updateRequired, setUpdateRequired] = React126.useState(true);
+  const button = React126.useRef(null);
+  const blurButtonRef = React126.useRef(null);
+  const tooltip = React126.useRef(null);
+  const [showDropdown, setShowDropdown] = React126.useState(false);
+  React126.useLayoutEffect(() => {
     if (button.current && tooltip.current && updateRequired) {
       (0, import_components_core57.computeMenuPosition)(button.current, tooltip.current).then(({ x: x2, y: y2 }) => {
         if (tooltip.current) {
@@ -8877,7 +8892,7 @@ function ExtraOptionMenu(_a2) {
       setUpdateRequired(false);
     }
   }, [button, tooltip, updateRequired]);
-  const handleClickOutside = React125.useCallback(
+  const handleClickOutside = React126.useCallback(
     (event) => {
       if (!tooltip.current) {
         return;
@@ -8899,7 +8914,7 @@ function ExtraOptionMenu(_a2) {
     setIsOpen(false);
     setShowDropdown(false);
   }
-  React125.useEffect(() => {
+  React126.useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     window.addEventListener("resize", () => setUpdateRequired(true));
     return () => {
@@ -8907,7 +8922,7 @@ function ExtraOptionMenu(_a2) {
       window.removeEventListener("resize", () => setUpdateRequired(true));
     };
   }, [handleClickOutside]);
-  return /* @__PURE__ */ React125.createElement(React125.Fragment, null, /* @__PURE__ */ React125.createElement(
+  return /* @__PURE__ */ React126.createElement(React126.Fragment, null, /* @__PURE__ */ React126.createElement(
     "button",
     __spreadProps(__spreadValues({
       className: "lk-button tl-extra-menu",
@@ -8916,39 +8931,39 @@ function ExtraOptionMenu(_a2) {
       onClick: () => setIsOpen(!isOpen),
       ref: button
     })
-  ), /* @__PURE__ */ React125.createElement(
+  ), /* @__PURE__ */ React126.createElement(
     "div",
     {
       className: "lk-device-menu tl-extra-menu-list",
       ref: tooltip,
       style: { visibility: isOpen ? "visible" : "hidden" }
     },
-    /* @__PURE__ */ React125.createElement("ul", { className: "lk-media-device-select lk-list", style: { display: !showDropdown ? "unset" : "none" } }, /* @__PURE__ */ React125.createElement("li", null, /* @__PURE__ */ React125.createElement(FullscreenIndicator, { parentCallback: changeState, elementId: "__next" })), /* @__PURE__ */ React125.createElement("li", null, /* @__PURE__ */ React125.createElement(WhiteboardIndicater, { shareScreenTracks, parentCallback: changeState })), blurEnabled && /* @__PURE__ */ React125.createElement("li", null, /* @__PURE__ */ React125.createElement(BlurIndicater, { source: import_livekit_client18.Track.Source.Camera, parentCallback: changeState }))),
-    /* @__PURE__ */ React125.createElement("div", { className: "arrow" }, /* @__PURE__ */ React125.createElement("div", { className: "arrow-shape" }))
+    /* @__PURE__ */ React126.createElement("ul", { className: "lk-media-device-select lk-list", style: { display: !showDropdown ? "unset" : "none" } }, /* @__PURE__ */ React126.createElement("li", null, /* @__PURE__ */ React126.createElement(FullscreenIndicator, { parentCallback: changeState, elementId: "__next" })), /* @__PURE__ */ React126.createElement("li", null, /* @__PURE__ */ React126.createElement(WhiteboardIndicater, { shareScreenTracks, parentCallback: changeState })), blurEnabled && /* @__PURE__ */ React126.createElement("li", null, /* @__PURE__ */ React126.createElement(BlurIndicater, { source: import_livekit_client18.Track.Source.Camera, parentCallback: changeState }))),
+    /* @__PURE__ */ React126.createElement("div", { className: "arrow" }, /* @__PURE__ */ React126.createElement("div", { className: "arrow-shape" }))
   ));
 }
 
 // src/components/controls/StartMediaButton.tsx
-var React126 = __toESM(require("react"));
-var StartMediaButton = /* @__PURE__ */ React126.forwardRef(function StartMediaButton2(_a2, ref) {
+var React127 = __toESM(require("react"));
+var StartMediaButton = /* @__PURE__ */ React127.forwardRef(function StartMediaButton2(_a2, ref) {
   var _b = _a2, { label } = _b, props = __objRest(_b, ["label"]);
   const room = useRoomContext();
   const { mergedProps: audioProps, canPlayAudio } = useStartAudio({ room, props });
   const { mergedProps, canPlayVideo } = useStartVideo({ room, props: audioProps });
   const _a3 = mergedProps, { style } = _a3, restProps = __objRest(_a3, ["style"]);
   style.display = canPlayAudio && canPlayVideo ? "none" : "block";
-  return /* @__PURE__ */ React126.createElement("button", __spreadValues({ ref, style }, restProps), label != null ? label : `Start ${!canPlayAudio ? "Audio" : "Video"}`);
+  return /* @__PURE__ */ React127.createElement("button", __spreadValues({ ref, style }, restProps), label != null ? label : `Start ${!canPlayAudio ? "Audio" : "Video"}`);
 });
 
 // src/components/controls/SettingsMenuToggle.tsx
-var React128 = __toESM(require("react"));
+var React129 = __toESM(require("react"));
 
 // src/hooks/useSettingsToggle.ts
-var React127 = __toESM(require("react"));
+var React128 = __toESM(require("react"));
 function useSettingsToggle({ props }) {
   const { dispatch, state } = useLayoutContext().widget;
   const className = "lk-button lk-settings-toggle";
-  const mergedProps = React127.useMemo(() => {
+  const mergedProps = React128.useMemo(() => {
     return mergeProps(props, {
       className,
       onClick: () => {
@@ -8962,9 +8977,9 @@ function useSettingsToggle({ props }) {
 }
 
 // src/components/controls/SettingsMenuToggle.tsx
-var SettingsMenuToggle = /* @__PURE__ */ React128.forwardRef(function SettingsMenuToggle2(props, ref) {
+var SettingsMenuToggle = /* @__PURE__ */ React129.forwardRef(function SettingsMenuToggle2(props, ref) {
   const { mergedProps } = useSettingsToggle({ props });
-  return /* @__PURE__ */ React128.createElement("button", __spreadValues({ ref }, mergedProps), props.children);
+  return /* @__PURE__ */ React129.createElement("button", __spreadValues({ ref }, mergedProps), props.children);
 });
 
 // src/prefabs/ControlBar.tsx
@@ -8988,11 +9003,11 @@ function ControlBar(_a2) {
   ]);
   var _a3, _b2, _c2, _d, _e2, _f, _g;
   const layoutContext = useMaybeLayoutContext();
-  const [isChatOpen, setIsChatOpen] = React129.useState(false);
-  const [isShareLinkOpen, setIsShareLinkOpen] = React129.useState(false);
-  const [isUserOpen, setIsUserOpen] = React129.useState(false);
+  const [isChatOpen, setIsChatOpen] = React130.useState(false);
+  const [isShareLinkOpen, setIsShareLinkOpen] = React130.useState(false);
+  const [isUserOpen, setIsUserOpen] = React130.useState(false);
   const { state } = useLayoutContext().widget;
-  React129.useEffect(() => {
+  React130.useEffect(() => {
     var _a4, _b3, _c3, _d2, _e3, _f2;
     if (((_a4 = layoutContext == null ? void 0 : layoutContext.widget.state) == null ? void 0 : _a4.showChat) == "show_chat") {
       setIsChatOpen(((_b3 = layoutContext == null ? void 0 : layoutContext.widget.state) == null ? void 0 : _b3.showChat) == "show_chat");
@@ -9025,24 +9040,24 @@ function ControlBar(_a2) {
     (_f = visibleControls.sharelink) != null ? _f : visibleControls.sharelink = localPermissions.canPublishData && (controls == null ? void 0 : controls.sharelink);
     (_g = visibleControls.users) != null ? _g : visibleControls.users = localPermissions.canPublishData && (controls == null ? void 0 : controls.users);
   }
-  const showIcon = React129.useMemo(
+  const showIcon = React130.useMemo(
     () => variation === "minimal" || variation === "verbose",
     [variation]
   );
-  const showText = React129.useMemo(
+  const showText = React130.useMemo(
     () => variation === "textOnly" || variation === "verbose",
     [variation]
   );
   const browserSupportsScreenSharing = (0, import_components_core58.supportsScreenSharing)();
-  const [isScreenShareEnabled, setIsScreenShareEnabled] = React129.useState(false);
-  const onScreenShareChange = React129.useCallback(
+  const [isScreenShareEnabled, setIsScreenShareEnabled] = React130.useState(false);
+  const onScreenShareChange = React130.useCallback(
     (enabled) => {
       setIsScreenShareEnabled(enabled);
     },
     [setIsScreenShareEnabled]
   );
   const htmlProps = mergeProps2({ className: "lk-control-bar" }, props);
-  React129.useEffect(() => {
+  React130.useEffect(() => {
     const buttons = document.querySelectorAll("[data-lk-source]");
     if (!isScreenShareEnabled && screenShareTracks !== 0) {
       buttons.forEach((button) => {
@@ -9060,7 +9075,7 @@ function ControlBar(_a2) {
       });
     }
   }, [screenShareTracks, isScreenShareEnabled]);
-  React129.useEffect(() => {
+  React130.useEffect(() => {
     const buttons = document.querySelectorAll("[data-lk-source]");
     if (isWhiteboardShared) {
       buttons.forEach((button) => {
@@ -9078,8 +9093,8 @@ function ControlBar(_a2) {
       });
     }
   }, [isWhiteboardShared]);
-  const [sharescreenTitle, setSharescreenTitle] = React129.useState("You can share your screen");
-  React129.useEffect(() => {
+  const [sharescreenTitle, setSharescreenTitle] = React130.useState("You can share your screen");
+  React130.useEffect(() => {
     if (!isScreenShareEnabled && screenShareTracks !== 0) {
       setSharescreenTitle("Someone has shared screen");
     } else if (isWhiteboardShared) {
@@ -9096,15 +9111,15 @@ function ControlBar(_a2) {
     saveAudioInputDeviceId,
     saveVideoInputDeviceId
   } = usePersistentUserChoices({ preventSave: !saveUserChoices2 });
-  const microphoneOnChange = React129.useCallback(
+  const microphoneOnChange = React130.useCallback(
     (enabled, isUserInitiated) => isUserInitiated ? saveAudioInputEnabled(enabled) : null,
     [saveAudioInputEnabled]
   );
-  const cameraOnChange = React129.useCallback(
+  const cameraOnChange = React130.useCallback(
     (enabled, isUserInitiated) => isUserInitiated ? saveVideoInputEnabled(enabled) : null,
     [saveVideoInputEnabled]
   );
-  return /* @__PURE__ */ React129.createElement("div", __spreadValues({}, htmlProps), visibleControls.microphone && /* @__PURE__ */ React129.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React129.createElement(
+  return /* @__PURE__ */ React130.createElement("div", __spreadValues({}, htmlProps), visibleControls.microphone && /* @__PURE__ */ React130.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React130.createElement(
     TrackToggle,
     {
       source: import_livekit_client19.Track.Source.Microphone,
@@ -9112,20 +9127,20 @@ function ControlBar(_a2) {
       onChange: microphoneOnChange
     },
     showText && "Microphone"
-  ), /* @__PURE__ */ React129.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React129.createElement(
+  ), /* @__PURE__ */ React130.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React130.createElement(
     MediaDeviceMenu,
     {
       initialSelection: "default",
       kind: "audioinput",
       onActiveDeviceChange: (_kind, deviceId) => saveAudioInputDeviceId(deviceId != null ? deviceId : "")
     }
-  ))), visibleControls.camera && /* @__PURE__ */ React129.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React129.createElement(TrackToggle, { source: import_livekit_client19.Track.Source.Camera, showIcon, onChange: cameraOnChange }, showText && "Camera"), /* @__PURE__ */ React129.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React129.createElement(
+  ))), visibleControls.camera && /* @__PURE__ */ React130.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React130.createElement(TrackToggle, { source: import_livekit_client19.Track.Source.Camera, showIcon, onChange: cameraOnChange }, showText && "Camera"), /* @__PURE__ */ React130.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React130.createElement(
     MediaDeviceMenu,
     {
       kind: "videoinput",
       onActiveDeviceChange: (_kind, deviceId) => saveVideoInputDeviceId(deviceId != null ? deviceId : "")
     }
-  ))), visibleControls.screenShare && browserSupportsScreenSharing && /* @__PURE__ */ React129.createElement(
+  ))), visibleControls.screenShare && browserSupportsScreenSharing && /* @__PURE__ */ React130.createElement(
     TrackToggle,
     {
       source: import_livekit_client19.Track.Source.ScreenShare,
@@ -9136,7 +9151,7 @@ function ControlBar(_a2) {
       title: sharescreenTitle
     },
     showText && (isScreenShareEnabled ? "Stop screen share" : "Share screen")
-  ), visibleControls.chat && /* @__PURE__ */ React129.createElement(ChatToggle, null, showIcon && /* @__PURE__ */ React129.createElement(ChatIcon_default, null), showText && "Chat", state && state.unreadMessages !== 0 && /* @__PURE__ */ React129.createElement("span", { className: "waiting-count" }, state.unreadMessages < 10 ? state.unreadMessages.toFixed(0) : "9+")), visibleControls.sharelink && /* @__PURE__ */ React129.createElement(ShareLinkToggle, null, showIcon && /* @__PURE__ */ React129.createElement(InviteIcon_default, null), showText && "Invite"), visibleControls.users && /* @__PURE__ */ React129.createElement(UserToggle, null, showIcon && /* @__PURE__ */ React129.createElement(UsersIcon_default, null), showText && "Participants", waitingRoomCount !== 0 && /* @__PURE__ */ React129.createElement("span", { className: "waiting-count" }, waitingRoomCount)), showExtraSettingMenu && /* @__PURE__ */ React129.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React129.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React129.createElement(ExtraOptionMenu, { blurEnabled: false, shareScreenTracks: screenShareTracks }))), visibleControls.endForAll ? /* @__PURE__ */ React129.createElement("div", { className: "tl-leave lk-button-group" }, /* @__PURE__ */ React129.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React129.createElement(
+  ), visibleControls.chat && /* @__PURE__ */ React130.createElement(ChatToggle, null, showIcon && /* @__PURE__ */ React130.createElement(ChatIcon_default, null), showText && "Chat", state && state.unreadMessages !== 0 && /* @__PURE__ */ React130.createElement("span", { className: "waiting-count" }, state.unreadMessages < 10 ? state.unreadMessages.toFixed(0) : "9+")), visibleControls.sharelink && /* @__PURE__ */ React130.createElement(ShareLinkToggle, null, showIcon && /* @__PURE__ */ React130.createElement(InviteIcon_default, null), showText && "Invite"), visibleControls.users && /* @__PURE__ */ React130.createElement(UserToggle, null, showIcon && /* @__PURE__ */ React130.createElement(UsersIcon_default, null), showText && "Participants", waitingRoomCount !== 0 && /* @__PURE__ */ React130.createElement("span", { className: "waiting-count" }, waitingRoomCount)), showExtraSettingMenu && /* @__PURE__ */ React130.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React130.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React130.createElement(ExtraOptionMenu, { blurEnabled: false, shareScreenTracks: screenShareTracks }))), visibleControls.endForAll ? /* @__PURE__ */ React130.createElement("div", { className: "tl-leave lk-button-group" }, /* @__PURE__ */ React130.createElement("div", { className: "tl-leave-btn lk-button-group-menu" }, /* @__PURE__ */ React130.createElement(
     HostEndMeetingMenu,
     {
       leave: visibleControls.leave,
@@ -9145,14 +9160,14 @@ function ControlBar(_a2) {
       showIcon,
       showText
     }
-  ))) : /* @__PURE__ */ React129.createElement(DisconnectButton, null, showIcon && /* @__PURE__ */ React129.createElement(LeaveIcon_default, null), showText && visibleControls.leaveButton), visibleControls.settings && /* @__PURE__ */ React129.createElement(SettingsMenuToggle, null, showIcon && /* @__PURE__ */ React129.createElement(GearIcon_default, null), showText && "Settings"), /* @__PURE__ */ React129.createElement(StartMediaButton, null));
+  ))) : /* @__PURE__ */ React130.createElement(DisconnectButton, null, showIcon && /* @__PURE__ */ React130.createElement(LeaveIcon_default, null), showText && visibleControls.leaveButton), visibleControls.settings && /* @__PURE__ */ React130.createElement(SettingsMenuToggle, null, showIcon && /* @__PURE__ */ React130.createElement(GearIcon_default, null), showText && "Settings"), /* @__PURE__ */ React130.createElement(StartMediaButton, null));
 }
 
 // src/prefabs/Users.tsx
-var React132 = __toESM(require("react"));
+var React133 = __toESM(require("react"));
 
 // src/components/participant/ParticipantList.tsx
-var React130 = __toESM(require("react"));
+var React131 = __toESM(require("react"));
 var import_livekit_client20 = require("livekit-client");
 var ParticipantList = (_a2) => {
   var _b = _a2, {
@@ -9179,7 +9194,7 @@ var ParticipantList = (_a2) => {
     onParticipantClick,
     trackRef: trackReference
   });
-  return /* @__PURE__ */ React130.createElement("div", __spreadValues({ style: { position: "relative" } }, elementProps), /* @__PURE__ */ React130.createElement(ParticipantContextIfNeeded, { participant: p2 }, children != null ? children : /* @__PURE__ */ React130.createElement(React130.Fragment, null, /* @__PURE__ */ React130.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React130.createElement("div", { className: "lk-participant-metadata-item" }, /* @__PURE__ */ React130.createElement(ParticipantName, null)), /* @__PURE__ */ React130.createElement("div", { className: "display-flex" }, /* @__PURE__ */ React130.createElement(
+  return /* @__PURE__ */ React131.createElement("div", __spreadValues({ style: { position: "relative" } }, elementProps), /* @__PURE__ */ React131.createElement(ParticipantContextIfNeeded, { participant: p2 }, children != null ? children : /* @__PURE__ */ React131.createElement(React131.Fragment, null, /* @__PURE__ */ React131.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React131.createElement("div", { className: "lk-participant-metadata-item" }, /* @__PURE__ */ React131.createElement(ParticipantName, null)), /* @__PURE__ */ React131.createElement("div", { className: "display-flex" }, /* @__PURE__ */ React131.createElement(
     TrackMutedIndicator,
     {
       trackRef: {
@@ -9188,7 +9203,7 @@ var ParticipantList = (_a2) => {
       },
       show: "always"
     }
-  ), /* @__PURE__ */ React130.createElement(
+  ), /* @__PURE__ */ React131.createElement(
     TrackMutedIndicator,
     {
       trackRef: {
@@ -9258,10 +9273,10 @@ var ToggleSwitch = ({
 // src/prefabs/Users.tsx
 function Users(_a2) {
   var _b = _a2, { onWaitingRoomChange } = _b, props = __objRest(_b, ["onWaitingRoomChange"]);
-  const ulRef = React132.useRef(null);
+  const ulRef = React133.useRef(null);
   const participants = useParticipants();
-  const [waitingRoom, setWaitingRoom] = React132.useState([]);
-  const [toggleWaiting, setToggleWaiting] = React132.useState(true);
+  const [waitingRoom, setWaitingRoom] = React133.useState([]);
+  const [toggleWaiting, setToggleWaiting] = React133.useState(true);
   const room = useRoomContext();
   function getWaitingRoomState() {
     return __async(this, null, function* () {
@@ -9307,24 +9322,24 @@ function Users(_a2) {
       }));
     });
   }
-  React132.useEffect(() => {
+  React133.useEffect(() => {
     if (room.name) {
       usersList();
     }
   }, [room.name]);
-  React132.useEffect(() => {
+  React133.useEffect(() => {
     const interval = setInterval(() => {
       usersList();
     }, 2e3);
     return () => clearInterval(interval);
   }, []);
-  React132.useEffect(() => {
+  React133.useEffect(() => {
     getWaitingRoomState();
   }, []);
-  React132.useEffect(() => {
+  React133.useEffect(() => {
     onWaitingRoomChange(waitingRoom.length);
   }, [onWaitingRoomChange, waitingRoom]);
-  React132.useEffect(() => {
+  React133.useEffect(() => {
     var _a3;
     if (ulRef) {
       (_a3 = ulRef.current) == null ? void 0 : _a3.scrollTo({ top: ulRef.current.scrollHeight });
@@ -9388,7 +9403,7 @@ function Users(_a2) {
       }
     }));
   };
-  return /* @__PURE__ */ React132.createElement("div", __spreadProps(__spreadValues({}, props), { className: "lk-chat lk-users" }), /* @__PURE__ */ React132.createElement("div", { className: "lk-waitinroom" }, /* @__PURE__ */ React132.createElement("div", { className: "tl-waitingroom-heading" }, /* @__PURE__ */ React132.createElement("h3", null, "Waiting Room"), /* @__PURE__ */ React132.createElement("div", { className: "tl-toggle-switch" }, /* @__PURE__ */ React132.createElement(
+  return /* @__PURE__ */ React133.createElement("div", __spreadProps(__spreadValues({}, props), { className: "lk-chat lk-users" }), /* @__PURE__ */ React133.createElement("div", { className: "lk-waitinroom" }, /* @__PURE__ */ React133.createElement("div", { className: "tl-waitingroom-heading" }, /* @__PURE__ */ React133.createElement("h3", null, "Waiting Room"), /* @__PURE__ */ React133.createElement("div", { className: "tl-toggle-switch" }, /* @__PURE__ */ React133.createElement(
     ToggleSwitch,
     {
       id: "toggleSwitch",
@@ -9399,44 +9414,44 @@ function Users(_a2) {
       small: false,
       disabled: false
     }
-  )), toggleWaiting && waitingRoom.length ? /* @__PURE__ */ React132.createElement(
+  )), toggleWaiting && waitingRoom.length ? /* @__PURE__ */ React133.createElement(
     "button",
     {
       className: "lk-button tl-info tl-approve",
       onClick: () => approveAll()
     },
     "Approve All"
-  ) : ""), waitingRoom.map((item) => /* @__PURE__ */ React132.createElement("div", { className: "tl-participant-li", key: item.username }, /* @__PURE__ */ React132.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React132.createElement("div", { className: "lk-participant-metadata-item" }, item.username), /* @__PURE__ */ React132.createElement("div", { className: "display-flex" }, /* @__PURE__ */ React132.createElement(
+  ) : ""), waitingRoom.map((item) => /* @__PURE__ */ React133.createElement("div", { className: "tl-participant-li", key: item.username }, /* @__PURE__ */ React133.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React133.createElement("div", { className: "lk-participant-metadata-item" }, item.username), /* @__PURE__ */ React133.createElement("div", { className: "display-flex" }, /* @__PURE__ */ React133.createElement(
     "button",
     {
       className: "lk-button lk-waiting-room lk-success",
       onClick: () => admitUser(item.identity, "accepted")
     },
-    /* @__PURE__ */ React132.createElement(ApproveIcon_default, null)
-  ), /* @__PURE__ */ React132.createElement(
+    /* @__PURE__ */ React133.createElement(ApproveIcon_default, null)
+  ), /* @__PURE__ */ React133.createElement(
     "button",
     {
       className: "lk-button lk-waiting-room lk-danger",
       onClick: () => admitUser(item.identity, "rejected")
     },
-    /* @__PURE__ */ React132.createElement(RejectIcon_default, null)
-  )))))), /* @__PURE__ */ React132.createElement("div", { className: "lk-participants" }, /* @__PURE__ */ React132.createElement("div", { className: "tl-participants-heading" }, /* @__PURE__ */ React132.createElement("h3", null, "Participants  ", /* @__PURE__ */ React132.createElement("span", null, "(", participants.length, ")"))), (participants == null ? void 0 : participants.length) ? /* @__PURE__ */ React132.createElement(ParticipantLoop, { participants }, /* @__PURE__ */ React132.createElement(ParticipantList, null)) : /* @__PURE__ */ React132.createElement("div", null, /* @__PURE__ */ React132.createElement("h5", null, "No Participants"))));
+    /* @__PURE__ */ React133.createElement(RejectIcon_default, null)
+  )))))), /* @__PURE__ */ React133.createElement("div", { className: "lk-participants" }, /* @__PURE__ */ React133.createElement("div", { className: "tl-participants-heading" }, /* @__PURE__ */ React133.createElement("h3", null, "Participants  ", /* @__PURE__ */ React133.createElement("span", null, "(", participants.length, ")"))), (participants == null ? void 0 : participants.length) ? /* @__PURE__ */ React133.createElement(ParticipantLoop, { participants }, /* @__PURE__ */ React133.createElement(ParticipantList, null)) : /* @__PURE__ */ React133.createElement("div", null, /* @__PURE__ */ React133.createElement("h5", null, "No Participants"))));
 }
 
 // src/prefabs/ShareLink.tsx
-var React135 = __toESM(require("react"));
+var React136 = __toESM(require("react"));
 var import_components_core59 = require("@livekit/components-core");
 
 // src/prefabs/InviteViaPhone.tsx
-var React133 = __toESM(require("react"));
+var React134 = __toESM(require("react"));
 function InviteViaPhone(_a2) {
   var _b = _a2, { link, room_name, participant, isCallScreen } = _b, props = __objRest(_b, ["link", "room_name", "participant", "isCallScreen"]);
-  const selectRef = React133.useRef(null);
-  const [defaultValue, setDefaultValue] = React133.useState("+1");
-  const inputRef = React133.useRef(null);
-  const [showToast, setShowToast] = React133.useState(false);
-  const [countries, setCountries] = React133.useState([]);
-  React133.useEffect(() => {
+  const selectRef = React134.useRef(null);
+  const [defaultValue, setDefaultValue] = React134.useState("+1");
+  const inputRef = React134.useRef(null);
+  const [showToast, setShowToast] = React134.useState(false);
+  const [countries, setCountries] = React134.useState([]);
+  React134.useEffect(() => {
     fetch(`/country-list.json`).then((res) => __async(this, null, function* () {
       setCountries(yield res.json());
     }));
@@ -9504,7 +9519,7 @@ function InviteViaPhone(_a2) {
       }
     });
   }
-  React133.useEffect(() => {
+  React134.useEffect(() => {
     if (showToast) {
       setTimeout(() => {
         setShowToast(false);
@@ -9516,15 +9531,15 @@ function InviteViaPhone(_a2) {
       setDefaultValue(selectRef.current.value);
     }
   }
-  return /* @__PURE__ */ React133.createElement("div", __spreadValues({}, props), showToast ? /* @__PURE__ */ React133.createElement(Toast, { className: "lk-toast-connection-state" }, "Invitation Sent") : /* @__PURE__ */ React133.createElement(React133.Fragment, null), /* @__PURE__ */ React133.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React133.createElement("select", { className: "lk-form-control lk-chat-form-input tl-select", ref: selectRef, value: defaultValue, onChange: changeValue }, countries.map((country) => /* @__PURE__ */ React133.createElement("option", { value: country.dial_code }, country.dial_code, " - ", country.name))), /* @__PURE__ */ React133.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "tel", ref: inputRef, placeholder: "Enter Mobile Number", pattern: "[0-9]+", title: "Enter valid mobile number", maxLength: 10, minLength: 10 }), /* @__PURE__ */ React133.createElement("button", { type: "submit", className: "lk-button lk-chat-form-button tl-invite-button" }, "Invite")));
+  return /* @__PURE__ */ React134.createElement("div", __spreadValues({}, props), showToast ? /* @__PURE__ */ React134.createElement(Toast, { className: "lk-toast-connection-state" }, "Invitation Sent") : /* @__PURE__ */ React134.createElement(React134.Fragment, null), /* @__PURE__ */ React134.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React134.createElement("select", { className: "lk-form-control lk-chat-form-input tl-select", ref: selectRef, value: defaultValue, onChange: changeValue }, countries.map((country) => /* @__PURE__ */ React134.createElement("option", { value: country.dial_code }, country.dial_code, " - ", country.name))), /* @__PURE__ */ React134.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "tel", ref: inputRef, placeholder: "Enter Mobile Number", pattern: "[0-9]+", title: "Enter valid mobile number", maxLength: 10, minLength: 10 }), /* @__PURE__ */ React134.createElement("button", { type: "submit", className: "lk-button lk-chat-form-button tl-invite-button" }, "Invite")));
 }
 
 // src/prefabs/InviteViaEmail.tsx
-var React134 = __toESM(require("react"));
+var React135 = __toESM(require("react"));
 function InviteViaEmail(_a2) {
   var _b = _a2, { link, room_name, participant, isCallScreen } = _b, props = __objRest(_b, ["link", "room_name", "participant", "isCallScreen"]);
-  const inputRef = React134.useRef(null);
-  const [showToast, setShowToast] = React134.useState(false);
+  const inputRef = React135.useRef(null);
+  const [showToast, setShowToast] = React135.useState(false);
   function setEmpty() {
     if (inputRef.current) {
       inputRef.current.value = "";
@@ -9586,14 +9601,14 @@ function InviteViaEmail(_a2) {
       }
     });
   }
-  React134.useEffect(() => {
+  React135.useEffect(() => {
     if (showToast) {
       setTimeout(() => {
         setShowToast(false);
       }, 3e3);
     }
   }, [showToast]);
-  return /* @__PURE__ */ React134.createElement("div", __spreadValues({}, props), showToast ? /* @__PURE__ */ React134.createElement(Toast, { className: "lk-toast-connection-state" }, "Invitation Sent") : /* @__PURE__ */ React134.createElement(React134.Fragment, null), /* @__PURE__ */ React134.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React134.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "email", ref: inputRef, placeholder: "Enter Email" }), /* @__PURE__ */ React134.createElement("button", { type: "submit", className: "lk-button lk-chat-form-button tl-invite-button" }, "Invite")));
+  return /* @__PURE__ */ React135.createElement("div", __spreadValues({}, props), showToast ? /* @__PURE__ */ React135.createElement(Toast, { className: "lk-toast-connection-state" }, "Invitation Sent") : /* @__PURE__ */ React135.createElement(React135.Fragment, null), /* @__PURE__ */ React135.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React135.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "email", ref: inputRef, placeholder: "Enter Email" }), /* @__PURE__ */ React135.createElement("button", { type: "submit", className: "lk-button lk-chat-form-button tl-invite-button" }, "Invite")));
 }
 
 // src/prefabs/ShareLink.tsx
@@ -9611,13 +9626,13 @@ function getHostUrl() {
 }
 function ShareLink(_a2) {
   var _b = _a2, { isCallScreen } = _b, props = __objRest(_b, ["isCallScreen"]);
-  const inputRef = React135.useRef(null);
-  const ulRef = React135.useRef(null);
+  const inputRef = React136.useRef(null);
+  const ulRef = React136.useRef(null);
   const { link } = useGetLink();
-  const [users, setUsers] = React135.useState([]);
-  const [searched, setSearched] = React135.useState([]);
-  const [showToast, setShowToast] = React135.useState(false);
-  const [inviteVia, setInviteVia] = React135.useState("chat");
+  const [users, setUsers] = React136.useState([]);
+  const [searched, setSearched] = React136.useState([]);
+  const [showToast, setShowToast] = React136.useState(false);
+  const [inviteVia, setInviteVia] = React136.useState("chat");
   function showInviteVia(type) {
     setInviteVia(type);
   }
@@ -9668,7 +9683,7 @@ function ShareLink(_a2) {
       }));
     });
   }
-  React135.useEffect(() => {
+  React136.useEffect(() => {
     if (room.name) {
       getUsers();
     }
@@ -9734,7 +9749,7 @@ function ShareLink(_a2) {
   }
   const { localParticipant } = useLocalParticipant();
   const p2 = useEnsureParticipant(localParticipant);
-  const { infoObserver } = React135.useMemo(() => {
+  const { infoObserver } = React136.useMemo(() => {
     return (0, import_components_core59.setupParticipantName)(p2);
   }, [p2]);
   const { metadata } = useObservableState(infoObserver, {
@@ -9743,13 +9758,13 @@ function ShareLink(_a2) {
     metadata: p2.metadata
   });
   const meta = metadata ? JSON.parse(metadata) : {};
-  const [showInviteUser, setShowInviteUser] = React135.useState(true);
-  React135.useEffect(() => {
+  const [showInviteUser, setShowInviteUser] = React136.useState(true);
+  React136.useEffect(() => {
     if (meta && meta.host && meta.limited) {
       setShowInviteUser(false);
     }
   }, [meta]);
-  React135.useEffect(() => {
+  React136.useEffect(() => {
     const pmeta = p2.metadata ? JSON.parse(p2.metadata) : {};
     if (pmeta && pmeta.host && meta.limited) {
       setShowInviteUser(false);
@@ -9761,23 +9776,23 @@ function ShareLink(_a2) {
       setShowToast(true);
     });
   }
-  React135.useEffect(() => {
+  React136.useEffect(() => {
     if (showToast) {
       setTimeout(() => {
         setShowToast(false);
       }, 3e3);
     }
   }, [showToast]);
-  React135.useEffect(() => {
+  React136.useEffect(() => {
     var _a3;
     if (ulRef) {
       (_a3 = ulRef.current) == null ? void 0 : _a3.scrollTo({ top: ulRef.current.scrollHeight });
     }
   }, [ulRef, users]);
-  React135.useEffect(() => {
+  React136.useEffect(() => {
     setSearched(users);
   }, [inviteVia]);
-  return /* @__PURE__ */ React135.createElement("div", __spreadProps(__spreadValues({}, props), { className: "lk-chat lk-sharelink" }), !isCallScreen ? /* @__PURE__ */ React135.createElement("form", { className: "lk-chat-form" }, /* @__PURE__ */ React135.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "text", value: link, readOnly: true }), /* @__PURE__ */ React135.createElement("button", { type: "button", className: "lk-button lk-chat-form-button", onClick: handleCopy }, "Copy")) : /* @__PURE__ */ React135.createElement(React135.Fragment, null), showToast ? /* @__PURE__ */ React135.createElement(Toast, { className: "lk-toast-connection-state" }, "Copied") : /* @__PURE__ */ React135.createElement(React135.Fragment, null), /* @__PURE__ */ React135.createElement("div", { className: "tl-invite-buttons" }, /* @__PURE__ */ React135.createElement("button", { type: "button", className: "lk-button lk-chat-form-button", "aria-pressed": inviteVia === "chat", onClick: () => showInviteVia("chat") }, "TL-Chat"), /* @__PURE__ */ React135.createElement("button", { type: "button", className: "lk-button lk-chat-form-button", "aria-pressed": inviteVia === "phone", onClick: () => showInviteVia("phone") }, "Phone"), /* @__PURE__ */ React135.createElement("button", { type: "button", className: "lk-button lk-chat-form-button", "aria-pressed": inviteVia === "email", onClick: () => showInviteVia("email") }, "Email")), inviteVia === "phone" ? /* @__PURE__ */ React135.createElement(InviteViaPhone, { link, room_name: room.name, participant: participantName, isCallScreen }) : /* @__PURE__ */ React135.createElement(React135.Fragment, null), inviteVia === "email" ? /* @__PURE__ */ React135.createElement(InviteViaEmail, { link, room_name: room.name, participant: participantName, isCallScreen }) : /* @__PURE__ */ React135.createElement(React135.Fragment, null), inviteVia === "chat" ? /* @__PURE__ */ React135.createElement(React135.Fragment, null, showInviteUser ? /* @__PURE__ */ React135.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React135.createElement(
+  return /* @__PURE__ */ React136.createElement("div", __spreadProps(__spreadValues({}, props), { className: "lk-chat lk-sharelink" }), !isCallScreen ? /* @__PURE__ */ React136.createElement("form", { className: "lk-chat-form" }, /* @__PURE__ */ React136.createElement("input", { className: "lk-form-control lk-chat-form-input", type: "text", value: link, readOnly: true }), /* @__PURE__ */ React136.createElement("button", { type: "button", className: "lk-button lk-chat-form-button", onClick: handleCopy }, "Copy")) : /* @__PURE__ */ React136.createElement(React136.Fragment, null), showToast ? /* @__PURE__ */ React136.createElement(Toast, { className: "lk-toast-connection-state" }, "Copied") : /* @__PURE__ */ React136.createElement(React136.Fragment, null), /* @__PURE__ */ React136.createElement("div", { className: "tl-invite-buttons" }, /* @__PURE__ */ React136.createElement("button", { type: "button", className: "lk-button lk-chat-form-button", "aria-pressed": inviteVia === "chat", onClick: () => showInviteVia("chat") }, "TL-Chat"), /* @__PURE__ */ React136.createElement("button", { type: "button", className: "lk-button lk-chat-form-button", "aria-pressed": inviteVia === "phone", onClick: () => showInviteVia("phone") }, "Phone"), /* @__PURE__ */ React136.createElement("button", { type: "button", className: "lk-button lk-chat-form-button", "aria-pressed": inviteVia === "email", onClick: () => showInviteVia("email") }, "Email")), inviteVia === "phone" ? /* @__PURE__ */ React136.createElement(InviteViaPhone, { link, room_name: room.name, participant: participantName, isCallScreen }) : /* @__PURE__ */ React136.createElement(React136.Fragment, null), inviteVia === "email" ? /* @__PURE__ */ React136.createElement(InviteViaEmail, { link, room_name: room.name, participant: participantName, isCallScreen }) : /* @__PURE__ */ React136.createElement(React136.Fragment, null), inviteVia === "chat" ? /* @__PURE__ */ React136.createElement(React136.Fragment, null, showInviteUser ? /* @__PURE__ */ React136.createElement("form", { className: "lk-chat-form", onSubmit: handleSubmit }, /* @__PURE__ */ React136.createElement(
     "input",
     {
       className: "lk-form-control lk-chat-form-input",
@@ -9786,9 +9801,9 @@ function ShareLink(_a2) {
       placeholder: "Search User...",
       onChange: handleSubmit
     }
-  )) : /* @__PURE__ */ React135.createElement(React135.Fragment, null), showInviteUser && searched.length > 0 ? /* @__PURE__ */ React135.createElement("ul", { className: "lk-list lk-chat-messages", ref: ulRef }, searched.map((user, index) => {
-    return /* @__PURE__ */ React135.createElement("li", { key: index, className: "lk-chat-entry" }, /* @__PURE__ */ React135.createElement("div", null, /* @__PURE__ */ React135.createElement("span", { className: "lk-message-body" }, user.full_name, " ", user.ext_no ? ` - ${user.ext_no}` : ""), /* @__PURE__ */ React135.createElement("span", { className: "lk-message-body lk-message-text" }, user.designation)), /* @__PURE__ */ React135.createElement("button", { type: "button", onClick: () => handleInvite(user), className: "lk-button lk-chat-form-button" + (user.invited ? " invited" : "") }, user.invited ? "Invited" : "Invite"));
-  })) : "") : /* @__PURE__ */ React135.createElement(React135.Fragment, null));
+  )) : /* @__PURE__ */ React136.createElement(React136.Fragment, null), showInviteUser && searched.length > 0 ? /* @__PURE__ */ React136.createElement("ul", { className: "lk-list lk-chat-messages", ref: ulRef }, searched.map((user, index) => {
+    return /* @__PURE__ */ React136.createElement("li", { key: index, className: "lk-chat-entry" }, /* @__PURE__ */ React136.createElement("div", null, /* @__PURE__ */ React136.createElement("span", { className: "lk-message-body" }, user.full_name, " ", user.ext_no ? ` - ${user.ext_no}` : ""), /* @__PURE__ */ React136.createElement("span", { className: "lk-message-body lk-message-text" }, user.designation)), /* @__PURE__ */ React136.createElement("button", { type: "button", onClick: () => handleInvite(user), className: "lk-button lk-chat-form-button" + (user.invited ? " invited" : "") }, user.invited ? "Invited" : "Invite"));
+  })) : "") : /* @__PURE__ */ React136.createElement(React136.Fragment, null));
 }
 
 // src/prefabs/VideoConference.tsx
@@ -9815,15 +9830,15 @@ function VideoConference(_a2) {
     "showExtraSettingMenu"
   ]);
   var _a3, _b2;
-  const [widgetState, setWidgetState] = React136.useState({
+  const [widgetState, setWidgetState] = React137.useState({
     showChat: null,
     unreadMessages: 0,
     showSettings: false
   });
-  const lastAutoFocusedScreenShareTrack = React136.useRef(null);
+  const lastAutoFocusedScreenShareTrack = React137.useRef(null);
   const { localParticipant } = useLocalParticipant();
   const p2 = useEnsureParticipant(localParticipant);
-  const { infoObserver } = React136.useMemo(() => {
+  const { infoObserver } = React137.useMemo(() => {
     return (0, import_components_core60.setupParticipantName)(p2);
   }, [p2]);
   const { metadata } = useObservableState(infoObserver, {
@@ -9831,12 +9846,12 @@ function VideoConference(_a2) {
     identity: p2.identity,
     metadata: p2.metadata
   });
-  const [showShareButton, setShowShareButton] = React136.useState(showShareLink);
-  const [showParticipantButton, setShowParticipantButton] = React136.useState(showParticipant);
-  const [leaveButton, setLeaveButton] = React136.useState("Leave");
-  const [endForAll, setEndForAll] = React136.useState(false);
+  const [showShareButton, setShowShareButton] = React137.useState(showShareLink);
+  const [showParticipantButton, setShowParticipantButton] = React137.useState(showParticipant);
+  const [leaveButton, setLeaveButton] = React137.useState("Leave");
+  const [endForAll, setEndForAll] = React137.useState(false);
   const meta = metadata ? JSON.parse(metadata) : {};
-  const [waitingRoomCount, setWaitingRoomCount] = React136.useState(0);
+  const [waitingRoomCount, setWaitingRoomCount] = React137.useState(0);
   const tracks = useTracks(
     [
       { source: import_livekit_client21.Track.Source.Camera, withPlaceholder: true },
@@ -9862,7 +9877,7 @@ function VideoConference(_a2) {
   };
   const focusTrack = (_a3 = usePinnedTracks(layoutContext)) == null ? void 0 : _a3[0];
   const carouselTracks = tracks.filter((track) => !(0, import_components_core60.isEqualTrackRef)(track, focusTrack));
-  React136.useEffect(() => {
+  React137.useEffect(() => {
     if (meta && meta.host) {
       localStorage.setItem("host", meta.host);
       if (meta.limited) {
@@ -9874,7 +9889,7 @@ function VideoConference(_a2) {
       setEndForAll("End Meeting for All");
     }
   }, [meta]);
-  React136.useEffect(() => {
+  React137.useEffect(() => {
     const pmeta = p2.metadata ? JSON.parse(p2.metadata) : {};
     if (pmeta && pmeta.host) {
       localStorage.setItem("host", meta.host);
@@ -9887,7 +9902,7 @@ function VideoConference(_a2) {
       setEndForAll("End Meeting for All");
     }
   }, [p2]);
-  React136.useEffect(() => {
+  React137.useEffect(() => {
     var _a4, _b3, _c2, _d;
     if (screenShareTracks.some((track) => track.publication.isSubscribed) && lastAutoFocusedScreenShareTrack.current === null) {
       import_components_core60.log.debug("Auto set screen share focus:", { newScreenShareTrack: screenShareTracks[0] });
@@ -9919,7 +9934,7 @@ function VideoConference(_a2) {
       (_d = (_c2 = layoutContext.pin).dispatch) == null ? void 0 : _d.call(_c2, { msg: "clear_pin" });
     }
   };
-  React136.useEffect(() => {
+  React137.useEffect(() => {
     var _a4, _b3, _c2, _d, _e2, _f, _g, _h;
     if (isWhiteboardShared) {
       (_b3 = (_a4 = layoutContext.pin).dispatch) == null ? void 0 : _b3.call(_a4, { msg: "set_pin", trackReference: whiteboardTrack });
@@ -9929,7 +9944,7 @@ function VideoConference(_a2) {
       (_h = (_g = layoutContext.whiteboard).dispatch) == null ? void 0 : _h.call(_g, { msg: "hide_whiteboard" });
     }
   }, [isWhiteboardShared]);
-  const [isWhiteboard, setIsWhiteboard] = React136.useState(false);
+  const [isWhiteboard, setIsWhiteboard] = React137.useState(false);
   room.on(import_livekit_client21.RoomEvent.DataReceived, (payload) => {
     const strData = decoder.decode(payload);
     const str = JSON.parse(strData);
@@ -9940,14 +9955,14 @@ function VideoConference(_a2) {
     }
   });
   useWarnAboutMissingStyles();
-  return /* @__PURE__ */ React136.createElement("div", __spreadValues({ className: "lk-video-conference" }, props), (0, import_components_core60.isWeb)() && /* @__PURE__ */ React136.createElement(
+  return /* @__PURE__ */ React137.createElement("div", __spreadValues({ className: "lk-video-conference" }, props), (0, import_components_core60.isWeb)() && /* @__PURE__ */ React137.createElement(
     LayoutContextProvider,
     {
       value: layoutContext,
       onWidgetChange: widgetUpdate,
       onWhiteboardChange: whiteboardUpdate
     },
-    /* @__PURE__ */ React136.createElement("div", { className: "lk-video-conference-inner" }, !focusTrack ? /* @__PURE__ */ React136.createElement("div", { className: "lk-grid-layout-wrapper" }, /* @__PURE__ */ React136.createElement(GridLayout, { tracks }, /* @__PURE__ */ React136.createElement(ParticipantTile, null))) : /* @__PURE__ */ React136.createElement("div", { className: "lk-focus-layout-wrapper" }, /* @__PURE__ */ React136.createElement(FocusLayoutContainer, null, /* @__PURE__ */ React136.createElement(CarouselLayout, { tracks: carouselTracks }, /* @__PURE__ */ React136.createElement(ParticipantTile, null)), focusTrack && /* @__PURE__ */ React136.createElement(FocusLayout, { trackRef: focusTrack }))), /* @__PURE__ */ React136.createElement(
+    /* @__PURE__ */ React137.createElement("div", { className: "lk-video-conference-inner" }, !focusTrack ? /* @__PURE__ */ React137.createElement("div", { className: "lk-grid-layout-wrapper" }, /* @__PURE__ */ React137.createElement(GridLayout, { tracks }, /* @__PURE__ */ React137.createElement(ParticipantTile, null))) : /* @__PURE__ */ React137.createElement("div", { className: "lk-focus-layout-wrapper" }, /* @__PURE__ */ React137.createElement(FocusLayoutContainer, null, /* @__PURE__ */ React137.createElement(CarouselLayout, { tracks: carouselTracks }, /* @__PURE__ */ React137.createElement(ParticipantTile, null)), focusTrack && /* @__PURE__ */ React137.createElement(FocusLayout, { trackRef: focusTrack }))), /* @__PURE__ */ React137.createElement(
       ControlBar,
       {
         controls: {
@@ -9964,7 +9979,7 @@ function VideoConference(_a2) {
         showExtraSettingMenu
       }
     )),
-    showShareButton ? /* @__PURE__ */ React136.createElement(
+    showShareButton ? /* @__PURE__ */ React137.createElement(
       ShareLink,
       {
         style: {
@@ -9972,15 +9987,15 @@ function VideoConference(_a2) {
         },
         isCallScreen
       }
-    ) : /* @__PURE__ */ React136.createElement(React136.Fragment, null),
-    showParticipantButton ? /* @__PURE__ */ React136.createElement(
+    ) : /* @__PURE__ */ React137.createElement(React137.Fragment, null),
+    showParticipantButton ? /* @__PURE__ */ React137.createElement(
       Users,
       {
         style: { display: widgetState.showChat == "show_users" ? "block" : "none" },
         onWaitingRoomChange: updateCount
       }
-    ) : /* @__PURE__ */ React136.createElement(React136.Fragment, null),
-    /* @__PURE__ */ React136.createElement(
+    ) : /* @__PURE__ */ React137.createElement(React137.Fragment, null),
+    /* @__PURE__ */ React137.createElement(
       Chat,
       {
         style: { display: widgetState.showChat == "show_chat" ? "flex" : "none" },
@@ -9989,35 +10004,35 @@ function VideoConference(_a2) {
         messageDecoder: chatMessageDecoder
       }
     ),
-    SettingsComponent && /* @__PURE__ */ React136.createElement(
+    SettingsComponent && /* @__PURE__ */ React137.createElement(
       "div",
       {
         className: "lk-settings-menu-modal",
         style: { display: widgetState.showSettings ? "block" : "none" }
       },
-      /* @__PURE__ */ React136.createElement(SettingsComponent, null)
+      /* @__PURE__ */ React137.createElement(SettingsComponent, null)
     )
-  ), /* @__PURE__ */ React136.createElement(RoomAudioRenderer, null), /* @__PURE__ */ React136.createElement(ConnectionStateToast, null));
+  ), /* @__PURE__ */ React137.createElement(RoomAudioRenderer, null), /* @__PURE__ */ React137.createElement(ConnectionStateToast, null));
 }
 
 // src/prefabs/AudioConference.tsx
-var React137 = __toESM(require("react"));
+var React138 = __toESM(require("react"));
 var import_livekit_client22 = require("livekit-client");
 function AudioConference(_a2) {
   var props = __objRest(_a2, []);
-  const [widgetState, setWidgetState] = React137.useState({
+  const [widgetState, setWidgetState] = React138.useState({
     showChat: null,
     unreadMessages: 0
   });
   const audioTracks = useTracks([import_livekit_client22.Track.Source.Microphone]);
   useWarnAboutMissingStyles();
-  return /* @__PURE__ */ React137.createElement(LayoutContextProvider, { onWidgetChange: setWidgetState }, /* @__PURE__ */ React137.createElement("div", __spreadValues({ className: "lk-audio-conference" }, props), /* @__PURE__ */ React137.createElement("div", { className: "lk-audio-conference-stage" }, /* @__PURE__ */ React137.createElement(TrackLoop, { tracks: audioTracks }, /* @__PURE__ */ React137.createElement(ParticipantAudioTile, null))), /* @__PURE__ */ React137.createElement(
+  return /* @__PURE__ */ React138.createElement(LayoutContextProvider, { onWidgetChange: setWidgetState }, /* @__PURE__ */ React138.createElement("div", __spreadValues({ className: "lk-audio-conference" }, props), /* @__PURE__ */ React138.createElement("div", { className: "lk-audio-conference-stage" }, /* @__PURE__ */ React138.createElement(TrackLoop, { tracks: audioTracks }, /* @__PURE__ */ React138.createElement(ParticipantAudioTile, null))), /* @__PURE__ */ React138.createElement(
     ControlBar,
     {
       controls: { microphone: true, screenShare: false, camera: false, chat: true },
       waitingRoomCount: 0
     }
-  ), widgetState.showChat == "show_chat" && /* @__PURE__ */ React137.createElement(Chat, null)));
+  ), widgetState.showChat == "show_chat" && /* @__PURE__ */ React138.createElement(Chat, null)));
 }
 
 // src/index.ts
@@ -10042,6 +10057,7 @@ var import_components_core61 = require("@livekit/components-core");
   ConnectionStateToast,
   ControlBar,
   DisconnectButton,
+  ExtendScreen,
   FocusLayout,
   FocusLayoutContainer,
   FocusToggle,
