@@ -2097,7 +2097,7 @@ var FocusToggle = /* @__PURE__ */ React76.forwardRef(
 // src/components/controls/ExtendScreen.tsx
 import * as React77 from "react";
 var ExtendScreen = /* @__PURE__ */ React77.forwardRef(
-  function FocusToggle3(_a, ref) {
+  function ExtendScreen2(_a, ref) {
     var _b = _a, { trackRef } = _b, props = __objRest(_b, ["trackRef"]);
     const trackRefFromContext = useMaybeTrackRefContext();
     const { mergedProps, inFocus } = useFocusToggle({

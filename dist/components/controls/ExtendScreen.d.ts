@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { FocusToggleProps } from './FocusToggle';
 /**
- * The `FocusToggle` puts the `ParticipantTile` in focus or removes it from focus.
+ * The `ExtendScreen` puts the `ParticipantTile` in full width or removes it from full width.
  * @remarks
  * This component needs to live inside `LayoutContext` to work properly.
  *
  * @example
  * ```tsx
  * <ParticipantTile>
- *   <FocusToggle />
+ *   <ExtendScreen />
  * </ParticipantTile>
  * ```
  * @public
