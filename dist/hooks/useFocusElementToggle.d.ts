@@ -16,7 +16,7 @@ export interface UseFocusToggleProps {
  * ```
  * @public
  */
-export declare function useFocusElementToggle({ trackRef, props }: UseFocusToggleProps): {
+export declare function useFocusToggle({ trackRef, props }: UseFocusToggleProps): {
     mergedProps: React.ButtonHTMLAttributes<HTMLButtonElement> & {
         className: string;
         onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
