@@ -9312,7 +9312,7 @@ function VideoConference(_a2) {
     "isCallScreen",
     "showExtraSettingMenu"
   ]);
-  var _a3, _b2, _c2;
+  var _a3, _b2, _c2, _d;
   const [widgetState, setWidgetState] = React118.useState({
     showChat: null,
     unreadMessages: 0,
@@ -9360,7 +9360,7 @@ function VideoConference(_a2) {
   };
   const focusTrack = (_a3 = usePinnedTracks(layoutContext)) == null ? void 0 : _a3[0];
   const focusElementTrack = (_b2 = usePinnedElementTracks(layoutContext)) == null ? void 0 : _b2[0];
-  const carouselTracks = tracks.filter((track) => !(0, import_components_core49.isEqualTrackRef)(track, focusTrack));
+  const carouselTracks = tracks.filter((track) => !(0, import_components_core49.isEqualTrackRef)(track, focusTrack) && !(0, import_components_core49.isEqualTrackRef)(track, focusElementTrack));
   React118.useEffect(() => {
     if (meta && meta.host) {
       localStorage.setItem("host", meta.host);
@@ -9387,7 +9387,7 @@ function VideoConference(_a2) {
     }
   }, [p2]);
   React118.useEffect(() => {
-    var _a4, _b3, _c3, _d;
+    var _a4, _b3, _c3, _d2;
     if (screenShareTracks.some((track) => track.publication.isSubscribed) && lastAutoFocusedScreenShareTrack.current === null) {
       import_components_core49.log.debug("Auto set screen share focus:", { newScreenShareTrack: screenShareTracks[0] });
       (_b3 = (_a4 = layoutContext.pin).dispatch) == null ? void 0 : _b3.call(_a4, { msg: "set_pin", trackReference: screenShareTracks[0] });
@@ -9399,30 +9399,31 @@ function VideoConference(_a2) {
       }
     )) {
       import_components_core49.log.debug("Auto clearing screen share focus.");
-      (_d = (_c3 = layoutContext.pin).dispatch) == null ? void 0 : _d.call(_c3, { msg: "clear_pin" });
+      (_d2 = (_c3 = layoutContext.pin).dispatch) == null ? void 0 : _d2.call(_c3, { msg: "clear_pin" });
       lastAutoFocusedScreenShareTrack.current = null;
     }
   }, [
     screenShareTracks.map((ref) => `${ref.publication.trackSid}_${ref.publication.isSubscribed}`).join(),
-    (_c2 = focusTrack == null ? void 0 : focusTrack.publication) == null ? void 0 : _c2.trackSid
+    (_c2 = focusTrack == null ? void 0 : focusTrack.publication) == null ? void 0 : _c2.trackSid,
+    (_d = focusElementTrack == null ? void 0 : focusElementTrack.publication) == null ? void 0 : _d.trackSid
   ]);
   const room = useRoomContext();
   const decoder = new TextDecoder();
   const { isWhiteboardShared } = useWhiteboard();
   const whiteboardUpdate = (state) => {
-    var _a4, _b3, _c3, _d;
+    var _a4, _b3, _c3, _d2;
     import_components_core49.log.debug("updating widget state", state);
     if (state.show_whiteboard) {
       (_b3 = (_a4 = layoutContext.pin).dispatch) == null ? void 0 : _b3.call(_a4, { msg: "set_pin", trackReference: whiteboardTrack });
     } else {
-      (_d = (_c3 = layoutContext.pin).dispatch) == null ? void 0 : _d.call(_c3, { msg: "clear_pin" });
+      (_d2 = (_c3 = layoutContext.pin).dispatch) == null ? void 0 : _d2.call(_c3, { msg: "clear_pin" });
     }
   };
   React118.useEffect(() => {
-    var _a4, _b3, _c3, _d, _e2, _f, _g, _h;
+    var _a4, _b3, _c3, _d2, _e2, _f, _g, _h;
     if (isWhiteboardShared) {
       (_b3 = (_a4 = layoutContext.pin).dispatch) == null ? void 0 : _b3.call(_a4, { msg: "set_pin", trackReference: whiteboardTrack });
-      (_d = (_c3 = layoutContext.whiteboard).dispatch) == null ? void 0 : _d.call(_c3, { msg: "show_whiteboard" });
+      (_d2 = (_c3 = layoutContext.whiteboard).dispatch) == null ? void 0 : _d2.call(_c3, { msg: "show_whiteboard" });
     } else {
       (_f = (_e2 = layoutContext.pin).dispatch) == null ? void 0 : _f.call(_e2, { msg: "clear_pin" });
       (_h = (_g = layoutContext.whiteboard).dispatch) == null ? void 0 : _h.call(_g, { msg: "hide_whiteboard" });
@@ -9439,6 +9440,7 @@ function VideoConference(_a2) {
     }
   });
   useWarnAboutMissingStyles();
+  console.log(focusElementTrack);
   return /* @__PURE__ */ React118.createElement("div", __spreadValues({ className: "lk-video-conference" }, props), (0, import_components_core49.isWeb)() && /* @__PURE__ */ React118.createElement(
     LayoutContextProvider,
     {
@@ -9446,7 +9448,7 @@ function VideoConference(_a2) {
       onWidgetChange: widgetUpdate,
       onWhiteboardChange: whiteboardUpdate
     },
-    /* @__PURE__ */ React118.createElement("div", { className: "lk-video-conference-inner" }, !focusTrack && !focusElementTrack ? /* @__PURE__ */ React118.createElement("div", { className: "lk-grid-layout-wrapper" }, /* @__PURE__ */ React118.createElement(GridLayout, { tracks }, /* @__PURE__ */ React118.createElement(ParticipantTile, null))) : /* @__PURE__ */ React118.createElement("div", { className: "lk-focus-layout-wrapper" }, /* @__PURE__ */ React118.createElement(FocusLayoutContainer, { className: focusElementTrack ? "lk-focus-layout-extended" : "" }, /* @__PURE__ */ React118.createElement(CarouselLayout, { tracks: carouselTracks }, /* @__PURE__ */ React118.createElement(ParticipantTile, null)), focusTrack && /* @__PURE__ */ React118.createElement(FocusLayout, { trackRef: focusTrack }))), /* @__PURE__ */ React118.createElement(
+    /* @__PURE__ */ React118.createElement("div", { className: "lk-video-conference-inner" }, !focusTrack && !focusElementTrack ? /* @__PURE__ */ React118.createElement("div", { className: "lk-grid-layout-wrapper" }, /* @__PURE__ */ React118.createElement(GridLayout, { tracks }, /* @__PURE__ */ React118.createElement(ParticipantTile, null))) : /* @__PURE__ */ React118.createElement("div", { className: "lk-focus-layout-wrapper" }, /* @__PURE__ */ React118.createElement(FocusLayoutContainer, { className: focusElementTrack ? "lk-focus-layout-extended" : "" }, /* @__PURE__ */ React118.createElement(CarouselLayout, { tracks: carouselTracks }, /* @__PURE__ */ React118.createElement(ParticipantTile, null)), focusTrack && /* @__PURE__ */ React118.createElement(FocusLayout, { trackRef: focusTrack }), focusElementTrack && /* @__PURE__ */ React118.createElement(FocusLayout, { trackRef: focusElementTrack }))), /* @__PURE__ */ React118.createElement(
       ControlBar,
       {
         controls: {
