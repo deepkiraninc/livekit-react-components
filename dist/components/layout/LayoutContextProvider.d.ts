@@ -6,9 +6,10 @@ import { WhiteboardState } from '../../context/whiteboard-context';
 export interface LayoutContextProviderProps {
     value?: LayoutContextType;
     onPinChange?: (state: PinState) => void;
+    onPinElementChange?: (state: PinState) => void;
     onWidgetChange?: (state: WidgetState) => void;
     onWhiteboardChange?: (state: WhiteboardState) => void;
 }
 /** @alpha */
-export declare function LayoutContextProvider({ value, onPinChange, onWidgetChange, onWhiteboardChange, children, }: React.PropsWithChildren<LayoutContextProviderProps>): React.JSX.Element;
+export declare function LayoutContextProvider({ value, onPinChange, onPinElementChange, onWidgetChange, onWhiteboardChange, children, }: React.PropsWithChildren<LayoutContextProviderProps>): React.JSX.Element;
 //# sourceMappingURL=LayoutContextProvider.d.ts.map

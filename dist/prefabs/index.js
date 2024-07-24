@@ -1064,8 +1064,11 @@ function usePinnedTracks(layoutContext) {
     if ((layoutContext == null ? void 0 : layoutContext.pin.state) !== void 0 && layoutContext.pin.state.length >= 1) {
       return layoutContext.pin.state;
     }
+    if ((layoutContext == null ? void 0 : layoutContext.pinElement.state) !== void 0 && layoutContext.pinElement.state.length >= 1) {
+      return layoutContext.pinElement.state;
+    }
     return [];
-  }, [layoutContext.pin.state]);
+  }, [layoutContext.pin.state, layoutContext.pinElement.state]);
 }
 
 // src/hooks/useRoomInfo.ts
@@ -3284,6 +3287,7 @@ var React94 = __toESM(require("react"));
 function LayoutContextProvider({
   value,
   onPinChange,
+  onPinElementChange,
   onWidgetChange,
   onWhiteboardChange,
   children
@@ -3294,6 +3298,11 @@ function LayoutContextProvider({
     if (onPinChange && layoutContextValue.pin.state)
       onPinChange(layoutContextValue.pin.state);
   }, [layoutContextValue.pin.state, onPinChange]);
+  React94.useEffect(() => {
+    import_components_core40.log.debug("PinElementState Updated", { state: layoutContextValue.pinElement.state });
+    if (onPinElementChange && layoutContextValue.pinElement.state)
+      onPinElementChange(layoutContextValue.pinElement.state);
+  }, [layoutContextValue.pinElement.state, onPinElementChange]);
   React94.useEffect(() => {
     import_components_core40.log.debug("Chat Widget Updated", { widgetState: layoutContextValue.widget.state });
     if (onWidgetChange && layoutContextValue.widget.state) {

@@ -940,8 +940,11 @@ function usePinnedTracks(layoutContext) {
     if ((layoutContext == null ? void 0 : layoutContext.pin.state) !== void 0 && layoutContext.pin.state.length >= 1) {
       return layoutContext.pin.state;
     }
+    if ((layoutContext == null ? void 0 : layoutContext.pinElement.state) !== void 0 && layoutContext.pinElement.state.length >= 1) {
+      return layoutContext.pinElement.state;
+    }
     return [];
-  }, [layoutContext.pin.state]);
+  }, [layoutContext.pin.state, layoutContext.pinElement.state]);
 }
 
 // src/hooks/useRemoteParticipant.ts
