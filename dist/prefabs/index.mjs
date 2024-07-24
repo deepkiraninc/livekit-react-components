@@ -3071,7 +3071,7 @@ var ParticipantTile = /* @__PURE__ */ React87.forwardRef(function ParticipantTil
     "onParticipantClick",
     "disableSpeakingIndicator"
   ]);
-  var _a2, _b2, _c, _d;
+  var _a2, _b2, _c, _d, _e;
   const trackReference = useEnsureTrackRef(trackRef);
   const { elementProps } = useParticipantTile({
     htmlProps,
@@ -3118,7 +3118,7 @@ var ParticipantTile = /* @__PURE__ */ React87.forwardRef(function ParticipantTil
       },
       show: "muted"
     }
-  ), /* @__PURE__ */ React87.createElement(ParticipantName, null)) : /* @__PURE__ */ React87.createElement(React87.Fragment, null, /* @__PURE__ */ React87.createElement(ScreenShareIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React87.createElement(ParticipantName, null, "'s screen"))), /* @__PURE__ */ React87.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" }))), ((_d = trackReference.publication) == null ? void 0 : _d.trackName) !== "whiteboard" ? /* @__PURE__ */ React87.createElement(React87.Fragment, null, /* @__PURE__ */ React87.createElement(FocusToggle, { trackRef: trackReference }), /* @__PURE__ */ React87.createElement(ExtendScreen, { className: "tl-extend-button" })) : /* @__PURE__ */ React87.createElement(React87.Fragment, null))));
+  ), /* @__PURE__ */ React87.createElement(ParticipantName, null)) : /* @__PURE__ */ React87.createElement(React87.Fragment, null, /* @__PURE__ */ React87.createElement(ScreenShareIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React87.createElement(ParticipantName, null, "'s screen"))), /* @__PURE__ */ React87.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" }))), ((_d = trackReference.publication) == null ? void 0 : _d.trackName) !== "whiteboard" && ((_e = trackReference.publication) == null ? void 0 : _e.trackName) !== "screen_share" ? /* @__PURE__ */ React87.createElement(React87.Fragment, null, /* @__PURE__ */ React87.createElement(FocusToggle, { trackRef: trackReference }), /* @__PURE__ */ React87.createElement(ExtendScreen, { className: "tl-extend-button" })) : /* @__PURE__ */ React87.createElement(React87.Fragment, null))));
 });
 
 // src/components/layout/FocusLayout.tsx
