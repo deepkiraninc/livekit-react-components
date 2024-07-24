@@ -2786,17 +2786,6 @@ var FocusToggle = /* @__PURE__ */ React77.forwardRef(
       trackRef: trackRef != null ? trackRef : trackRefFromContext,
       props
     });
-    React77.useEffect(() => {
-      if (inFocus) {
-        console.log("In Focus");
-      } else {
-        console.log("Focus removed + remove layout extend");
-        var element = document.getElementsByClassName("lk-focus-layout")[0];
-        if (element) {
-          element.classList.remove("lk-focus-layout-extended");
-        }
-      }
-    }, [inFocus, document]);
     return /* @__PURE__ */ React77.createElement(LayoutContext.Consumer, null, (layoutContext) => layoutContext !== void 0 && /* @__PURE__ */ React77.createElement("button", __spreadValues({ ref }, mergedProps), props.children ? props.children : inFocus ? /* @__PURE__ */ React77.createElement(UnfocusToggleIcon_default, null) : /* @__PURE__ */ React77.createElement(FocusToggleIcon_default, null)));
   }
 );
@@ -2821,18 +2810,10 @@ function useFocusElementToggle({ trackRef, props }) {
         var _a2, _b, _c2, _d, _e2;
         (_a2 = props.onClick) == null ? void 0 : _a2.call(props, event);
         if (inFocus) {
-          var element = document.getElementsByClassName("lk-focus-layout")[0];
-          if (element) {
-            element.classList.remove("lk-focus-layout-extended");
-          }
           (_c2 = layoutContext == null ? void 0 : (_b = layoutContext.pinElement).dispatch) == null ? void 0 : _c2.call(_b, {
             msg: "clear_pin"
           });
         } else {
-          var element = document.getElementsByClassName("lk-focus-layout")[0];
-          if (element) {
-            element.classList.add("lk-focus-layout-extended");
-          }
           (_e2 = layoutContext == null ? void 0 : (_d = layoutContext.pinElement).dispatch) == null ? void 0 : _e2.call(_d, {
             msg: "set_pin",
             trackReference

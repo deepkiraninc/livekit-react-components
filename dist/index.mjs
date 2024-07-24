@@ -2114,17 +2114,6 @@ var FocusToggle = /* @__PURE__ */ React76.forwardRef(
       trackRef: trackRef != null ? trackRef : trackRefFromContext,
       props
     });
-    React76.useEffect(() => {
-      if (inFocus) {
-        console.log("In Focus");
-      } else {
-        console.log("Focus removed + remove layout extend");
-        var element = document.getElementsByClassName("lk-focus-layout")[0];
-        if (element) {
-          element.classList.remove("lk-focus-layout-extended");
-        }
-      }
-    }, [inFocus, document]);
     return /* @__PURE__ */ React76.createElement(LayoutContext.Consumer, null, (layoutContext) => layoutContext !== void 0 && /* @__PURE__ */ React76.createElement("button", __spreadValues({ ref }, mergedProps), props.children ? props.children : inFocus ? /* @__PURE__ */ React76.createElement(UnfocusToggleIcon_default, null) : /* @__PURE__ */ React76.createElement(FocusToggleIcon_default, null)));
   }
 );
@@ -2515,18 +2504,10 @@ function useFocusElementToggle({ trackRef, props }) {
         var _a, _b, _c, _d, _e;
         (_a = props.onClick) == null ? void 0 : _a.call(props, event);
         if (inFocus) {
-          var element = document.getElementsByClassName("lk-focus-layout")[0];
-          if (element) {
-            element.classList.remove("lk-focus-layout-extended");
-          }
           (_c = layoutContext == null ? void 0 : (_b = layoutContext.pinElement).dispatch) == null ? void 0 : _c.call(_b, {
             msg: "clear_pin"
           });
         } else {
-          var element = document.getElementsByClassName("lk-focus-layout")[0];
-          if (element) {
-            element.classList.add("lk-focus-layout-extended");
-          }
           (_e = layoutContext == null ? void 0 : (_d = layoutContext.pinElement).dispatch) == null ? void 0 : _e.call(_d, {
             msg: "set_pin",
             trackReference
@@ -4302,7 +4283,7 @@ function WhiteboardIndicater({
 }
 
 // src/prefabs/FullscreenIndicator.tsx
-import React128, { useCallback as useCallback11, useEffect as useEffect32, useRef as useRef12, useState as useState26 } from "react";
+import React128, { useCallback as useCallback11, useEffect as useEffect31, useRef as useRef12, useState as useState26 } from "react";
 function FullscreenIndicator({ elementId, parentCallback }) {
   const isEventListenerConnected = useRef12(false);
   const [isFullScreen, setFullScreen] = useState26(false);
@@ -4362,7 +4343,7 @@ function FullscreenIndicator({ elementId, parentCallback }) {
     const isFullScreenActive = getFullScreenElement() != null;
     setFullScreen2(isFullScreenActive);
   };
-  useEffect32(() => {
+  useEffect31(() => {
     if (!isEventListenerConnected.current) {
       let contentElement = document.getElementById("app");
       if (contentElement) {
