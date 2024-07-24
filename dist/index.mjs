@@ -3000,7 +3000,7 @@ var ParticipantTile = /* @__PURE__ */ React102.forwardRef(function ParticipantTi
       },
       show: "muted"
     }
-  ), /* @__PURE__ */ React102.createElement(ParticipantName, null)) : /* @__PURE__ */ React102.createElement(React102.Fragment, null, /* @__PURE__ */ React102.createElement(ScreenShareIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React102.createElement(ParticipantName, null, "'s screen"))), /* @__PURE__ */ React102.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" }))), ((_d = trackReference.publication) == null ? void 0 : _d.trackName) !== "whiteboard" ? /* @__PURE__ */ React102.createElement(FocusToggle, { trackRef: trackReference }) : /* @__PURE__ */ React102.createElement(React102.Fragment, null), /* @__PURE__ */ React102.createElement(ExtendScreen, { className: "tl-extend-button" }))));
+  ), /* @__PURE__ */ React102.createElement(ParticipantName, null)) : /* @__PURE__ */ React102.createElement(React102.Fragment, null, /* @__PURE__ */ React102.createElement(ScreenShareIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React102.createElement(ParticipantName, null, "'s screen"))), /* @__PURE__ */ React102.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" }))), ((_d = trackReference.publication) == null ? void 0 : _d.trackName) !== "whiteboard" ? /* @__PURE__ */ React102.createElement(React102.Fragment, null, /* @__PURE__ */ React102.createElement(FocusToggle, { trackRef: trackReference }), /* @__PURE__ */ React102.createElement(ExtendScreen, { className: "tl-extend-button" })) : /* @__PURE__ */ React102.createElement(React102.Fragment, null))));
 });
 
 // src/components/layout/FocusLayout.tsx
@@ -5465,7 +5465,6 @@ function VideoConference(_a) {
     }
   });
   useWarnAboutMissingStyles();
-  console.log(focusElementTrack);
   return /* @__PURE__ */ React140.createElement("div", __spreadValues({ className: "lk-video-conference" }, props), isWeb() && /* @__PURE__ */ React140.createElement(
     LayoutContextProvider,
     {
@@ -5473,7 +5472,7 @@ function VideoConference(_a) {
       onWidgetChange: widgetUpdate,
       onWhiteboardChange: whiteboardUpdate
     },
-    /* @__PURE__ */ React140.createElement("div", { className: "lk-video-conference-inner" }, !focusTrack && !focusElementTrack ? /* @__PURE__ */ React140.createElement("div", { className: "lk-grid-layout-wrapper" }, /* @__PURE__ */ React140.createElement(GridLayout, { tracks }, /* @__PURE__ */ React140.createElement(ParticipantTile, null))) : /* @__PURE__ */ React140.createElement("div", { className: "lk-focus-layout-wrapper" }, /* @__PURE__ */ React140.createElement(FocusLayoutContainer, { className: focusElementTrack ? "lk-focus-layout-extended" : "" }, /* @__PURE__ */ React140.createElement(CarouselLayout, { tracks: carouselTracks }, /* @__PURE__ */ React140.createElement(ParticipantTile, null)), focusTrack && /* @__PURE__ */ React140.createElement(FocusLayout, { trackRef: focusTrack }), focusElementTrack && /* @__PURE__ */ React140.createElement(FocusLayout, { trackRef: focusElementTrack }))), /* @__PURE__ */ React140.createElement(
+    /* @__PURE__ */ React140.createElement("div", { className: "lk-video-conference-inner" }, !focusTrack && !focusElementTrack ? /* @__PURE__ */ React140.createElement("div", { className: "lk-grid-layout-wrapper" }, /* @__PURE__ */ React140.createElement(GridLayout, { tracks }, /* @__PURE__ */ React140.createElement(ParticipantTile, null))) : /* @__PURE__ */ React140.createElement("div", { className: "lk-focus-layout-wrapper" }, /* @__PURE__ */ React140.createElement(FocusLayoutContainer, { className: focusElementTrack ? "lk-focus-layout-extended" : "" }, !focusElementTrack && /* @__PURE__ */ React140.createElement(CarouselLayout, { tracks: carouselTracks }, /* @__PURE__ */ React140.createElement(ParticipantTile, null)), focusTrack && /* @__PURE__ */ React140.createElement(FocusLayout, { trackRef: focusTrack }), focusElementTrack && /* @__PURE__ */ React140.createElement(FocusLayout, { trackRef: focusElementTrack }))), /* @__PURE__ */ React140.createElement(
       ControlBar,
       {
         controls: {
