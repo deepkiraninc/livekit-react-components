@@ -1091,11 +1091,17 @@ function usePinnedTracks(layoutContext) {
     if ((layoutContext == null ? void 0 : layoutContext.pin.state) !== void 0 && layoutContext.pin.state.length >= 1) {
       return layoutContext.pin.state;
     }
+    return [];
+  }, [layoutContext.pin.state]);
+}
+function usePinnedElementTracks(layoutContext) {
+  layoutContext = useEnsureLayoutContext(layoutContext);
+  return React31.useMemo(() => {
     if ((layoutContext == null ? void 0 : layoutContext.pinElement.state) !== void 0 && layoutContext.pinElement.state.length >= 1) {
       return layoutContext.pinElement.state;
     }
     return [];
-  }, [layoutContext.pin.state, layoutContext.pinElement.state]);
+  }, [layoutContext.pinElement.state]);
 }
 
 // src/hooks/useRemoteParticipant.ts
@@ -5350,7 +5356,7 @@ function VideoConference(_a) {
     "isCallScreen",
     "showExtraSettingMenu"
   ]);
-  var _a2, _b2;
+  var _a2, _b2, _c;
   const [widgetState, setWidgetState] = React140.useState({
     showChat: null,
     unreadMessages: 0,
@@ -5397,6 +5403,7 @@ function VideoConference(_a) {
     source: Track12.Source.Unknown
   };
   const focusTrack = (_a2 = usePinnedTracks(layoutContext)) == null ? void 0 : _a2[0];
+  const focusElementTrack = (_b2 = usePinnedElementTracks(layoutContext)) == null ? void 0 : _b2[0];
   const carouselTracks = tracks.filter((track) => !isEqualTrackRef(track, focusTrack));
   React140.useEffect(() => {
     if (meta && meta.host) {
@@ -5424,7 +5431,7 @@ function VideoConference(_a) {
     }
   }, [p]);
   React140.useEffect(() => {
-    var _a3, _b3, _c, _d;
+    var _a3, _b3, _c2, _d;
     if (screenShareTracks.some((track) => track.publication.isSubscribed) && lastAutoFocusedScreenShareTrack.current === null) {
       log13.debug("Auto set screen share focus:", { newScreenShareTrack: screenShareTracks[0] });
       (_b3 = (_a3 = layoutContext.pin).dispatch) == null ? void 0 : _b3.call(_a3, { msg: "set_pin", trackReference: screenShareTracks[0] });
@@ -5436,30 +5443,30 @@ function VideoConference(_a) {
       }
     )) {
       log13.debug("Auto clearing screen share focus.");
-      (_d = (_c = layoutContext.pin).dispatch) == null ? void 0 : _d.call(_c, { msg: "clear_pin" });
+      (_d = (_c2 = layoutContext.pin).dispatch) == null ? void 0 : _d.call(_c2, { msg: "clear_pin" });
       lastAutoFocusedScreenShareTrack.current = null;
     }
   }, [
     screenShareTracks.map((ref) => `${ref.publication.trackSid}_${ref.publication.isSubscribed}`).join(),
-    (_b2 = focusTrack == null ? void 0 : focusTrack.publication) == null ? void 0 : _b2.trackSid
+    (_c = focusTrack == null ? void 0 : focusTrack.publication) == null ? void 0 : _c.trackSid
   ]);
   const room = useRoomContext();
   const decoder = new TextDecoder();
   const { isWhiteboardShared } = useWhiteboard();
   const whiteboardUpdate = (state) => {
-    var _a3, _b3, _c, _d;
+    var _a3, _b3, _c2, _d;
     log13.debug("updating widget state", state);
     if (state.show_whiteboard) {
       (_b3 = (_a3 = layoutContext.pin).dispatch) == null ? void 0 : _b3.call(_a3, { msg: "set_pin", trackReference: whiteboardTrack });
     } else {
-      (_d = (_c = layoutContext.pin).dispatch) == null ? void 0 : _d.call(_c, { msg: "clear_pin" });
+      (_d = (_c2 = layoutContext.pin).dispatch) == null ? void 0 : _d.call(_c2, { msg: "clear_pin" });
     }
   };
   React140.useEffect(() => {
-    var _a3, _b3, _c, _d, _e, _f, _g, _h;
+    var _a3, _b3, _c2, _d, _e, _f, _g, _h;
     if (isWhiteboardShared) {
       (_b3 = (_a3 = layoutContext.pin).dispatch) == null ? void 0 : _b3.call(_a3, { msg: "set_pin", trackReference: whiteboardTrack });
-      (_d = (_c = layoutContext.whiteboard).dispatch) == null ? void 0 : _d.call(_c, { msg: "show_whiteboard" });
+      (_d = (_c2 = layoutContext.whiteboard).dispatch) == null ? void 0 : _d.call(_c2, { msg: "show_whiteboard" });
     } else {
       (_f = (_e = layoutContext.pin).dispatch) == null ? void 0 : _f.call(_e, { msg: "clear_pin" });
       (_h = (_g = layoutContext.whiteboard).dispatch) == null ? void 0 : _h.call(_g, { msg: "hide_whiteboard" });
@@ -5483,7 +5490,7 @@ function VideoConference(_a) {
       onWidgetChange: widgetUpdate,
       onWhiteboardChange: whiteboardUpdate
     },
-    /* @__PURE__ */ React140.createElement("div", { className: "lk-video-conference-inner" }, !focusTrack ? /* @__PURE__ */ React140.createElement("div", { className: "lk-grid-layout-wrapper" }, /* @__PURE__ */ React140.createElement(GridLayout, { tracks }, /* @__PURE__ */ React140.createElement(ParticipantTile, null))) : /* @__PURE__ */ React140.createElement("div", { className: "lk-focus-layout-wrapper" }, /* @__PURE__ */ React140.createElement(FocusLayoutContainer, null, /* @__PURE__ */ React140.createElement(CarouselLayout, { tracks: carouselTracks }, /* @__PURE__ */ React140.createElement(ParticipantTile, null)), focusTrack && /* @__PURE__ */ React140.createElement(FocusLayout, { trackRef: focusTrack }))), /* @__PURE__ */ React140.createElement(
+    /* @__PURE__ */ React140.createElement("div", { className: "lk-video-conference-inner" }, !focusTrack && !focusElementTrack ? /* @__PURE__ */ React140.createElement("div", { className: "lk-grid-layout-wrapper" }, /* @__PURE__ */ React140.createElement(GridLayout, { tracks }, /* @__PURE__ */ React140.createElement(ParticipantTile, null))) : /* @__PURE__ */ React140.createElement("div", { className: "lk-focus-layout-wrapper" }, /* @__PURE__ */ React140.createElement(FocusLayoutContainer, { className: focusElementTrack ? "lk-focus-layout-extended" : "" }, /* @__PURE__ */ React140.createElement(CarouselLayout, { tracks: carouselTracks }, /* @__PURE__ */ React140.createElement(ParticipantTile, null)), focusTrack && /* @__PURE__ */ React140.createElement(FocusLayout, { trackRef: focusTrack }))), /* @__PURE__ */ React140.createElement(
       ControlBar,
       {
         controls: {
@@ -5666,6 +5673,7 @@ export {
   useParticipantTracks,
   useParticipants,
   usePersistentUserChoices,
+  usePinnedElementTracks,
   usePinnedTracks,
   usePreviewDevice,
   usePreviewTracks,

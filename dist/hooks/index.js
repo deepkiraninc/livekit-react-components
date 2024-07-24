@@ -106,6 +106,7 @@ __export(hooks_exports, {
   useParticipantTracks: () => useParticipantTracks,
   useParticipants: () => useParticipants,
   usePersistentUserChoices: () => usePersistentUserChoices,
+  usePinnedElementTracks: () => usePinnedElementTracks,
   usePinnedTracks: () => usePinnedTracks,
   useRemoteParticipant: () => useRemoteParticipant,
   useRemoteParticipants: () => useRemoteParticipants,
@@ -1013,11 +1014,17 @@ function usePinnedTracks(layoutContext) {
     if ((layoutContext == null ? void 0 : layoutContext.pin.state) !== void 0 && layoutContext.pin.state.length >= 1) {
       return layoutContext.pin.state;
     }
+    return [];
+  }, [layoutContext.pin.state]);
+}
+function usePinnedElementTracks(layoutContext) {
+  layoutContext = useEnsureLayoutContext(layoutContext);
+  return React29.useMemo(() => {
     if ((layoutContext == null ? void 0 : layoutContext.pinElement.state) !== void 0 && layoutContext.pinElement.state.length >= 1) {
       return layoutContext.pinElement.state;
     }
     return [];
-  }, [layoutContext.pin.state, layoutContext.pinElement.state]);
+  }, [layoutContext.pinElement.state]);
 }
 
 // src/hooks/useRemoteParticipant.ts
@@ -1661,6 +1668,7 @@ function useParticipantTracks(sources, participantIdentity) {
   useParticipantTracks,
   useParticipants,
   usePersistentUserChoices,
+  usePinnedElementTracks,
   usePinnedTracks,
   useRemoteParticipant,
   useRemoteParticipants,
