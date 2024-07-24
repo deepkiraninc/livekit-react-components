@@ -3093,7 +3093,7 @@ var ParticipantTile = /* @__PURE__ */ React86.forwardRef(function ParticipantTil
       },
       show: "muted"
     }
-  ), /* @__PURE__ */ React86.createElement(ParticipantName, null)) : /* @__PURE__ */ React86.createElement(React86.Fragment, null, /* @__PURE__ */ React86.createElement(ScreenShareIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React86.createElement(ParticipantName, null, "'s screen"))), /* @__PURE__ */ React86.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" }))), ((_d = trackReference.publication) == null ? void 0 : _d.trackName) !== "whiteboard" ? /* @__PURE__ */ React86.createElement(FocusToggle, { trackRef: trackReference }) : /* @__PURE__ */ React86.createElement(React86.Fragment, null), /* @__PURE__ */ React86.createElement(ExtendScreen, null))));
+  ), /* @__PURE__ */ React86.createElement(ParticipantName, null)) : /* @__PURE__ */ React86.createElement(React86.Fragment, null, /* @__PURE__ */ React86.createElement(ScreenShareIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React86.createElement(ParticipantName, null, "'s screen"))), /* @__PURE__ */ React86.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" }))), ((_d = trackReference.publication) == null ? void 0 : _d.trackName) !== "whiteboard" ? /* @__PURE__ */ React86.createElement(FocusToggle, { trackRef: trackReference }) : /* @__PURE__ */ React86.createElement(React86.Fragment, null), /* @__PURE__ */ React86.createElement(ExtendScreen, { className: "tl-extend-button" }))));
 });
 
 // src/components/layout/FocusLayout.tsx
