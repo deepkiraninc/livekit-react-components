@@ -1,10 +1,12 @@
 import * as React from 'react';
 import type { PinContextType } from './pin-context';
 import type { WidgetContextType } from './chat-context';
+import { PinElementContextType } from './pin-element-context';
 import { WhiteboardContextType } from './whiteboard-context';
 /** @public */
 export type LayoutContextType = {
     pin: PinContextType;
+    pinElement: PinElementContextType;
     widget: WidgetContextType;
     whiteboard: WhiteboardContextType;
 };
