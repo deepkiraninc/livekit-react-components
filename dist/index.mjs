@@ -2138,7 +2138,7 @@ var ExtendScreen = /* @__PURE__ */ React77.forwardRef(
         setInFocus(true);
       }
     }
-    return /* @__PURE__ */ React77.createElement("button", { onClick: toggleSide, className: "lk-button", "aria-pressed": "false", "data-lk-unread-msgs": "0", style: { position: "absolute", bottom: "0%", top: "61%", zIndex: 999999, width: "fit-content", height: "fit-content" } }, inFocus ? "Show" : "Hide");
+    return /* @__PURE__ */ React77.createElement("button", { onClick: toggleSide, className: "lk-button", style: { position: "absolute", bottom: "0%", left: "0%", zIndex: 999999, width: "fit-content", height: "fit-content", background: "transparent" }, title: inFocus ? "Hide" : "Show" }, inFocus ? "<<" : ">>");
   }
 );
 
