@@ -2288,7 +2288,7 @@ var ExtendScreen = /* @__PURE__ */ React77.forwardRef(
         setInFocus(true);
       }
     }
-    return /* @__PURE__ */ React77.createElement("button", { onClick: toggleSide, className: "lk-button", style: { position: "absolute", bottom: "15%", left: "0%", zIndex: 999999, width: "fit-content", height: "50px", background: "var(--lk-danger)", borderRadius: "0 10px 10px 0px;", padding: "5px" }, title: inFocus ? "Hide" : "Show" }, inFocus ? "<<" : ">>");
+    return /* @__PURE__ */ React77.createElement("button", { onClick: toggleSide, className: "lk-button tl-extend-button", title: inFocus ? "Hide" : "Show" }, inFocus ? "<<" : ">>");
   }
 );
 
@@ -3044,7 +3044,7 @@ var ParticipantTile = /* @__PURE__ */ React99.forwardRef(function ParticipantTil
     "onParticipantClick",
     "disableSpeakingIndicator"
   ]);
-  var _a3, _b2, _c2, _d, _e2;
+  var _a3, _b2, _c2, _d;
   const trackReference = useEnsureTrackRef(trackRef);
   const { elementProps } = useParticipantTile({
     htmlProps,
@@ -3091,7 +3091,7 @@ var ParticipantTile = /* @__PURE__ */ React99.forwardRef(function ParticipantTil
       },
       show: "muted"
     }
-  ), /* @__PURE__ */ React99.createElement(ParticipantName, null)) : /* @__PURE__ */ React99.createElement(React99.Fragment, null, /* @__PURE__ */ React99.createElement(ScreenShareIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React99.createElement(ParticipantName, null, "'s screen"))), /* @__PURE__ */ React99.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" }))), ((_d = trackReference.publication) == null ? void 0 : _d.trackName) !== "whiteboard" && ((_e2 = trackReference.publication) == null ? void 0 : _e2.trackName) !== "screen_share" ? /* @__PURE__ */ React99.createElement(React99.Fragment, null, /* @__PURE__ */ React99.createElement(FocusToggle, { trackRef: trackReference })) : /* @__PURE__ */ React99.createElement(React99.Fragment, null))));
+  ), /* @__PURE__ */ React99.createElement(ParticipantName, null)) : /* @__PURE__ */ React99.createElement(React99.Fragment, null, /* @__PURE__ */ React99.createElement(ScreenShareIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React99.createElement(ParticipantName, null, "'s screen"))), /* @__PURE__ */ React99.createElement(ConnectionQualityIndicator, { className: "lk-participant-metadata-item" }))), ((_d = trackReference.publication) == null ? void 0 : _d.trackName) !== "whiteboard" ? /* @__PURE__ */ React99.createElement(React99.Fragment, null, /* @__PURE__ */ React99.createElement(FocusToggle, { trackRef: trackReference })) : /* @__PURE__ */ React99.createElement(React99.Fragment, null))));
 });
 
 // src/components/layout/FocusLayout.tsx
