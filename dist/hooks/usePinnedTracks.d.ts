@@ -11,4 +11,5 @@ import type { LayoutContextType } from '../context';
  * @public
  */
 export declare function usePinnedTracks(layoutContext?: LayoutContextType): TrackReferenceOrPlaceholder[];
+export declare function usePinnedElementTracks(layoutContext?: LayoutContextType): TrackReferenceOrPlaceholder[];
 //# sourceMappingURL=usePinnedTracks.d.ts.map

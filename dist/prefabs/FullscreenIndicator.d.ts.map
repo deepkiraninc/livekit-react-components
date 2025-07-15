@@ -1,0 +1,1 @@
+{"version":3,"file":"FullscreenIndicator.d.ts","sourceRoot":"","sources":["../../src/prefabs/FullscreenIndicator.tsx"],"names":[],"mappings":"AAAA,OAAO,KAAmD,MAAM,OAAO,CAAC;AAExE,MAAM,WAAW,eAAe;IAC5B,SAAS,EAAE,MAAM,CAAC;IAClB,cAAc,EAAE,MAAM,IAAI,CAAC;CAC9B;AAED,wBAAgB,mBAAmB,CAAC,EAAE,SAAS,EAAE,cAAc,EAAE,EAAE,eAAe,qBAyGjF"}

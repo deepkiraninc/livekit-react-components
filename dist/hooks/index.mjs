@@ -943,6 +943,15 @@ function usePinnedTracks(layoutContext) {
     return [];
   }, [layoutContext.pin.state]);
 }
+function usePinnedElementTracks(layoutContext) {
+  layoutContext = useEnsureLayoutContext(layoutContext);
+  return React29.useMemo(() => {
+    if ((layoutContext == null ? void 0 : layoutContext.pinElement.state) !== void 0 && layoutContext.pinElement.state.length >= 1) {
+      return layoutContext.pinElement.state;
+    }
+    return [];
+  }, [layoutContext.pinElement.state]);
+}
 
 // src/hooks/useRemoteParticipant.ts
 import { connectedParticipantObserver } from "@livekit/components-core";
@@ -1594,6 +1603,7 @@ export {
   useParticipantTracks,
   useParticipants,
   usePersistentUserChoices,
+  usePinnedElementTracks,
   usePinnedTracks,
   useRemoteParticipant,
   useRemoteParticipants,
