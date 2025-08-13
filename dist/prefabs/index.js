@@ -8403,10 +8403,6 @@ function RecordingControls({ onRecordingChange }) {
     const pathParts = window.location.pathname.split("/");
     return pathParts[2] || null;
   };
-  const getAuthCode = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get("authcode");
-  };
   (0, import_react5.useEffect)(() => {
     if (room == null ? void 0 : room.metadata) {
       try {
@@ -8436,18 +8432,12 @@ function RecordingControls({ onRecordingChange }) {
   }, []);
   const handleRecording = (action, type) => __async(this, null, function* () {
     const meetingId = getMeetingId();
-    const authCode = getAuthCode();
-    if (!meetingId || !authCode) {
-      alert("Meeting ID or Authorization code not found");
-      return;
-    }
     setIsLoading(true);
     setIsOpen(false);
     try {
       const internalEndpoint = action === "stop" ? `/api/stop/${meetingId}` : `/api/start/${meetingId}`;
       const fetchOptions = {
-        method: "POST",
-        headers: { authorization: authCode }
+        method: "POST"
       };
       if (type === "image") {
         fetchOptions.headers = __spreadProps(__spreadValues({}, fetchOptions.headers), {
