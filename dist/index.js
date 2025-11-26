@@ -2357,8 +2357,27 @@ var MediaDeviceSelect = /* @__PURE__ */ React79.forwardRef(function MediaDeviceS
     }
   }, [activeDeviceId]);
   const handleActiveDeviceChange = (deviceId) => __async(this, null, function* () {
+    var _a3;
     try {
-      yield setActiveMediaDevice(deviceId, { exact: exactMatch });
+      if (kind === "audioinput" && room) {
+        const wasMicrophoneEnabled = room.localParticipant.isMicrophoneEnabled;
+        const currentAudioTrack = (_a3 = room.localParticipant.getTrackPublication(
+          import_livekit_client10.Track.Source.Microphone
+        )) == null ? void 0 : _a3.track;
+        if (wasMicrophoneEnabled && currentAudioTrack) {
+          yield room.localParticipant.setMicrophoneEnabled(false);
+          yield new Promise((resolve) => setTimeout(resolve, 100));
+          yield setActiveMediaDevice(deviceId, { exact: exactMatch });
+          yield room.localParticipant.setMicrophoneEnabled(true);
+        } else {
+          yield setActiveMediaDevice(deviceId, { exact: exactMatch });
+          if (room.localParticipant.isMicrophoneEnabled) {
+            yield room.localParticipant.setMicrophoneEnabled(false);
+          }
+        }
+      } else {
+        yield setActiveMediaDevice(deviceId, { exact: exactMatch });
+      }
     } catch (e2) {
       if (e2 instanceof Error) {
         onDeviceSelectError == null ? void 0 : onDeviceSelectError(e2);

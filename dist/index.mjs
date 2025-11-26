@@ -2149,7 +2149,7 @@ var ExtendScreen = /* @__PURE__ */ React78.forwardRef(
 
 // src/components/controls/MediaDeviceSelect.tsx
 import * as React79 from "react";
-import { RoomEvent as RoomEvent2 } from "livekit-client";
+import { Track as Track5, RoomEvent as RoomEvent2 } from "livekit-client";
 var MediaDeviceSelect = /* @__PURE__ */ React79.forwardRef(function MediaDeviceSelect2(_a, ref) {
   var _b = _a, {
     kind,
@@ -2206,8 +2206,27 @@ var MediaDeviceSelect = /* @__PURE__ */ React79.forwardRef(function MediaDeviceS
     }
   }, [activeDeviceId]);
   const handleActiveDeviceChange = (deviceId) => __async(this, null, function* () {
+    var _a2;
     try {
-      yield setActiveMediaDevice(deviceId, { exact: exactMatch });
+      if (kind === "audioinput" && room) {
+        const wasMicrophoneEnabled = room.localParticipant.isMicrophoneEnabled;
+        const currentAudioTrack = (_a2 = room.localParticipant.getTrackPublication(
+          Track5.Source.Microphone
+        )) == null ? void 0 : _a2.track;
+        if (wasMicrophoneEnabled && currentAudioTrack) {
+          yield room.localParticipant.setMicrophoneEnabled(false);
+          yield new Promise((resolve) => setTimeout(resolve, 100));
+          yield setActiveMediaDevice(deviceId, { exact: exactMatch });
+          yield room.localParticipant.setMicrophoneEnabled(true);
+        } else {
+          yield setActiveMediaDevice(deviceId, { exact: exactMatch });
+          if (room.localParticipant.isMicrophoneEnabled) {
+            yield room.localParticipant.setMicrophoneEnabled(false);
+          }
+        }
+      } else {
+        yield setActiveMediaDevice(deviceId, { exact: exactMatch });
+      }
     } catch (e) {
       if (e instanceof Error) {
         onDeviceSelectError == null ? void 0 : onDeviceSelectError(e);
@@ -2250,7 +2269,7 @@ import * as React91 from "react";
 
 // src/assets/icons/util.tsx
 import * as React90 from "react";
-import { ConnectionQuality as ConnectionQuality2, Track as Track5 } from "livekit-client";
+import { ConnectionQuality as ConnectionQuality2, Track as Track6 } from "livekit-client";
 
 // src/assets/icons/tl/CameraDisabledIcon.tsx
 import * as React81 from "react";
@@ -2585,11 +2604,11 @@ var UsersIcon_default = SvgUserIcon;
 // src/assets/icons/util.tsx
 function getSourceIcon(source, enabled) {
   switch (source) {
-    case Track5.Source.Microphone:
+    case Track6.Source.Microphone:
       return enabled ? /* @__PURE__ */ React90.createElement(MicIcon_default2, null) : /* @__PURE__ */ React90.createElement(MicDisabledIcon_default2, null);
-    case Track5.Source.Camera:
+    case Track6.Source.Camera:
       return enabled ? /* @__PURE__ */ React90.createElement(CameraIcon_default2, null) : /* @__PURE__ */ React90.createElement(CameraDisabledIcon_default2, null);
-    case Track5.Source.ScreenShare:
+    case Track6.Source.ScreenShare:
       return enabled ? /* @__PURE__ */ React90.createElement(ScreenShareStopIcon_default, null) : /* @__PURE__ */ React90.createElement(ScreenShareIcon_default, null);
     default:
       return void 0;
@@ -2620,7 +2639,7 @@ import * as React101 from "react";
 
 // src/components/participant/ParticipantTile.tsx
 import * as React100 from "react";
-import { Track as Track6 } from "livekit-client";
+import { Track as Track7 } from "livekit-client";
 import { isTrackReference as isTrackReference3, isTrackReferencePinned as isTrackReferencePinned2 } from "@livekit/components-core";
 
 // src/components/participant/ConnectionQualityIndicator.tsx
@@ -2924,7 +2943,7 @@ var ParticipantTile = /* @__PURE__ */ React100.forwardRef(function ParticipantTi
       setImageUrl(`https://ui-avatars.com/api/?name=${trackReference.participant.name}&background=111111&color=fff&size=156&rounded=true`);
   }, [trackReference]);
   const elementId = `participant_${trackReference.participant.identity}`;
-  return /* @__PURE__ */ React100.createElement("div", __spreadValues({ ref, id: elementId, style: { position: "relative" } }, elementProps), /* @__PURE__ */ React100.createElement(TrackRefContextIfNeeded, { trackRef: trackReference }, /* @__PURE__ */ React100.createElement(ParticipantContextIfNeeded, { participant: trackReference.participant }, children != null ? children : /* @__PURE__ */ React100.createElement(React100.Fragment, null, ((_b2 = trackReference.publication) == null ? void 0 : _b2.trackName) == "whiteboard" ? /* @__PURE__ */ React100.createElement(WhiteboardTrack, null) : isTrackReference3(trackReference) && (((_c = trackReference.publication) == null ? void 0 : _c.kind) === "video" || trackReference.source === Track6.Source.Camera || trackReference.source === Track6.Source.ScreenShare) ? /* @__PURE__ */ React100.createElement(
+  return /* @__PURE__ */ React100.createElement("div", __spreadValues({ ref, id: elementId, style: { position: "relative" } }, elementProps), /* @__PURE__ */ React100.createElement(TrackRefContextIfNeeded, { trackRef: trackReference }, /* @__PURE__ */ React100.createElement(ParticipantContextIfNeeded, { participant: trackReference.participant }, children != null ? children : /* @__PURE__ */ React100.createElement(React100.Fragment, null, ((_b2 = trackReference.publication) == null ? void 0 : _b2.trackName) == "whiteboard" ? /* @__PURE__ */ React100.createElement(WhiteboardTrack, null) : isTrackReference3(trackReference) && (((_c = trackReference.publication) == null ? void 0 : _c.kind) === "video" || trackReference.source === Track7.Source.Camera || trackReference.source === Track7.Source.ScreenShare) ? /* @__PURE__ */ React100.createElement(
     VideoTrack,
     {
       trackRef: trackReference,
@@ -2937,12 +2956,12 @@ var ParticipantTile = /* @__PURE__ */ React100.forwardRef(function ParticipantTi
       trackRef: trackReference,
       onSubscriptionStatusChanged: handleSubscribe
     }
-  ), /* @__PURE__ */ React100.createElement("div", { className: "lk-participant-placeholder" }, imageUrl ? /* @__PURE__ */ React100.createElement("img", { src: imageUrl, alt: "" }) : /* @__PURE__ */ React100.createElement(ParticipantPlaceholder_default, null)), /* @__PURE__ */ React100.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React100.createElement("div", { className: "lk-participant-metadata-item" }, trackReference.source === Track6.Source.Camera ? /* @__PURE__ */ React100.createElement(React100.Fragment, null, isEncrypted && /* @__PURE__ */ React100.createElement(LockLockedIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React100.createElement(
+  ), /* @__PURE__ */ React100.createElement("div", { className: "lk-participant-placeholder" }, imageUrl ? /* @__PURE__ */ React100.createElement("img", { src: imageUrl, alt: "" }) : /* @__PURE__ */ React100.createElement(ParticipantPlaceholder_default, null)), /* @__PURE__ */ React100.createElement("div", { className: "lk-participant-metadata" }, /* @__PURE__ */ React100.createElement("div", { className: "lk-participant-metadata-item" }, trackReference.source === Track7.Source.Camera ? /* @__PURE__ */ React100.createElement(React100.Fragment, null, isEncrypted && /* @__PURE__ */ React100.createElement(LockLockedIcon_default, { style: { marginRight: "0.25rem" } }), /* @__PURE__ */ React100.createElement(
     TrackMutedIndicator,
     {
       trackRef: {
         participant: trackReference.participant,
-        source: Track6.Source.Microphone
+        source: Track7.Source.Microphone
       },
       show: "muted"
     }
@@ -3172,16 +3191,16 @@ function ParticipantLoop(_a) {
 
 // src/components/RoomAudioRenderer.tsx
 import { getTrackReferenceId as getTrackReferenceId4, isLocal as isLocal2 } from "@livekit/components-core";
-import { Track as Track7 } from "livekit-client";
+import { Track as Track8 } from "livekit-client";
 import * as React111 from "react";
 function RoomAudioRenderer({ volume, muted }) {
   const tracks = useTracks(
-    [Track7.Source.Microphone, Track7.Source.ScreenShareAudio, Track7.Source.Unknown],
+    [Track8.Source.Microphone, Track8.Source.ScreenShareAudio, Track8.Source.Unknown],
     {
       updateOnlyOn: [],
       onlySubscribed: true
     }
-  ).filter((ref) => !isLocal2(ref.participant) && ref.publication.kind === Track7.Kind.Audio);
+  ).filter((ref) => !isLocal2(ref.participant) && ref.publication.kind === Track8.Kind.Audio);
   return /* @__PURE__ */ React111.createElement("div", { style: { display: "none" } }, tracks.map((trackRef) => /* @__PURE__ */ React111.createElement(
     AudioTrack,
     {
@@ -3437,7 +3456,7 @@ import {
   createLocalTracks,
   createLocalVideoTrack,
   facingModeFromLocalTrack as facingModeFromLocalTrack2,
-  Track as Track8,
+  Track as Track9,
   VideoPresets,
   Mutex
 } from "livekit-client";
@@ -3770,7 +3789,7 @@ function PreJoin(_a) {
   );
   const videoEl = React121.useRef(null);
   const videoTrack = React121.useMemo(
-    () => tracks == null ? void 0 : tracks.filter((track) => track.kind === Track8.Kind.Video)[0],
+    () => tracks == null ? void 0 : tracks.filter((track) => track.kind === Track9.Kind.Video)[0],
     [tracks]
   );
   const facingMode = React121.useMemo(() => {
@@ -3782,7 +3801,7 @@ function PreJoin(_a) {
     }
   }, [videoTrack]);
   const audioTrack = React121.useMemo(
-    () => tracks == null ? void 0 : tracks.filter((track) => track.kind === Track8.Kind.Audio)[0],
+    () => tracks == null ? void 0 : tracks.filter((track) => track.kind === Track9.Kind.Audio)[0],
     [tracks]
   );
   React121.useEffect(() => {
@@ -3831,7 +3850,7 @@ function PreJoin(_a) {
     TrackToggle,
     {
       initialState: audioEnabled,
-      source: Track8.Source.Microphone,
+      source: Track9.Source.Microphone,
       onChange: (enabled) => setAudioEnabled(enabled)
     },
     micLabel
@@ -3848,7 +3867,7 @@ function PreJoin(_a) {
     TrackToggle,
     {
       initialState: videoEnabled,
-      source: Track8.Source.Camera,
+      source: Track9.Source.Camera,
       onChange: (enabled) => setVideoEnabled(enabled)
     },
     camLabel
@@ -3887,11 +3906,11 @@ function PreJoin(_a) {
 
 // src/prefabs/VideoConference.tsx
 import { isEqualTrackRef, isTrackReference as isTrackReference5, isWeb, log as log13, setupParticipantName as setupParticipantName3 } from "@livekit/components-core";
-import { RoomEvent as RoomEvent3, Track as Track12, TrackPublication } from "livekit-client";
+import { RoomEvent as RoomEvent3, Track as Track13, TrackPublication } from "livekit-client";
 import * as React140 from "react";
 
 // src/prefabs/ControlBar.tsx
-import { Track as Track10 } from "livekit-client";
+import { Track as Track11 } from "livekit-client";
 import * as React133 from "react";
 
 // src/prefabs/HostEndMeetingMenu.tsx
@@ -4150,7 +4169,7 @@ function BlurIndicater({ source, parentCallback }) {
 }
 
 // src/prefabs/ExtraOptionMenu.tsx
-import { Track as Track9 } from "livekit-client";
+import { Track as Track10 } from "livekit-client";
 
 // src/prefabs/WhiteboardIndicater.tsx
 import React125 from "react";
@@ -4392,7 +4411,7 @@ function ExtraOptionMenu(_a) {
       ref: tooltip,
       style: { visibility: isOpen ? "visible" : "hidden" }
     },
-    /* @__PURE__ */ React127.createElement("ul", { className: "lk-media-device-select lk-list", style: { display: !showDropdown ? "unset" : "none" } }, /* @__PURE__ */ React127.createElement("li", null, /* @__PURE__ */ React127.createElement(FullscreenIndicator, { parentCallback: changeState, elementId: "__next" })), /* @__PURE__ */ React127.createElement("li", null, /* @__PURE__ */ React127.createElement(WhiteboardIndicater, { shareScreenTracks, parentCallback: changeState })), blurEnabled && /* @__PURE__ */ React127.createElement("li", null, /* @__PURE__ */ React127.createElement(BlurIndicater, { source: Track9.Source.Camera, parentCallback: changeState }))),
+    /* @__PURE__ */ React127.createElement("ul", { className: "lk-media-device-select lk-list", style: { display: !showDropdown ? "unset" : "none" } }, /* @__PURE__ */ React127.createElement("li", null, /* @__PURE__ */ React127.createElement(FullscreenIndicator, { parentCallback: changeState, elementId: "__next" })), /* @__PURE__ */ React127.createElement("li", null, /* @__PURE__ */ React127.createElement(WhiteboardIndicater, { shareScreenTracks, parentCallback: changeState })), blurEnabled && /* @__PURE__ */ React127.createElement("li", null, /* @__PURE__ */ React127.createElement(BlurIndicater, { source: Track10.Source.Camera, parentCallback: changeState }))),
     /* @__PURE__ */ React127.createElement("div", { className: "arrow" }, /* @__PURE__ */ React127.createElement("div", { className: "arrow-shape" }))
   ));
 }
@@ -4734,7 +4753,7 @@ function ControlBar(_a) {
   return /* @__PURE__ */ React133.createElement("div", __spreadValues({}, htmlProps), visibleControls.microphone && /* @__PURE__ */ React133.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React133.createElement(
     TrackToggle,
     {
-      source: Track10.Source.Microphone,
+      source: Track11.Source.Microphone,
       showIcon,
       onChange: microphoneOnChange
     },
@@ -4746,7 +4765,7 @@ function ControlBar(_a) {
       kind: "audioinput",
       onActiveDeviceChange: (_kind, deviceId) => saveAudioInputDeviceId(deviceId != null ? deviceId : "")
     }
-  ))), visibleControls.camera && /* @__PURE__ */ React133.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React133.createElement(TrackToggle, { source: Track10.Source.Camera, showIcon, onChange: cameraOnChange }, showText && "Camera"), /* @__PURE__ */ React133.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React133.createElement(
+  ))), visibleControls.camera && /* @__PURE__ */ React133.createElement("div", { className: "lk-button-group" }, /* @__PURE__ */ React133.createElement(TrackToggle, { source: Track11.Source.Camera, showIcon, onChange: cameraOnChange }, showText && "Camera"), /* @__PURE__ */ React133.createElement("div", { className: "lk-button-group-menu" }, /* @__PURE__ */ React133.createElement(
     MediaDeviceMenu,
     {
       kind: "videoinput",
@@ -4755,7 +4774,7 @@ function ControlBar(_a) {
   ))), visibleControls.screenShare && browserSupportsScreenSharing && /* @__PURE__ */ React133.createElement(
     TrackToggle,
     {
-      source: Track10.Source.ScreenShare,
+      source: Track11.Source.ScreenShare,
       captureOptions: { audio: true, selfBrowserSurface: "include" },
       showIcon,
       onChange: onScreenShareChange,
@@ -4780,7 +4799,7 @@ import * as React136 from "react";
 
 // src/components/participant/ParticipantList.tsx
 import * as React134 from "react";
-import { Track as Track11 } from "livekit-client";
+import { Track as Track12 } from "livekit-client";
 var ParticipantList = (_a) => {
   var _b = _a, {
     participant,
@@ -4798,7 +4817,7 @@ var ParticipantList = (_a) => {
   const p = useEnsureParticipant(participant);
   const trackReference = {
     participant: p,
-    source: Track11.Source.Camera
+    source: Track12.Source.Camera
   };
   const { elementProps } = useParticipantTile({
     htmlProps,
@@ -4811,7 +4830,7 @@ var ParticipantList = (_a) => {
     {
       trackRef: {
         participant: p,
-        source: Track11.Source.Microphone
+        source: Track12.Source.Microphone
       },
       show: "always"
     }
@@ -4820,7 +4839,7 @@ var ParticipantList = (_a) => {
     {
       trackRef: {
         participant: p,
-        source: Track11.Source.Camera
+        source: Track12.Source.Camera
       },
       show: "always"
     }
@@ -5466,8 +5485,8 @@ function VideoConference(_a) {
   const [waitingRoomCount, setWaitingRoomCount] = React140.useState(0);
   const tracks = useTracks(
     [
-      { source: Track12.Source.Camera, withPlaceholder: true },
-      { source: Track12.Source.ScreenShare, withPlaceholder: false }
+      { source: Track13.Source.Camera, withPlaceholder: true },
+      { source: Track13.Source.ScreenShare, withPlaceholder: false }
     ],
     { updateOnlyOn: [RoomEvent3.ActiveSpeakersChanged], onlySubscribed: false }
   );
@@ -5480,12 +5499,12 @@ function VideoConference(_a) {
     setWaitingRoomCount(count);
   };
   const layoutContext = useCreateLayoutContext();
-  const screenShareTracks = tracks.filter(isTrackReference5).filter((track) => track.publication.source === Track12.Source.ScreenShare);
-  const whitePub = new TrackPublication(Track12.Kind.Unknown, "whiteboard", "whiteboard");
+  const screenShareTracks = tracks.filter(isTrackReference5).filter((track) => track.publication.source === Track13.Source.ScreenShare);
+  const whitePub = new TrackPublication(Track13.Kind.Unknown, "whiteboard", "whiteboard");
   const whiteboardTrack = {
     participant: p,
     publication: whitePub,
-    source: Track12.Source.Unknown
+    source: Track13.Source.Unknown
   };
   const focusTrack = (_a2 = usePinnedTracks(layoutContext)) == null ? void 0 : _a2[0];
   const focusElementTrack = (_b2 = usePinnedElementTracks(layoutContext)) == null ? void 0 : _b2[0];
@@ -5631,14 +5650,14 @@ function VideoConference(_a) {
 
 // src/prefabs/AudioConference.tsx
 import * as React141 from "react";
-import { Track as Track13 } from "livekit-client";
+import { Track as Track14 } from "livekit-client";
 function AudioConference(_a) {
   var props = __objRest(_a, []);
   const [widgetState, setWidgetState] = React141.useState({
     showChat: null,
     unreadMessages: 0
   });
-  const audioTracks = useTracks([Track13.Source.Microphone]);
+  const audioTracks = useTracks([Track14.Source.Microphone]);
   useWarnAboutMissingStyles();
   return /* @__PURE__ */ React141.createElement(LayoutContextProvider, { onWidgetChange: setWidgetState }, /* @__PURE__ */ React141.createElement("div", __spreadValues({ className: "lk-audio-conference" }, props), /* @__PURE__ */ React141.createElement("div", { className: "lk-audio-conference-stage" }, /* @__PURE__ */ React141.createElement(TrackLoop, { tracks: audioTracks }, /* @__PURE__ */ React141.createElement(ParticipantAudioTile, null))), /* @__PURE__ */ React141.createElement(
     ControlBar,
